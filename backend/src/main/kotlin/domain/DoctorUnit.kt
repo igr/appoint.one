@@ -24,12 +24,13 @@ class DoctorUnit internal constructor(private val _doctor: DoctorEntity) {
 						it.time == existing.time
 				}
 			}
-			.forEach {
+			.map {
 				TimeslotEntity.new {
 					date = it.date
 					time = it.time
 					doctor = _doctor
 				}
+					.toTimeslot()
 			}
 	}
 

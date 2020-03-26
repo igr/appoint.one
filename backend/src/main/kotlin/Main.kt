@@ -19,6 +19,7 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import web.doctor
 import web.index
+import web.timeslots
 
 fun Application.module(testing: Boolean = false) {
 	install(DefaultHeaders)
@@ -48,11 +49,12 @@ fun Application.module(testing: Boolean = false) {
 	App.start()
 
 	install(Routing) {
-        static("assets") {
-            resources("assets")
-        }
+		static("assets") {
+			resources("assets")
+		}
 		index()
 		doctor()
+		timeslots()
 	}
 
 }

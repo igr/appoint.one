@@ -4,6 +4,7 @@ import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import model.CitiesRepo
 import model.DoctorsRepo
+import model.InvitationRepo
 import model.TimeslotsRepo
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -15,7 +16,7 @@ object DatabaseFactory {
     fun init() {
         Database.connect(hikari())
         transaction {
-            SchemaUtils.create(DoctorsRepo, CitiesRepo, TimeslotsRepo)
+            SchemaUtils.create(DoctorsRepo, CitiesRepo, TimeslotsRepo, InvitationRepo)
             loadInitialCities()
         }
     }

@@ -37,3 +37,8 @@ data class Timeslot(
 	val time: Int,
 	val doctor: Doctor
 )
+
+data class NewDoctorTimeslots(
+	val doctorId: Int,
+	val timeslots: List<NewTimeslot>
+)
