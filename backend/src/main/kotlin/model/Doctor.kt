@@ -39,6 +39,5 @@ data class Doctor(
 )
 
 data class NewDoctor(
-	val id: Int? = null,
 	val name: String
 )

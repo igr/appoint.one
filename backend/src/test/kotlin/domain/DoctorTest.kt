@@ -5,7 +5,6 @@ import kotlinx.coroutines.runBlocking
 import model.NewDoctor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import kotlin.test.assertEquals
 
 
 class DoctorTest : ServerTest() {
@@ -13,15 +12,16 @@ class DoctorTest : ServerTest() {
 	@Test
 	fun `add doctor`() = runBlocking {
 		// given
-		val doctor1 = NewDoctor(name = "doc1")
+		val new = NewDoctor(name = "doc1")
 
 		// when
-		val saved = Doctors.add(doctor1)
+		val saved = Doctors.add(new)
 
 		// then
 		val retrieved = Doctors.findById(saved.id)
-		assertEquals(retrieved, saved)
-		assertThat(retrieved?.name).isEqualTo(doctor1.name)
+
+		assertThat(retrieved?.name).isEqualTo(new.name)
+		assertThat(retrieved).isEqualTo(saved)
 
 		Unit
 	}

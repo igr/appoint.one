@@ -19,7 +19,7 @@ object Doctors {
 			confirmed = false
 			dateUpdated = System.currentTimeMillis()
 		}
-		findExisting(saved.id.value)
+		findExisting(saved.id.value).toDoctor()
 	}
 
 	suspend fun findById(id: Int): Doctor? = dbtx {
@@ -36,12 +36,12 @@ object Doctors {
 	/**
 	 * Deletes all doctors.
 	 */
-	fun deleteAll() {
+	suspend fun deleteAll() = dbtx {
 		DoctorsRepo.deleteAll();
 	}
 
-	private fun findExisting(id: Int): Doctor {
-		return DoctorEntity.find { DoctorsRepo.id eq id }.single().toDoctor()
+	private fun findExisting(id: Int): DoctorEntity {
+		return DoctorEntity.find { DoctorsRepo.id eq id }.single()
 	}
 
 }
