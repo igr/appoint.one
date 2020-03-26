@@ -21,7 +21,7 @@ import io.ktor.server.netty.Netty
 import web.doctor
 import web.index
 
-fun Application.module() {
+fun Application.module(testing: Boolean = false) {
 	install(DefaultHeaders)
 	install(CallLogging)
 	install(ContentNegotiation) {

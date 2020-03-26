@@ -19,6 +19,13 @@ fun Route.doctor() {
             call.respond(`$doctors`.findAll())
         }
 
+        get("/{id}") {
+            val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
+            val doctor = `$doctors`.findById(id);
+
+            doctor?.let { call.respond(it) } ?: call.respond(HttpStatusCode.NotFound)
+        }
+
         post("/") {
             val newDoctor = call.receive<NewDoctor>()
             call.respond(HttpStatusCode.Created, `$doctors`.add(newDoctor))

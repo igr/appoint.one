@@ -1,7 +1,6 @@
 package common
 
 import domain.App.`$doctors`
-import io.ktor.application.Application
 import io.ktor.server.engine.ApplicationEngine
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
@@ -34,7 +33,7 @@ open class ServerTest {
         @JvmStatic
         fun startServer() {
             if (!serverStarted) {
-                server = embeddedServer(Netty, port = 8080, module = Application::module)
+                server = embeddedServer(Netty, port = 8080, module = { module(testing = true) })
                 server.start()
                 serverStarted = true
 
@@ -50,7 +49,6 @@ open class ServerTest {
     fun before() = runBlocking {
         newSuspendedTransaction {
             `$doctors`.deleteAll()
-            Unit
         }
     }
 
