@@ -5,7 +5,8 @@ import com.zaxxer.hikari.HikariDataSource
 import model.CitiesRepo
 import model.DoctorsRepo
 import model.TimeslotsRepo
-import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -15,7 +16,7 @@ object DatabaseFactory {
         Database.connect(hikari())
         transaction {
             SchemaUtils.create(DoctorsRepo, CitiesRepo, TimeslotsRepo)
-            CitiesInit.init()
+            loadInitialCities()
         }
     }
 
