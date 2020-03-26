@@ -1,6 +1,6 @@
 package domain
 
-import domain.DatabaseFactory.dbtx
+import infra.DatabaseFactory.dbtx
 import model.Doctor
 import model.DoctorEntity
 import model.DoctorsRepo
@@ -37,7 +37,7 @@ object Doctors {
 	 * Deletes all doctors.
 	 */
 	fun deleteAll() {
-		DoctorsRepo.deleteAll();
+		DoctorsRepo.deleteAll()
 	}
 
 	private fun findExisting(id: Int): Doctor {
