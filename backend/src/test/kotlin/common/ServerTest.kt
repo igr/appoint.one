@@ -1,6 +1,8 @@
 package common
 
+import domain.DatabaseFactory.dbtx
 import domain.Doctors
+import domain.Timeslots
 import io.ktor.server.engine.ApplicationEngine
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
@@ -10,7 +12,6 @@ import io.restassured.response.ResponseBodyExtractionOptions
 import io.restassured.specification.RequestSpecification
 import kotlinx.coroutines.runBlocking
 import module
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 
@@ -47,9 +48,11 @@ open class ServerTest {
 
     @BeforeEach
     fun before() = runBlocking {
-        newSuspendedTransaction {
+        dbtx {
+            Timeslots.deleteAll()
             Doctors.deleteAll()
         }
+        Unit
     }
 
 }

@@ -13,13 +13,17 @@ object Doctors {
 		DoctorUnit(findExisting(doctor.id))
 	}
 
+	suspend fun with(doctor: Doctor, consumer: suspend (du: DoctorUnit) -> Unit): Unit = dbtx {
+		consumer(DoctorUnit(findExisting(doctor.id)))
+	}
+
 	suspend fun add(doctor: NewDoctor): Doctor = dbtx {
 		val saved = DoctorEntity.new {
 			name = doctor.name
 			confirmed = false
 			dateUpdated = System.currentTimeMillis()
 		}
-		findExisting(saved.id.value)
+		findExisting(saved.id.value).toDoctor()
 	}
 
 	suspend fun findById(id: Int): Doctor? = dbtx {
@@ -36,12 +40,12 @@ object Doctors {
 	/**
 	 * Deletes all doctors.
 	 */
-	fun deleteAll() {
-		DoctorsRepo.deleteAll()
+	suspend fun deleteAll() = dbtx {
+		DoctorsRepo.deleteAll();
 	}
 
-	private fun findExisting(id: Int): Doctor {
-		return DoctorEntity.find { DoctorsRepo.id eq id }.single().toDoctor()
+	private fun findExisting(id: Int): DoctorEntity {
+		return DoctorEntity.find { DoctorsRepo.id eq id }.single()
 	}
 
 }

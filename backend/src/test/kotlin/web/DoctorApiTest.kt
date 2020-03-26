@@ -14,9 +14,9 @@ class DoctorApiTest : ServerTest() {
     @Test
     fun `POST doctor`() {
         // when
-        val newDoctor = NewDoctor(null, "doc11")
+        val newDoctor = NewDoctor("doc11")
         val created = addDoctor(newDoctor)
-        
+
         val retrieved = get("/doctor/{id}", created.id)
             .then()
             .extract().to<Doctor>()
