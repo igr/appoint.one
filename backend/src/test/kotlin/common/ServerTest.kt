@@ -1,8 +1,8 @@
 package common
 
-import domain.DatabaseFactory.dbtx
 import domain.Doctors
 import domain.Timeslots
+import infra.DatabaseFactory.dbtx
 import io.ktor.server.engine.ApplicationEngine
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty

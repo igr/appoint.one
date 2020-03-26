@@ -1,6 +1,6 @@
 package domain
 
-import domain.DatabaseFactory.dbtx
+import infra.DatabaseFactory.dbtx
 import model.TimeslotsRepo
 import org.jetbrains.exposed.sql.deleteAll
 
