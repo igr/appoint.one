@@ -3,8 +3,7 @@ package domain
 import kotlinx.coroutines.cancel
 import scheduler.Scheduler
 
-class Matcher{
-
+object Matcher {
 	private val scheduler = Scheduler(1000)
 
 	fun cancel() {

@@ -1,6 +1,6 @@
 package web
 
-import domain.App.`$doctors`
+import domain.Doctors
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
@@ -16,19 +16,19 @@ fun Route.doctor() {
     route("/doctor") {
 
         get("/") {
-            call.respond(`$doctors`.findAll())
+            call.respond(Doctors.findAll())
         }
 
         get("/{id}") {
             val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-            val doctor = `$doctors`.findById(id);
+            val doctor = Doctors.findById(id);
 
             doctor?.let { call.respond(it) } ?: call.respond(HttpStatusCode.NotFound)
         }
 
         post("/") {
             val newDoctor = call.receive<NewDoctor>()
-            call.respond(HttpStatusCode.Created, `$doctors`.add(newDoctor))
+            call.respond(HttpStatusCode.Created, Doctors.add(newDoctor))
         }
     }
 

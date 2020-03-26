@@ -1,15 +1,19 @@
 package domain
 
-import domain.DatabaseFactory.db
+import domain.DatabaseFactory.dbtx
 import model.Doctor
 import model.DoctorEntity
 import model.DoctorsRepo
 import model.NewDoctor
 import org.jetbrains.exposed.sql.deleteAll
 
-class DoctorsGroup {
+object Doctors {
 
-	suspend fun add(doctor: NewDoctor) : Doctor = db {
+	suspend fun with(doctor: Doctor): DoctorUnit = dbtx {
+		DoctorUnit(findExisting(doctor.id))
+	}
+
+	suspend fun add(doctor: NewDoctor): Doctor = dbtx {
 		val saved = DoctorEntity.new {
 			name = doctor.name
 			confirmed = false
@@ -18,15 +22,15 @@ class DoctorsGroup {
 		findExisting(saved.id.value)
 	}
 
-	suspend fun findById(id: Int): Doctor? = db {
+	suspend fun findById(id: Int): Doctor? = dbtx {
 		DoctorEntity.findById(id)?.toDoctor()
 	}
 
 	/**
 	 * Returns all doctors, ordered by ID (added time)
 	 */
-	suspend fun findAll(): List<Doctor> = db {
-		DoctorEntity.all().toList().map { it.toDoctor() }
+	suspend fun findAll(): List<Doctor> = dbtx {
+		DoctorEntity.all().sortedBy { it.id }.toList().map { it.toDoctor() }
 	}
 
 	/**

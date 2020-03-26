@@ -1,7 +1,6 @@
 package domain
 
 import common.ServerTest
-import domain.App.`$doctors`
 import kotlinx.coroutines.runBlocking
 import model.NewDoctor
 import org.assertj.core.api.Assertions.assertThat
@@ -17,10 +16,10 @@ class DoctorTest : ServerTest() {
 		val doctor1 = NewDoctor(name = "doc1")
 
 		// when
-		val saved = `$doctors`.add(doctor1)
+		val saved = Doctors.add(doctor1)
 
 		// then
-		val retrieved = `$doctors`.findById(saved.id)
+		val retrieved = Doctors.findById(saved.id)
 		assertEquals(retrieved, saved)
 		assertThat(retrieved?.name).isEqualTo(doctor1.name)
 
@@ -29,19 +28,19 @@ class DoctorTest : ServerTest() {
 
     @Test
     fun `find all doctors`() = runBlocking {
-        // given
+	    // given
 	    val doctor1 = NewDoctor(name = "doc1")
 	    val doctor2 = NewDoctor(name = "doc2")
 
-	    `$doctors`.add(doctor1)
-	    `$doctors`.add(doctor2)
+	    Doctors.add(doctor1)
+	    Doctors.add(doctor2)
 
-        // when
-        val doctors = `$doctors`.findAll();
+	    // when
+	    val doctors = Doctors.findAll()
 
-        // then
-        assertThat(doctors).hasSize(2)
-        assertThat(doctors).extracting("name").containsExactlyInAnyOrder(doctor1.name, doctor2.name)
+	    // then
+	    assertThat(doctors).hasSize(2)
+	    assertThat(doctors).extracting("name").containsExactlyInAnyOrder(doctor1.name, doctor2.name)
 
 	    Unit
     }

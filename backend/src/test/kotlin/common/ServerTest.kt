@@ -1,6 +1,6 @@
 package common
 
-import domain.App.`$doctors`
+import domain.Doctors
 import io.ktor.server.engine.ApplicationEngine
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
@@ -48,7 +48,7 @@ open class ServerTest {
     @BeforeEach
     fun before() = runBlocking {
         newSuspendedTransaction {
-            `$doctors`.deleteAll()
+            Doctors.deleteAll()
         }
     }
 

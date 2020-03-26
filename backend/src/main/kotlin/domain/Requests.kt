@@ -1,6 +1,6 @@
 package domain
 
-class RequestsGroup {
+class Requests {
 
 	fun addNewRequest() {
 	}

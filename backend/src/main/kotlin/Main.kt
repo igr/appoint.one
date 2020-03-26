@@ -2,7 +2,6 @@ import com.fasterxml.jackson.core.util.DefaultIndenter
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.mitchellbosecke.pebble.loader.ClasspathLoader
-import domain.App
 import io.ktor.application.Application
 import io.ktor.application.ApplicationStarted
 import io.ktor.application.ApplicationStopped

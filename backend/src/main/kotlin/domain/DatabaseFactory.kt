@@ -2,9 +2,11 @@ package domain
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import model.CitiesRepo
 import model.DoctorsRepo
+import model.TimeslotsRepo
 import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SchemaUtils.create
+import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -13,7 +15,7 @@ object DatabaseFactory {
     fun init() {
         Database.connect(hikari())
         transaction {
-            create(DoctorsRepo)
+            SchemaUtils.create(DoctorsRepo, CitiesRepo, TimeslotsRepo)
         }
     }
 
@@ -34,7 +36,7 @@ object DatabaseFactory {
         return HikariDataSource(config)
     }
 
-    suspend fun <T> db(block: suspend () -> T): T =
+    suspend fun <T> dbtx(block: suspend () -> T): T =
         newSuspendedTransaction {
             block()
         }

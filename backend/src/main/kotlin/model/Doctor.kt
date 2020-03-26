@@ -12,8 +12,6 @@ object DoctorsRepo : IntIdTable(name = "doctors") {
 	val name = varchar("name", 255)
 	val confirmed = bool("confirmed")
 	val dateUpdated = long("dateUpdated").clientDefault{ System.currentTimeMillis() }
-
-	override val primaryKey = PrimaryKey(id)
 }
 
 class DoctorEntity(id: EntityID<Int>) : Entity<Int>(id) {
@@ -22,6 +20,8 @@ class DoctorEntity(id: EntityID<Int>) : Entity<Int>(id) {
 	var name by DoctorsRepo.name
 	var confirmed by DoctorsRepo.confirmed
 	var dateUpdated by DoctorsRepo.dateUpdated
+
+	val timeslots by TimeslotEntity referrersOn TimeslotsRepo.doctor
 
 	fun toDoctor() = Doctor(
 		id = id.value,
