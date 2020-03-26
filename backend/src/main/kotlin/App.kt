@@ -1,4 +1,4 @@
-import domain.DatabaseFactory
+import infra.DatabaseFactory
 import domain.Matcher
 
 object App {

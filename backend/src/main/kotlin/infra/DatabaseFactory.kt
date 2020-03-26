@@ -1,4 +1,4 @@
-package domain
+package infra
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
@@ -16,6 +16,7 @@ object DatabaseFactory {
         Database.connect(hikari())
         transaction {
             SchemaUtils.create(DoctorsRepo, CitiesRepo, TimeslotsRepo)
+            loadInitialCities()
         }
     }
 

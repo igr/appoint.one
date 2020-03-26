@@ -1,6 +1,6 @@
 package domain
 
-import domain.DatabaseFactory.dbtx
+import infra.DatabaseFactory.dbtx
 import model.DoctorEntity
 import model.NewTimeslot
 import model.TimeslotEntity
