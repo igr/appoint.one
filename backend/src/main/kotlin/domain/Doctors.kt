@@ -13,6 +13,10 @@ object Doctors {
 		DoctorUnit(findExisting(doctor.id))
 	}
 
+	suspend fun with(doctor: Doctor, consumer: suspend (du: DoctorUnit) -> Unit): Unit = dbtx {
+		consumer(DoctorUnit(findExisting(doctor.id)))
+	}
+
 	suspend fun add(doctor: NewDoctor): Doctor = dbtx {
 		val saved = DoctorEntity.new {
 			name = doctor.name

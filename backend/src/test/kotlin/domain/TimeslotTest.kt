@@ -28,4 +28,27 @@ class TimeslotTest : ServerTest() {
 		Unit
 	}
 
+
+	@Test
+	fun `add timeslots and ignore duplicates`() = runBlocking {
+		// given
+		val doctor1 = NewDoctor(name = "doc1")
+		val timeslot1 = NewTimeslot(date = 20200101, time = 1930)
+		val timeslot2 = NewTimeslot(date = 20200101, time = 2000)
+		val timeslot3 = NewTimeslot(date = 20200101, time = 2030)
+
+		// when
+		val saved = Doctors.add(doctor1)
+		Doctors.with(saved) {
+			it.bindTimeslots(listOf(timeslot1, timeslot2))
+			it.bindTimeslots(listOf(timeslot2, timeslot3))
+		}
+		val timeslots = Doctors.with(saved).listTimeslots()
+
+		// then
+		assertThat(timeslots.size).isEqualTo(3)
+		assertThat(timeslots).extracting("time").containsExactly(1930, 2000, 2030)
+
+		Unit
+	}
 }

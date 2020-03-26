@@ -15,13 +15,22 @@ class DoctorUnit internal constructor(private val _doctor: DoctorEntity) {
 	}
 
 	suspend fun bindTimeslots(timeslotList: List<NewTimeslot>) = dbtx {
-		timeslotList.forEach {
-			TimeslotEntity.new {
-				date = it.date
-				time = it.time
-				doctor = _doctor
+		val existingTimeslots = listTimeslots();
+
+		timeslotList
+			.filter {
+				existingTimeslots.none { existing ->
+					it.date == existing.date &&
+						it.time == existing.time
+				}
 			}
-		}
+			.forEach {
+				TimeslotEntity.new {
+					date = it.date
+					time = it.time
+					doctor = _doctor
+				}
+			}
 	}
 
 }
