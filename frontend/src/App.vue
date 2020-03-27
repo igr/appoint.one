@@ -1,8 +1,7 @@
 <template>
   <div id="app">
-    <Error v-show="statusMessage !== ''" :errorMessage="statusMessage" />
-    <HelloWorld msg="Welcome to App"/>
-    <NumberOfTimeslots v-on:add-error="addError"/>
+    <HelloWorld msg="Welcome to App" />
+    <NumberOfTimeslots/>
   </div>
 </template>
 
@@ -10,23 +9,11 @@
 import { Component, Vue } from 'vue-property-decorator';
 import HelloWorld from './components/HelloWorld.vue';
 import NumberOfTimeslots from './components/NumberOfTimeslots.vue';
-import Error from './components/Error.vue';
 
 @Component({
   components: {
     HelloWorld,
     NumberOfTimeslots,
-    Error,
-  },
-  data() {
-    return {
-      statusMessage: '',
-    };
-  },
-  methods: {
-    addError(statusText) {
-      this.statusMessage = statusText;
-    },
   },
 })
 export default class App extends Vue {}

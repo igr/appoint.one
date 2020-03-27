@@ -10,7 +10,7 @@ import api from '@/api/Api';
 
 @Component
 export default class NumberOfTimeslots extends Vue {
-  private countOfTimeslots = 1;
+  private countOfTimeslots = 0;
 
   get count(): number {
     return this.countOfTimeslots;
@@ -28,7 +28,6 @@ export default class NumberOfTimeslots extends Vue {
   }
 }
 </script>
-
 
 <style>
 </style>
