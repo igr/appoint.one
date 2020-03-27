@@ -22,7 +22,10 @@ object Doctors {
 		consumer(DoctorUnit(findExisting(doctor.id)))
 	}
 
-	suspend fun add(doctor: NewDoctor): Doctor = dbtx {
+	/**
+	 * Adds new doctor.
+	 */
+	suspend fun addNewDoctor(doctor: NewDoctor): Doctor = dbtx {
 		val saved = DoctorEntity.new {
 			name = doctor.name
 			confirmed = false
@@ -31,6 +34,9 @@ object Doctors {
 		findExisting(saved.id.value).toDoctor()
 	}
 
+	/**
+	 * Finds doctor by ID.
+	 */
 	suspend fun findById(id: Int): Doctor? = dbtx {
 		DoctorEntity.findById(id)?.toDoctor()
 	}
@@ -38,14 +44,14 @@ object Doctors {
 	/**
 	 * Returns all doctors, ordered by ID (added time)
 	 */
-	suspend fun findAll(): List<Doctor> = dbtx {
+	suspend fun findAllDoctors(): List<Doctor> = dbtx {
 		DoctorEntity.all().sortedBy { it.id }.toList().map { it.toDoctor() }
 	}
 
 	/**
 	 * Deletes all doctors.
 	 */
-	suspend fun deleteAll() = dbtx {
+	suspend fun deleteAllDoctors() = dbtx {
 		DoctorsRepo.deleteAll();
 	}
 

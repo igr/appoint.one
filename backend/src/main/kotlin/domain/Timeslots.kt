@@ -3,7 +3,9 @@ package domain
 import infra.DatabaseFactory.dbtx
 import model.TimeslotEntity
 import model.TimeslotsRepo
-import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.andWhere
+import org.jetbrains.exposed.sql.deleteAll
+import org.jetbrains.exposed.sql.selectAll
 import java.time.LocalDateTime
 
 
@@ -13,7 +15,7 @@ object Timeslots {
 	/**
 	 * Deletes all time slots.
 	 */
-	suspend fun deleteAll() = dbtx {
+	suspend fun deleteAllTimeslots() = dbtx {
 		TimeslotsRepo.deleteAll();
 	}
 
@@ -25,10 +27,10 @@ object Timeslots {
 		val date = currentDateTime.year * 10000 + currentDateTime.monthValue * 100 + currentDateTime.dayOfMonth
 		val time = currentDateTime.hour * 100 + currentDateTime.minute
 
-		val query = TimeslotsRepo.selectAll()
-		query.andWhere { TimeslotsRepo.date eq date }
-		query.andWhere { TimeslotsRepo.time greater time }
-		return query.count()
+		return TimeslotsRepo.selectAll()
+			.andWhere { TimeslotsRepo.date greaterEq date }
+			.andWhere { TimeslotsRepo.time greater time }
+			.count()
 	}
 
 	private fun findExisting(id: Int): TimeslotEntity {

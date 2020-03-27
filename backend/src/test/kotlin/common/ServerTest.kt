@@ -51,9 +51,9 @@ open class ServerTest {
     @BeforeEach
     fun before() = runBlocking {
         dbtx {
-            Invitations.deleteAll()
-            Timeslots.deleteAll()
-            Doctors.deleteAll()
+            Invitations.deleteAllInvitations()
+            Timeslots.deleteAllTimeslots()
+            Doctors.deleteAllDoctors()
         }
         Unit
     }

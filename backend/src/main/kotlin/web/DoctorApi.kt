@@ -16,7 +16,7 @@ fun Route.doctor() {
     route("/doctor") {
 
         get("/") {
-            call.respond(Doctors.findAll())
+            call.respond(Doctors.findAllDoctors())
         }
 
         get("/{id}") {
@@ -28,7 +28,7 @@ fun Route.doctor() {
 
         post("/") {
             val newDoctor = call.receive<NewDoctor>()
-            call.respond(HttpStatusCode.Created, Doctors.add(newDoctor))
+            call.respond(HttpStatusCode.Created, Doctors.addNewDoctor(newDoctor))
         }
     }
 
