@@ -7,7 +7,10 @@ import org.jetbrains.exposed.sql.deleteAll
 @Target("Set of all invitations.")
 object Invitations {
 
-	suspend fun add(request: NewInvitation): Invitation = dbtx {
+	/**
+	 * Adds new invitation.
+	 */
+	suspend fun addNewInvitation(request: NewInvitation): Invitation = dbtx {
 		val saved = InvitationEntity.new {
 			name = request.name
 			email = request.email
@@ -16,11 +19,17 @@ object Invitations {
 		findExisting(saved.id.value).toInvitation()
 	}
 
-	suspend fun findById(id: Int): Invitation? = dbtx {
+	/**
+	 * Finds invitation by its ID.
+	 */
+	suspend fun findInvitationById(id: Int): Invitation? = dbtx {
 		InvitationEntity.findById(id)?.toInvitation()
 	}
 
-	suspend fun deleteAll() = dbtx {
+	/**
+	 * Removes all invitations from DB.
+	 */
+	suspend fun deleteAllInvitations() = dbtx {
 		TimeslotsRepo.deleteAll();
 	}
 

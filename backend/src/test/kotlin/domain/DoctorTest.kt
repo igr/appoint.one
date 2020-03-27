@@ -15,7 +15,7 @@ class DoctorTest : ServerTest() {
 		val new = NewDoctor(name = "doc1")
 
 		// when
-		val saved = Doctors.add(new)
+		val saved = Doctors.addNewDoctor(new)
 
 		// then
 		val retrieved = Doctors.findById(saved.id)
@@ -32,11 +32,11 @@ class DoctorTest : ServerTest() {
 	    val doctor1 = NewDoctor(name = "doc1")
 	    val doctor2 = NewDoctor(name = "doc2")
 
-	    Doctors.add(doctor1)
-	    Doctors.add(doctor2)
+	    Doctors.addNewDoctor(doctor1)
+	    Doctors.addNewDoctor(doctor2)
 
 	    // when
-	    val doctors = Doctors.findAll()
+	    val doctors = Doctors.findAllDoctors()
 
 	    // then
 	    assertThat(doctors).hasSize(2)

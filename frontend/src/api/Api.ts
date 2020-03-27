@@ -1,14 +1,11 @@
-import axios, { AxiosInstance } from 'axios';
+import http from '@/utils/http';
 import DoctorApi from './DoctorApi';
 
 class Api {
-  private readonly _http: AxiosInstance;
-
   private readonly _doctors: DoctorApi;
 
-  constructor(http: AxiosInstance) {
-    this._http = http;
-    this._doctors = new DoctorApi(this._http);
+  constructor() {
+    this._doctors = new DoctorApi(http);
   }
 
   get doctors(): DoctorApi {
@@ -16,9 +13,4 @@ class Api {
   }
 }
 
-export default new Api(axios.create({
-  baseURL: process.env.API_ENDPOINT,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-}));
+export default new Api();

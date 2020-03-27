@@ -10,7 +10,7 @@ import api from '@/api/Api';
 
 @Component
 export default class NumberOfTimeslots extends Vue {
-  private countOfTimeslots = 1;
+  private countOfTimeslots = 0;
 
   get count(): number {
     return this.countOfTimeslots;
@@ -19,11 +19,15 @@ export default class NumberOfTimeslots extends Vue {
   created() {
     api.doctors.get().then((response) => {
       this.countOfTimeslots = response.data;
+      this.$emit('add-error', '');
+    }).catch((error) => {
+      console.log(error);
+      console.log(error.response);
+      this.$emit('add-error', error.response.statusText);
     });
   }
 }
 </script>
-
 
 <style>
 </style>

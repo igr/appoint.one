@@ -14,10 +14,10 @@ class RequestTest: ServerTest() {
         val new = NewInvitation(name = "inv1", email = "email1@email.com", phone = "phone1")
 
         // when
-        val saved = Invitations.add(new)
+        val saved = Invitations.addNewInvitation(new)
 
         // then
-        val retrieved = Invitations.findById(saved.id)
+        val retrieved = Invitations.findInvitationById(saved.id)
 
         Assertions.assertThat(retrieved?.name).isEqualTo(new.name)
         Assertions.assertThat(retrieved?.email).isEqualTo(new.email)

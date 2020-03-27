@@ -8,7 +8,7 @@ import model.TimeslotEntity
 @Target("Single doctor")
 class DoctorUnit internal constructor(private val _doctor: DoctorEntity) {
 
-	suspend fun listTimeslots() = dbtx {
+	suspend fun listAllTimeslots() = dbtx {
 		_doctor.timeslots
 			.sortedWith(compareBy<TimeslotEntity> { it.date }
 				.thenBy { it.time })
@@ -16,7 +16,7 @@ class DoctorUnit internal constructor(private val _doctor: DoctorEntity) {
 	}
 
 	suspend fun bindTimeslots(timeslotList: List<NewTimeslot>) = dbtx {
-		val existingTimeslots = listTimeslots();
+		val existingTimeslots = listAllTimeslots();
 
 		timeslotList
 			.filter {

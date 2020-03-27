@@ -17,9 +17,9 @@ class TimeslotTest : ServerTest() {
 		val timeslot2 = NewTimeslot(date = 20200101, time = 2000)
 
 		// when
-		val saved = Doctors.add(doctor1)
+		val saved = Doctors.addNewDoctor(doctor1)
 		Doctors.with(saved).bindTimeslots(listOf(timeslot1, timeslot2))
-		val timeslots = Doctors.with(saved).listTimeslots()
+		val timeslots = Doctors.with(saved).listAllTimeslots()
 
 		// then
 		assertThat(timeslots.size).isEqualTo(2)
@@ -38,12 +38,12 @@ class TimeslotTest : ServerTest() {
 		val timeslot3 = NewTimeslot(date = 20200101, time = 2030)
 
 		// when
-		val saved = Doctors.add(doctor1)
+		val saved = Doctors.addNewDoctor(doctor1)
 		Doctors.with(saved) {
 			it.bindTimeslots(listOf(timeslot1, timeslot2))
 			it.bindTimeslots(listOf(timeslot2, timeslot3))
 		}
-		val timeslots = Doctors.with(saved).listTimeslots()
+		val timeslots = Doctors.with(saved).listAllTimeslots()
 
 		// then
 		assertThat(timeslots.size).isEqualTo(3)

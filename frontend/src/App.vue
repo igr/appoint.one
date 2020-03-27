@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <HelloWorld msg="Welcome to App"/>
+    <HelloWorld msg="Welcome to App" />
     <NumberOfTimeslots/>
   </div>
 </template>
