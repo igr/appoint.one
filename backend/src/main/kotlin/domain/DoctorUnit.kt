@@ -5,6 +5,7 @@ import model.DoctorEntity
 import model.NewTimeslot
 import model.TimeslotEntity
 
+@Target("Single doctor")
 class DoctorUnit internal constructor(private val _doctor: DoctorEntity) {
 
 	suspend fun listTimeslots() = dbtx {

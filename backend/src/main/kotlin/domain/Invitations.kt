@@ -4,6 +4,7 @@ import infra.DatabaseFactory.dbtx
 import model.*
 import org.jetbrains.exposed.sql.deleteAll
 
+@Target("Set of all invitations.")
 object Invitations {
 
 	suspend fun add(request: NewInvitation): Invitation = dbtx {

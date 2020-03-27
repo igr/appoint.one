@@ -7,6 +7,7 @@ import model.DoctorsRepo
 import model.NewDoctor
 import org.jetbrains.exposed.sql.deleteAll
 
+@Target("Set of all doctors.")
 object Doctors {
 
 	suspend fun with(doctor: Doctor): DoctorUnit = dbtx {

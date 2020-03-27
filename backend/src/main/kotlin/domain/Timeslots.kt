@@ -1,23 +1,25 @@
 package domain
 
 import infra.DatabaseFactory.dbtx
-import model.NewTimeslot
-import model.Timeslot
 import model.TimeslotEntity
 import model.TimeslotsRepo
 import org.jetbrains.exposed.sql.deleteAll
 
+@Target("Set of all timeslots.")
 object Timeslots {
+
+	/**
+	 * Deletes all time slots.
+	 */
 	suspend fun deleteAll() = dbtx {
 		TimeslotsRepo.deleteAll();
 	}
 
-	suspend fun add(timeslot: NewTimeslot): Timeslot = dbtx {
-		val saved = TimeslotEntity.new {
-			date = timeslot.date
-			time = timeslot.time
-		}
-		findExisting(saved.id.value).toTimeslot()
+	/**
+	 * Counts available timeslots in the future.
+	 */
+	fun countAvailableTimeslots() {
+		TODO()
 	}
 
 	private fun findExisting(id: Int): TimeslotEntity {
