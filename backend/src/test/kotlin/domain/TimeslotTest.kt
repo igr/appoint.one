@@ -2,6 +2,7 @@ package domain
 
 import common.ServerTest
 import kotlinx.coroutines.runBlocking
+import model.Country
 import model.NewDoctor
 import model.NewTimeslot
 import org.assertj.core.api.Assertions.assertThat
@@ -12,7 +13,7 @@ class TimeslotTest : ServerTest() {
 	@Test
 	fun `add timeslots`() = runBlocking {
 		// given
-		val doctor1 = NewDoctor(name = "doc1")
+		val doctor1 = NewDoctor(name = "doc1", country = Country.SERBIA)
 		val timeslot1 = NewTimeslot(date = 20200101, time = 1930)
 		val timeslot2 = NewTimeslot(date = 20200101, time = 2000)
 
@@ -32,7 +33,7 @@ class TimeslotTest : ServerTest() {
 	@Test
 	fun `add timeslots and ignore duplicates`() = runBlocking {
 		// given
-		val doctor1 = NewDoctor(name = "doc1")
+		val doctor1 = NewDoctor(name = "doc1", country = Country.BOSNIA)
 		val timeslot1 = NewTimeslot(date = 20200101, time = 1930)
 		val timeslot2 = NewTimeslot(date = 20200101, time = 2000)
 		val timeslot3 = NewTimeslot(date = 20200101, time = 2030)

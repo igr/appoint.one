@@ -8,8 +8,10 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 
-enum class Country {
-    SERBIA, BOSNIA, CROATIA
+enum class Country(val value: Int) {
+    SERBIA(1),
+    BOSNIA(2),
+    CROATIA(3)
 }
 
 object DoctorsRepo : IntIdTable(name = "doctors") {
@@ -33,7 +35,7 @@ class DoctorEntity(id: EntityID<Int>) : Entity<Int>(id) {
             id = id.value,
             name = name,
             confirmed = confirmed,
-            country = country as Country,
+            country = Country.values()[country],
             dateUpdated = Instant.ofEpochMilli(dateUpdated).atZone(ZoneId.systemDefault()).toLocalDateTime()
     )
 }

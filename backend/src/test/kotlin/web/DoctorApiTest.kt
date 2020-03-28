@@ -1,6 +1,7 @@
 package web
 
 import common.ServerTest
+import model.Country
 import model.Doctor
 import model.NewDoctor
 import org.assertj.core.api.Assertions.assertThat
@@ -10,7 +11,7 @@ class DoctorApiTest : ServerTest() {
 
     @Test
     fun `POST doctor`() {
-        val newDoctor = NewDoctor("doc11")
+        val newDoctor = NewDoctor("doc11", Country.SERBIA)
 
         val created = postDoctor(newDoctor).extract().to<Doctor>()
         val retrieved = getDoctor(created.id).extract().to<Doctor>()
