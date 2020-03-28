@@ -1,7 +1,14 @@
 <template>
   <main class="app-main">
-    key: {{ key }}
-    <router-view :key="key" />
+    <transition
+      name="fade-transform"
+      mode="out-in"
+    >
+      <keep-alive>
+        key: {{ key }}
+        <router-view :key="key"/>
+      </keep-alive>
+    </transition>
   </main>
 </template>
 
@@ -19,10 +26,10 @@ export default class extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.app-main {
-  min-height: calc(100vh);
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-}
+  .app-main {
+    min-height: calc(100vh);
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
 </style>

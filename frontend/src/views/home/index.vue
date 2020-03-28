@@ -1,6 +1,12 @@
 <template>
   <div>
     <HelloWorld msg="Welcome to App" />
+    <div>
+      <router-link to="/doctor">
+        Doktori
+      </router-link>
+    </div>
+    <div><a href="/user">Korisnici</a></div>
     <NumberOfTimeslots />
   </div>
 </template>
