@@ -1,9 +1,9 @@
 import { AxiosInstance } from 'axios';
 
-class DoctorApi {
+class TimeslotsApi {
   private readonly http: AxiosInstance;
 
-  private readonly url: string = '/doctor';
+  private readonly url: string = 'timeslot';
 
   constructor(http: AxiosInstance) {
     this.http = http;
@@ -13,11 +13,9 @@ class DoctorApi {
     return this.http.get(this.url);
   }
 
-  post(name: string) {
-    return this.http.post(this.url, {
-      name,
-    });
+  count() {
+    return this.http.get(`${this.url}/count`);
   }
 }
 
-export default DoctorApi;
+export default TimeslotsApi;

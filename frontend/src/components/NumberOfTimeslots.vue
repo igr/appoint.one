@@ -1,6 +1,6 @@
 <template>
   <div id="c-number">
-    Preostalo je {{count}} slobodnih termina.
+    Preostalo je {{ count }} slobodnih termina.
   </div>
 </template>
 
@@ -17,14 +17,12 @@ export default class NumberOfTimeslots extends Vue {
   }
 
   created() {
-    api.doctors.get().then((response) => {
-      this.countOfTimeslots = response.data;
-      this.$emit('add-error', '');
-    }).catch((error) => {
-      console.log(error);
-      console.log(error.response);
-      this.$emit('add-error', error.response.statusText);
-    });
+    this.fetchData();
+  }
+
+  private async fetchData() {
+    const { data } = await api.timeslot.count();
+    this.countOfTimeslots = data;
   }
 }
 </script>

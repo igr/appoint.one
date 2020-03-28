@@ -8,7 +8,6 @@ import org.jetbrains.exposed.sql.deleteAll
 import org.jetbrains.exposed.sql.selectAll
 import java.time.LocalDateTime
 
-
 @Target("Set of all timeslots.")
 object Timeslots {
 
@@ -22,12 +21,12 @@ object Timeslots {
 	/**
 	 * Counts available timeslots in the future.
 	 */
-	fun countAvailableTimeslots(): Long {
+	suspend fun countAvailableTimeslots() = dbtx {
 		val currentDateTime = LocalDateTime.now()
 		val date = currentDateTime.year * 10000 + currentDateTime.monthValue * 100 + currentDateTime.dayOfMonth
 		val time = currentDateTime.hour * 100 + currentDateTime.minute
 
-		return TimeslotsRepo.selectAll()
+		TimeslotsRepo.selectAll()
 			.andWhere { TimeslotsRepo.date greaterEq date }
 			.andWhere { TimeslotsRepo.time greater time }
 			.count()

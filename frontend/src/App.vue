@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <HelloWorld msg="Welcome to App" />
-    <NumberOfTimeslots/>
+    <NumberOfTimeslots />
   </div>
 </template>
 
