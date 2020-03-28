@@ -1,15 +1,16 @@
 import infra.DatabaseFactory
-import domain.Matcher
+import scheduler.Scheduler
 
 object App {
+	private val scheduler = Scheduler(1);
 
 	fun start() {
 		DatabaseFactory.init()
-		Matcher.schedule()
+		scheduler.start()
 	}
 
 	fun end() {
-		Matcher.cancel()
+		scheduler.stop()
 	}
 
 }
