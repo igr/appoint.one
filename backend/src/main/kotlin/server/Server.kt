@@ -66,11 +66,9 @@ fun Application.module(testing: Boolean = false) {
 
 	install(Authentication) {
 		jwt {
-			authSchemes("Token")
 			verifier(JwtConfig.verifier)
 			realm = JwtConfig.realm
 			validate {
-				it.payload.claims.forEach(::println)
 				val email = it.payload.getClaim("email")?.asString() ?: return@validate null
 				Users.findUserByEmail(email)?.let { user ->
 					val token = JwtConfig.makeToken(user)

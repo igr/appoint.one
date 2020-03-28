@@ -16,18 +16,20 @@ object JwtConfig {
     val verifier: JWTVerifier = JWT
         .require(algorithm)
         .withIssuer(issuer)
+        .withSubject("Authentication")
         .build()
 
     /**
      * Produces a token for this combination of User and Account.
      */
     fun makeToken(user: User): String = JWT.create()
-            .withSubject("Authentication")
-            .withIssuer(issuer)
-            .withClaim("id", user.id)
-            .withClaim("email", user.email)
-            .withExpiresAt(getExpiration())
-            .sign(algorithm)
+        .withSubject("Authentication")
+        .withIssuer(issuer)
+        .withClaim("id", user.id)
+        .withClaim("email", user.email)
+        .withClaim("role", user.role.value)
+        .withExpiresAt(getExpiration())
+        .sign(algorithm)
 
     /**
      * Calculates the expiration Date based on current time + the given validity.

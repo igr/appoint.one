@@ -1,6 +1,7 @@
 package web
 
 import io.restassured.http.ContentType
+import io.restassured.module.kotlin.extensions.Extract
 import io.restassured.module.kotlin.extensions.Given
 import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
@@ -8,6 +9,7 @@ import io.restassured.response.ValidatableResponse
 import model.EmailPasswordCredential
 import model.NewDoctor
 import model.NewDoctorTimeslots
+import model.User
 
 
 // doctor
@@ -49,7 +51,7 @@ fun postTimeslot(newDoctorTimeslot: NewDoctorTimeslots): ValidatableResponse {
 
 // auth
 
-fun userLogin(credentials: EmailPasswordCredential): ValidatableResponse {
+fun userLogin(credentials: EmailPasswordCredential): User {
 	return Given {
 		body(credentials)
 		contentType(ContentType.JSON)
@@ -57,15 +59,20 @@ fun userLogin(credentials: EmailPasswordCredential): ValidatableResponse {
 		post("/users/login")
 	} Then {
 		statusCode(200)
+	} Extract {
+		`as`(User::class.java)
 	}
 }
 
-fun user(): ValidatableResponse {
+fun user(token: String): User {
 	return Given {
+		header("Authorization", "Bearer $token")
 		contentType(ContentType.JSON)
 	} When {
 		get("/user")
 	} Then {
 		statusCode(200)
+	} Extract {
+		`as`(User::class.java)
 	}
 }

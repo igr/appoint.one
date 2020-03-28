@@ -21,9 +21,10 @@ object Users {
 		UserEntity.new {
 			email = user.email
 			password = BCryptHasher.hashPassword(user.password)
+			role = user.role.value
 		}.toUser()
 	}
-	
+
 	suspend fun findUserByEmail(email: String): User? = dbtx {
 		UserEntity.find { UsersRepo.email eq email }.firstOrNull()?.toUser()
 	}

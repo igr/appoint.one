@@ -8,8 +8,7 @@ import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
 import kotlinx.coroutines.runBlocking
 import model.EmailPasswordCredential
-import model.User
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class AuthTest : ServerTest() {
@@ -21,12 +20,12 @@ class AuthTest : ServerTest() {
 		val credential = EmailPasswordCredential("foo@test.com", "pass123")
 
 		// when
-		val user = userLogin(credential).extract().to<User>()
+		val user = userLogin(credential)
 
 		// then
-		Assertions.assertThat(user.email).isEqualTo(testUser.email)
-		Assertions.assertThat(user.password).isNotEqualTo(testUser.password)
-		Assertions.assertThat(user.token).isNotEmpty()
+		assertThat(user.email).isEqualTo(testUser.email)
+		assertThat(user.password).isNotEqualTo(testUser.password)
+		assertThat(user.token).isNotEmpty()
 
 		Unit
 	}
@@ -40,6 +39,22 @@ class AuthTest : ServerTest() {
 		} Then {
 			statusCode(401)
 		}
+		Unit
+	}
+
+
+	@Test
+	fun `get user info when logged in`() = runBlocking {
+		// given
+		Users.registerUser(testUser)
+
+		// when
+		val loggedUser = userLogin(testUserCredentials)
+		val remoteUser = user(loggedUser.token)
+
+		// then
+		assertThat(remoteUser.email).isEqualTo(loggedUser.email)
+
 		Unit
 	}
 

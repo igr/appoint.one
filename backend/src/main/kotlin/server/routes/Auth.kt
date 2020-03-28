@@ -36,7 +36,7 @@ fun Route.auth() {
 	authenticate {
 		route("user") {
 			get {
-				val (_, email, _, token) = call.user!!
+				val (_, email, _, _, token) = call.user!!
 				val user = Users.findUserByEmail(email)?.copy(token = token) ?: throw UserNotFound
 				call.respond(user)
 			}
