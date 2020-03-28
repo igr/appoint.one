@@ -49,12 +49,22 @@ fun postTimeslot(newDoctorTimeslot: NewDoctorTimeslots): ValidatableResponse {
 
 // auth
 
-fun login(credentials: EmailPasswordCredential): ValidatableResponse {
+fun userLogin(credentials: EmailPasswordCredential): ValidatableResponse {
 	return Given {
 		body(credentials)
 		contentType(ContentType.JSON)
 	} When {
 		post("/users/login")
+	} Then {
+		statusCode(200)
+	}
+}
+
+fun user(): ValidatableResponse {
+	return Given {
+		contentType(ContentType.JSON)
+	} When {
+		get("/user")
 	} Then {
 		statusCode(200)
 	}
