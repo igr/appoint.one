@@ -7,6 +7,7 @@ import '@/styles/index.scss';
 import App from '@/App.vue';
 import store from '@/store';
 import { AppModule } from '@/store/modules/app';
+import router from '@/router';
 
 // import * as directives from '@/directives';
 import * as filters from '@/filters';
@@ -31,6 +32,7 @@ Object.keys(filters).forEach((key) => {
 Vue.config.productionTip = false;
 
 new Vue({
+  router,
   store,
   render: (h) => h(App),
 }).$mount('#app');

@@ -1,6 +1,8 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <div><a href="/doctor">Doktori</a></div>
+    <div><a href="/user">Korisnici</a></div>
   </div>
 </template>
 
