@@ -1,13 +1,13 @@
 package domain
 
-import infra.DatabaseFactory.dbtx
 import model.Doctor
 import model.DoctorEntity
 import model.DoctorsRepo
 import model.NewDoctor
 import org.jetbrains.exposed.sql.deleteAll
+import server.DatabaseFactory.dbtx
 
-@Target("Set of all doctors.")
+@TargetIs("Set of all doctors.")
 object Doctors {
 
 	suspend fun with(doctor: Doctor): DoctorUnit = dbtx {

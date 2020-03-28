@@ -10,8 +10,10 @@ class DoctorApiTest : ServerTest() {
 
     @Test
     fun `POST doctor`() {
+        //given
         val newDoctor = NewDoctor("doc11")
 
+        // when
         val created = postDoctor(newDoctor).extract().to<Doctor>()
         val retrieved = getDoctor(created.id).extract().to<Doctor>()
 

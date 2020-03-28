@@ -3,7 +3,7 @@ package common
 import domain.Doctors
 import domain.Invitations
 import domain.Timeslots
-import infra.DatabaseFactory.dbtx
+import domain.Users
 import io.ktor.server.engine.ApplicationEngine
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
@@ -11,9 +11,10 @@ import io.restassured.RestAssured
 import io.restassured.parsing.Parser
 import io.restassured.response.ResponseBodyExtractionOptions
 import kotlinx.coroutines.runBlocking
-import module
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
+import server.DatabaseFactory.dbtx
+import server.module
 
 open class ServerTest {
 
@@ -51,6 +52,7 @@ open class ServerTest {
     @BeforeEach
     fun before() = runBlocking {
         dbtx {
+            Users.deleteAllUsers()
             Invitations.deleteAllInvitations()
             Timeslots.deleteAllTimeslots()
             Doctors.deleteAllDoctors()
