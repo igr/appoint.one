@@ -10,11 +10,18 @@ export const constantRoutes: RouteConfig[] = [
   {
     path: '/404',
     component: () => import('@/views/error-page/404.vue'),
-    meta: { hidden: true },
   },
   {
     path: '/',
     component: Layout,
+    redirect: '/home',
+    children: [
+      {
+        path: 'home',
+        component: () => import('@/views/home/index.vue'),
+        name: 'Home',
+      },
+    ],
   },
   { path: '*', redirect: '/404' },
 ];

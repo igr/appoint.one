@@ -1,20 +1,15 @@
 <template>
-  <section class="app-main">
+  <main class="app-main">
     key: {{ key }}
-    <home />
     <router-view :key="key" />
-  </section>
+  </main>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Home from '@/views/home/index.vue';
 
 @Component({
   name: 'AppMain',
-  components: {
-    Home,
-  },
 })
 export default class extends Vue {
   get key() {

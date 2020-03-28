@@ -3,7 +3,7 @@
     :class="classObj"
     class="app-wrapper"
   >
-    !Layout
+    [Layout]
     <app-main />
   </div>
 </template>
