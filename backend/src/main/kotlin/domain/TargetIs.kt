@@ -8,4 +8,4 @@ package domain
 @kotlin.annotation.Target(AnnotationTarget.CLASS)
 @kotlin.annotation.Retention(AnnotationRetention.SOURCE)
 @kotlin.annotation.MustBeDocumented
-annotation class Target(val description: String)
+annotation class TargetIs(val description: String)

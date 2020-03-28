@@ -1,4 +1,4 @@
-package infra
+package server.db
 
 import model.CitiesRepo
 import org.jetbrains.exposed.sql.insertIgnore

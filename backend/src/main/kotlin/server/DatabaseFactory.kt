@@ -1,22 +1,25 @@
-package infra
+package server
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import model.CitiesRepo
-import model.DoctorsRepo
-import model.InvitationRepo
-import model.TimeslotsRepo
+import model.*
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
+import server.db.loadInitialCities
 
 object DatabaseFactory {
 
     fun init() {
         Database.connect(hikari())
         transaction {
-            SchemaUtils.create(DoctorsRepo, CitiesRepo, TimeslotsRepo, InvitationRepo)
+            SchemaUtils.createMissingTablesAndColumns(
+                DoctorsRepo,
+                CitiesRepo,
+                TimeslotsRepo,
+                InvitationRepo,
+                UsersRepo)
             loadInitialCities()
         }
     }

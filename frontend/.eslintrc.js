@@ -18,9 +18,8 @@ module.exports = {
     'class-methods-use-this': 'off',
     'import/no-cycle': 'off',
     'import/prefer-default-export': 'off',
+    'no-unused-expressions': ["error", { "allowShortCircuit": true }]
   },
-  // parser: 'vue-eslint-parser',
-  // parser: "@typescript-eslint/parser",
   parserOptions: {
     parser: '@typescript-eslint/parser',
     ecmaVersion: 2020,

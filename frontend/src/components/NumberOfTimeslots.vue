@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import api from '@/api/Api';
+import TimeslotApi from '@/api/TimeslotApi';
 
 @Component
 export default class NumberOfTimeslots extends Vue {
@@ -21,7 +21,7 @@ export default class NumberOfTimeslots extends Vue {
   }
 
   private async fetchData() {
-    const { data } = await api.timeslot.count();
+    const { data } = await TimeslotApi.count();
     this.countOfTimeslots = data;
   }
 }

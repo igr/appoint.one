@@ -19,10 +19,16 @@ mainClassName = "Main"
 
 sourceCompatibility = 1.8
 compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "1.8"
+    }
 }
 compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions {
+        freeCompilerArgs = ["-Xjsr305=strict"]
+        jvmTarget = "1.8"
+    }
 }
 
 repositories {
@@ -42,7 +48,10 @@ dependencies {
     implementation "io.ktor:ktor-server-netty:$ktor_version"
     implementation "io.ktor:ktor-jackson:$ktor_version"
     implementation "io.ktor:ktor-server-sessions:$ktor_version"
+    implementation "io.ktor:ktor-auth-jwt:$ktor_version"
     implementation "io.ktor:ktor-pebble:$ktor_version"
+
+    implementation "org.mindrot:jbcrypt:0.4"
 
     implementation "org.jetbrains.exposed:exposed-core:$exposed_version"
     implementation "org.jetbrains.exposed:exposed-jdbc:$exposed_version"
