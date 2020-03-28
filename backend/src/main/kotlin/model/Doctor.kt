@@ -35,7 +35,7 @@ class DoctorEntity(id: EntityID<Int>) : Entity<Int>(id) {
             id = id.value,
             name = name,
             confirmed = confirmed,
-            country = Country.values()[country],
+            country = Country.values()[country - 1],
             dateUpdated = Instant.ofEpochMilli(dateUpdated).atZone(ZoneId.systemDefault()).toLocalDateTime()
     )
 }
