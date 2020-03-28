@@ -9,20 +9,19 @@ import store from '@/store';
 import { AppModule } from '@/store/modules/app';
 import router from '@/router';
 
-// import * as directives from '@/directives';
+import * as directives from '@/directives';
 import * as filters from '@/filters';
 
 Vue.config.productionTip = false;
-
 
 Vue.use(ElementUI, {
   size: AppModule.size,
 });
 
 // Register global directives
-// Object.keys(directives).forEach((key) => {
-//   Vue.directive(key, (directives as { [key: string ]: DirectiveOptions })[key]);
-// });
+Object.keys(directives).forEach((key) => {
+  Vue.directive(key, (directives as { [key: string ]: DirectiveOptions })[key]);
+});
 
 // Register global filter functions
 Object.keys(filters).forEach((key) => {

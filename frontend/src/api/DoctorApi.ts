@@ -1,13 +1,9 @@
-import { AxiosInstance } from 'axios';
+import http from '@/utils/http';
 
 class DoctorApi {
-  private readonly http: AxiosInstance;
+  private readonly http = http;
 
-  private readonly url: string = '/doctor';
-
-  constructor(http: AxiosInstance) {
-    this.http = http;
-  }
+  private readonly url: string = '/doctors';
 
   get() {
     return this.http.get(this.url);
@@ -20,4 +16,4 @@ class DoctorApi {
   }
 }
 
-export default DoctorApi;
+export default new DoctorApi();

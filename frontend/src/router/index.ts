@@ -1,12 +1,13 @@
 import Vue from 'vue';
-import Router, { RouteConfig } from 'vue-router';
+import Router, { Route, RouteConfig } from 'vue-router';
 
 /* Layout */
 import Layout from '@/layout/index.vue';
+import { UserModule } from '@/store/modules/user';
 
 Vue.use(Router);
 
-export const constantRoutes: RouteConfig[] = [
+export const routes: RouteConfig[] = [
   {
     path: '/redirect',
     component: Layout,
@@ -16,6 +17,10 @@ export const constantRoutes: RouteConfig[] = [
         component: () => import('@/views/redirect/index.vue'),
       },
     ],
+  },
+  {
+    path: '/login',
+    component: () => import('@/views/login/index.vue'),
   },
   {
     path: '/404',
@@ -35,6 +40,12 @@ export const constantRoutes: RouteConfig[] = [
         path: 'doctor',
         component: () => import('@/views/doctor/index.vue'),
         name: 'Doctor',
+        meta: {
+          permission: {
+            role: ['doctor'],
+            access: true,
+          },
+        },
       },
     ],
   },
@@ -42,10 +53,40 @@ export const constantRoutes: RouteConfig[] = [
 ];
 
 const createRouter = () => new Router({
-  routes: constantRoutes,
+  routes,
 });
 
 const router = createRouter();
+
+function _hasAccessToRoute(route: Route) {
+  // by default, everything is public
+  let access = true;
+
+  if (route.meta.permission) {
+    const { permission } = route.meta;
+    const roleMatched = UserModule.hasAccess(permission.role);
+    access = !permission.access;
+    if (roleMatched) {
+      if (typeof permission.access === 'boolean') {
+        access = permission.access;
+      }
+    }
+  }
+
+  if (!access) {
+    return { access, redirect: '/login' };
+  }
+  return { access };
+}
+
+router.beforeEach((to, from, next) => {
+  const { access, redirect } = _hasAccessToRoute(to);
+  if (access) {
+    next();
+  } else {
+    next({ name: redirect });
+  }
+});
 
 export function resetRouter() {
   const newRouter = createRouter();
