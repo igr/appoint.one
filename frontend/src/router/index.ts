@@ -84,7 +84,7 @@ router.beforeEach((to, from, next) => {
   if (access) {
     next();
   } else {
-    next({ name: redirect });
+    next({ path: redirect });
   }
 });
 
