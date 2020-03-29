@@ -1,12 +1,33 @@
 import Cookies from 'js-cookie';
 
-// App
 const sizeKey = 'size';
-export const getSize = () => Cookies.get(sizeKey);
-export const setSize = (size: string) => Cookies.set(sizeKey, size);
+const tokenKey = 'vue_typescript_access_token';
+const languageKey = 'language';
 
-// User
-const tokenKey = 'vue_typescript_admin_access_token';
-export const getToken = () => Cookies.get(tokenKey);
-export const setToken = (token: string) => Cookies.set(tokenKey, token);
-export const removeToken = () => Cookies.remove(tokenKey);
+class AppCookies {
+  /**
+   * Application size modificator.
+   */
+  getSize = () => Cookies.get(sizeKey);
+
+  setSize = (size: string) => Cookies.set(sizeKey, size);
+
+
+  /**
+   * Auth Token.
+   */
+  getToken = () => Cookies.get(tokenKey);
+
+  setToken = (token: string) => Cookies.set(tokenKey, token);
+
+  removeToken = () => Cookies.remove(tokenKey);
+
+  /**
+   * Language,
+   */
+  getLanguage = () => Cookies.get(languageKey);
+
+  setLanguage = (language: string) => Cookies.set(languageKey, language);
+}
+
+export default new AppCookies();

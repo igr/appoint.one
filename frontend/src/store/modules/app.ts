@@ -1,9 +1,7 @@
 import {
   VuexModule, Module, Mutation, Action, getModule,
 } from 'vuex-module-decorators';
-import {
-  getSize, setSize,
-} from '@/utils/cookies';
+import AppCookies from '@/utils/cookies';
 import store from '@/store';
 
 export enum DeviceType {
@@ -20,7 +18,7 @@ export interface AppState {
 class App extends VuexModule implements AppState {
   public device = DeviceType.Desktop;
 
-  public size = getSize() || 'medium';
+  public size = AppCookies.getSize() || 'medium';
 
   @Mutation
   private TOGGLE_DEVICE(device: DeviceType) {
@@ -30,7 +28,7 @@ class App extends VuexModule implements AppState {
   @Mutation
   private SET_SIZE(size: string) {
     this.size = size;
-    setSize(this.size);
+    AppCookies.setSize(this.size);
   }
 
   @Action

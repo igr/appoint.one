@@ -6,7 +6,7 @@
     >
       <keep-alive>
         key: {{ key }}
-        <router-view :key="key"/>
+        <router-view :key="key" />
       </keep-alive>
     </transition>
   </main>
