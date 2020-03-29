@@ -7,21 +7,26 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
+import server.db.createDevAdmin
 import server.db.loadInitialCities
 
 object DatabaseFactory {
 
-    fun init() {
-        Database.connect(hikari())
-        transaction {
-            SchemaUtils.createMissingTablesAndColumns(
-                DoctorsRepo,
-                CitiesRepo,
-                TimeslotsRepo,
-                InvitationRepo,
-                UsersRepo)
-            loadInitialCities()
-        }
+	fun init(isDev: Boolean) {
+		Database.connect(hikari())
+		transaction {
+			SchemaUtils.createMissingTablesAndColumns(
+				DoctorsRepo,
+				CitiesRepo,
+				TimeslotsRepo,
+				InvitationRepo,
+				UsersRepo)
+
+			loadInitialCities()
+			if (isDev) {
+				createDevAdmin()
+			}
+		}
     }
 
     private fun hikari(): HikariDataSource {
