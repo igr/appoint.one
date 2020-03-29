@@ -5,7 +5,7 @@ class UserApi {
     url: '/users/login',
     method: 'post',
     data,
-    errorHandle: false,
+    errorHandle: true,
   });
 
   async getUserInfo(param: {}) {

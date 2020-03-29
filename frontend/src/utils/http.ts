@@ -8,7 +8,7 @@ const http = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  errorHandle: true,
+  errorHandle: false,
 });
 
 // Request interceptors
@@ -24,7 +24,7 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (!error.config.errorHandle) {
+    if (error.config.errorHandle) {
       return Promise.reject(error);
     }
     if (error.response) {
