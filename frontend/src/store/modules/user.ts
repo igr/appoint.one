@@ -60,14 +60,21 @@ class User extends VuexModule implements UserState {
   }
 
   @Action
-  public async Login(userInfo: { username: string, password: string}) {
-    // eslint-disable-next-line prefer-const
-    let { username, password } = userInfo;
-    username = username.trim();
-    const { data } = await UserApi.login({ username, password });
-    setToken(data.accessToken);
-    this.SET_TOKEN(data.accessToken);
+  public async Login(userInfo: { email: string, password: string}): Promise<boolean> {
+    let { email } = userInfo;
+    email = email.trim();
+    const { password } = userInfo;
+    const res = await UserApi.login({ email, password }).catch((_) => ({ data: { token: '' } }));
+    const data = res && res.data;
+
+    if (data.token === '') {
+      return false;
+    }
+
+    setToken(data.token);
+    this.SET_TOKEN(data.token);
     this.GetUserInfo();
+    return true;
   }
 
   @Action

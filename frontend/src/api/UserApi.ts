@@ -1,13 +1,12 @@
 import http from '@/utils/http';
 
 class UserApi {
-  private readonly http = http;
-
-  private readonly url: string = '/user';
-
-  async login(param: { password: string; username: string }) {
-    return { data: { accessToken: '123' } };
-  }
+  login = (data: { email: string, password: string }) => http({
+    url: '/users/login',
+    method: 'post',
+    data,
+    errorHandle: false,
+  });
 
   async getUserInfo(param: {}) {
     return {
