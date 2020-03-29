@@ -56,6 +56,7 @@ export const routes: RouteConfig[] = [
 ];
 
 const createRouter = () => new Router({
+  mode: 'history',
   routes,
 });
 
