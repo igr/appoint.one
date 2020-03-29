@@ -1,0 +1,5 @@
+blockquote {
+  @include padding-sides(true, false);
+
+  border-left: 3px solid var(--color-primary);
+}
