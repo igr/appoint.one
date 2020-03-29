@@ -7,3 +7,5 @@ open class AuthenticationException(val status: HttpStatusCode, override val mess
 val UserNotFound = AuthenticationException(HttpStatusCode.NotFound, "The specified user could not be found")
 
 val UserAlreadyExists = AuthenticationException(HttpStatusCode.Conflict, "The specified user already exists")
+
+val WrongPassword = AuthenticationException(HttpStatusCode.Unauthorized, "Wrong Password")

@@ -7,7 +7,8 @@ object BCryptHasher {
     /**
      * Check if the password matches the User's password
      */
-    fun checkPassword(attempt: String, password: String) = BCrypt.checkpw(attempt, password)
+    fun checkPassword(attempt: String, password: String) = if (BCrypt.checkpw(attempt, password)) true
+	else throw WrongPassword
 
     /**
      * Returns the hashed version of the supplied password.
