@@ -1,0 +1,13 @@
+pre,
+code {
+  font-family: var(--font-family-monospace);
+  background-color: var(--color-code-background);
+}
+
+pre {
+  overflow: auto;
+  padding: $spacing-xs;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+

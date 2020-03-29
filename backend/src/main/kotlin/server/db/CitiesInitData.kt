@@ -1,6 +1,7 @@
 package server.db
 
 import model.CitiesRepo
+import model.Country
 import org.jetbrains.exposed.sql.insertIgnore
 
 fun loadInitialCities() {
@@ -13,6 +14,7 @@ fun loadInitialCities() {
             CitiesRepo.insertIgnore {
                 it[id] = index + 1
                 it[name] = cityName
+				it[country] = Country.SERBIA.value
             }
         }
 }

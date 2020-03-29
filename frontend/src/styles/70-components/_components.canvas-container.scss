@@ -1,0 +1,13 @@
+// usage:
+// .c-canvas-container {
+//    @include c-canvas-container(&);
+// }
+@mixin c-canvas-container($base_class) {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+
+  .c-flex-container {
+      flex: 1 0 auto;
+  }
+}

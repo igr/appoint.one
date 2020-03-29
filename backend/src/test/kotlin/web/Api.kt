@@ -5,26 +5,24 @@ import io.restassured.module.kotlin.extensions.Extract
 import io.restassured.module.kotlin.extensions.Given
 import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
-import io.restassured.response.ValidatableResponse
-import model.EmailPasswordCredential
-import model.NewDoctor
-import model.NewDoctorTimeslots
-import model.User
+import model.*
 
 
 // doctor
 
-fun getDoctor(id: Int): ValidatableResponse {
+fun getDoctor(id: Int): Doctor {
 	return Given {
 		pathParam("id", id)
 	} When {
 		get("/doctors/{id}")
 	} Then {
 		statusCode(200)
+	} Extract {
+		`as`(Doctor::class.java)
 	}
 }
 
-fun postDoctor(newDoctor: NewDoctor): ValidatableResponse {
+fun postDoctor(newDoctor: NewDoctor): Doctor {
 	return Given {
 		body(newDoctor)
 		contentType(ContentType.JSON)
@@ -32,13 +30,15 @@ fun postDoctor(newDoctor: NewDoctor): ValidatableResponse {
 		post("/doctors")
 	} Then {
 		statusCode(201)
+	} Extract {
+		`as`(Doctor::class.java)
 	}
 }
 
 
 // timeslot
 
-fun postTimeslot(newDoctorTimeslot: NewDoctorTimeslots): ValidatableResponse {
+fun postTimeslot(newDoctorTimeslot: NewDoctorTimeslots): List<Timeslot> {
 	return Given {
 		body(newDoctorTimeslot)
 		contentType(ContentType.JSON)
@@ -46,6 +46,8 @@ fun postTimeslot(newDoctorTimeslot: NewDoctorTimeslots): ValidatableResponse {
 		post("/timeslots")
 	} Then {
 		statusCode(201)
+	} Extract {
+		`as`(Timeslot::class.java.genericSuperclass)
 	}
 }
 

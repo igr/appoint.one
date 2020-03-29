@@ -1,0 +1,26 @@
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-base-size);
+  line-height: 1.2;
+  background-color: var(--color-back);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  &.is-blocked,
+  &.is-modal-open,
+  &.is-gradpanel-open {
+    overflow: hidden;
+  }
+
+  &.is-nav-mobile-open {
+    overflow: hidden;
+
+    @include mq($from: desktop) {
+      overflow: visible;
+    }
+  }
+}
