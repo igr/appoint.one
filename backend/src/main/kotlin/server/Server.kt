@@ -35,20 +35,14 @@ import server.routes.timeslots
 
 private val scheduler = Scheduler(1000)
 
-private fun start() {
-	DatabaseFactory.init()
-	scheduler.start()
-}
-
-private fun end() {
-	scheduler.stop()
-}
-
 fun startServer(args: Array<String>) {
 	val server = embeddedServer(Netty, commandLineEnvironment(args))
 	server.start(wait = true)
 }
 
+val Application.envKind get() = environment.config.property("ktor.environment").getString()
+val Application.isDev get() = envKind == "dev"
+val Application.isProd get() = envKind != "dev"
 
 fun Application.module(testing: Boolean = false) {
 	install(DefaultHeaders)
@@ -102,12 +96,21 @@ fun Application.module(testing: Boolean = false) {
 
 	with(environment.monitor) {
 		subscribe(ApplicationStarted) {
-			println("Hi!")
-			start()
+			DatabaseFactory.init(this@module.isDev)
+			scheduler.start()
 		}
 		subscribe(ApplicationStopped) {
-			end()
+			scheduler.stop()
 			println("Bye!")
+		}
+	}
+
+	when {
+		isDev -> {
+			serverLogger.info("Server is up in DEV")
+		}
+		isProd -> {
+			serverLogger.info("Server is up in PRODUCTION")
 		}
 	}
 }
