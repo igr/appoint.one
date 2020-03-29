@@ -8,6 +8,7 @@ import App from '@/App.vue';
 import store from '@/store';
 import { AppModule } from '@/store/modules/app';
 import router from '@/router';
+import i18n from '@/lang';
 
 import * as directives from '@/directives';
 import * as filters from '@/filters';
@@ -16,6 +17,7 @@ Vue.config.productionTip = false;
 
 Vue.use(ElementUI, {
   size: AppModule.size,
+  i18n: (key: string, value: string) => i18n.t(key, value),
 });
 
 // Register global directives
@@ -33,5 +35,6 @@ Vue.config.productionTip = false;
 new Vue({
   router,
   store,
+  i18n,
   render: (h) => h(App),
 }).$mount('#app');

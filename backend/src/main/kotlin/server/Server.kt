@@ -40,7 +40,7 @@ fun startServer(args: Array<String>) {
 	server.start(wait = true)
 }
 
-val Application.envKind get() = environment.config.property("ktor.environment").getString()
+val Application.envKind get() = environment.config.propertyOrNull("ktor.environment")?.getString()
 val Application.isDev get() = envKind == "dev"
 val Application.isProd get() = envKind != "dev"
 

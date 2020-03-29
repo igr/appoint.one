@@ -6,7 +6,7 @@
       @click="handleLogin"
     >login here</a>
     <div v-if="error">
-      {{ error }}
+      {{ $t('login.error') }}
     </div>
   </div>
 </template>
@@ -20,18 +20,18 @@ import { UserModule } from '@/store/modules/user';
 })
 export default class extends Vue {
   private loginForm = {
-    email: 'admin',
+    email: 'admin2',
     password: '111111',
   };
 
   private redirect?: string;
 
-  private error: string = '';
+  private error: boolean = false;
 
   private async handleLogin() {
     const success = await UserModule.Login(this.loginForm);
     if (!success) {
-      this.error = 'Logovanje nije uspelo';
+      this.error = true;
       return;
     }
 

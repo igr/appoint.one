@@ -18,6 +18,7 @@ module.exports = {
     'class-methods-use-this': 'off',
     'import/no-cycle': 'off',
     'import/prefer-default-export': 'off',
+    'no-restricted-syntax': ["error", "LabeledStatement", "WithStatement"],
     'no-unused-expressions': ["error", { "allowShortCircuit": true }]
   },
   parserOptions: {
