@@ -37,9 +37,12 @@ export const routes: RouteConfig[] = [
         name: 'Home',
       },
       {
+        path: 'inquire',
+        component: () => import('@/views/inquire/index.vue'),
+      },
+      {
         path: 'doctor',
         component: () => import('@/views/doctor/index.vue'),
-        name: 'Doctor',
         meta: {
           permission: {
             role: ['doctor'],
