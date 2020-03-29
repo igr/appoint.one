@@ -2,7 +2,7 @@ import {
   VuexModule, Module, Action, Mutation, getModule,
 } from 'vuex-module-decorators';
 import UserApi from '@/api/UserApi';
-import { getToken, setToken, removeToken } from '@/utils/cookies';
+import AppCookies from '@/utils/cookies';
 import { resetRouter } from '@/router';
 import store from '@/store';
 
@@ -17,7 +17,7 @@ export interface UserState {
 
 @Module({ dynamic: true, store, name: 'user' })
 class User extends VuexModule implements UserState {
-  public token = getToken() || '';
+  public token = AppCookies.getToken() || '';
 
   public name = '';
 
@@ -71,7 +71,7 @@ class User extends VuexModule implements UserState {
       return false;
     }
 
-    setToken(data.token);
+    AppCookies.setToken(data.token);
     this.SET_TOKEN(data.token);
     this.GetUserInfo();
     return true;
@@ -79,7 +79,7 @@ class User extends VuexModule implements UserState {
 
   @Action
   public ResetToken() {
-    removeToken();
+    AppCookies.removeToken();
     this.SET_TOKEN('');
     this.SET_ROLES([]);
   }
@@ -110,7 +110,7 @@ class User extends VuexModule implements UserState {
   @Action
   public async LogOut() {
     await UserApi.logout();
-    removeToken();
+    AppCookies.removeToken();
     resetRouter();
 
     this.SET_TOKEN('');
