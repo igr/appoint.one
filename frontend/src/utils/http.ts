@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Message } from 'element-ui';
 
 const http = axios.create({
-  baseURL: process.env.VUE_APP_API_ENDPOINT,
+  baseURL: process.env.VUE_APP_BASE_API,
   timeout: 5000,
   // withCredentials: true // send cookies when cross-domain requests
   headers: {
