@@ -1,10 +1,10 @@
 package domain
 
-import common.ServerTest
 import kotlinx.coroutines.runBlocking
 import model.NewInvitation
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
+import server.ServerTest
 
 class InvitationTest : ServerTest() {
 

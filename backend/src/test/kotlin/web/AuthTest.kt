@@ -1,6 +1,5 @@
 package web
 
-import common.ServerTest
 import domain.Users
 import io.restassured.http.ContentType
 import io.restassured.module.kotlin.extensions.Given
@@ -10,6 +9,7 @@ import kotlinx.coroutines.runBlocking
 import model.EmailPasswordCredential
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import server.ServerTest
 
 class AuthTest : ServerTest() {
 

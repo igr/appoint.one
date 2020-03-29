@@ -1,11 +1,11 @@
 package domain
 
-import common.ServerTest
 import kotlinx.coroutines.runBlocking
 import model.NewDoctor
 import model.NewTimeslot
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import server.ServerTest
 
 class TimeslotTest : ServerTest() {
 
