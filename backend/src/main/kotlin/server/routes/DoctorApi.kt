@@ -1,4 +1,4 @@
-package web
+package server.routes
 
 import domain.Doctors
 import io.ktor.application.call
@@ -11,11 +11,11 @@ import io.ktor.routing.post
 import io.ktor.routing.route
 import model.NewDoctor
 
-fun Route.doctor() {
+fun Route.doctors() {
 
-    route("/doctor") {
+    route("/doctors") {
 
-        get("/") {
+        get {
             call.respond(Doctors.findAllDoctors())
         }
 
@@ -26,7 +26,7 @@ fun Route.doctor() {
             doctor?.let { call.respond(it) } ?: call.respond(HttpStatusCode.NotFound)
         }
 
-        post("/") {
+        post {
             val newDoctor = call.receive<NewDoctor>()
             call.respond(HttpStatusCode.Created, Doctors.addNewDoctor(newDoctor))
         }

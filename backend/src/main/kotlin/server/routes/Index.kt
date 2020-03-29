@@ -1,4 +1,4 @@
-package web
+package server.routes
 
 import io.ktor.application.call
 import io.ktor.pebble.PebbleContent
@@ -10,7 +10,7 @@ import io.ktor.routing.route
 fun Route.index() {
 
 	route("/") {
-		get("/") {
+		get {
 			call.respond(PebbleContent("index.peb", mapOf()))
 		}
 	}

@@ -1,4 +1,4 @@
-package web
+package server.routes
 
 import domain.Doctors
 import domain.Timeslots
@@ -14,7 +14,7 @@ import model.NewDoctorTimeslots
 
 fun Route.timeslots() {
 
-    route("/timeslot") {
+    route("/timeslots") {
 
         post("/") {
             val newDoctorTimeslots = call.receive<NewDoctorTimeslots>()

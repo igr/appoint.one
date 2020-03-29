@@ -6,7 +6,7 @@ import model.NewInvitation
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
-class RequestTest: ServerTest() {
+class InvitationTest : ServerTest() {
 
     @Test
     fun `add invitation`() = runBlocking {

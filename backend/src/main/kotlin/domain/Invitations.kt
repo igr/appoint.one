@@ -1,10 +1,10 @@
 package domain
 
-import infra.DatabaseFactory.dbtx
 import model.*
 import org.jetbrains.exposed.sql.deleteAll
+import server.DatabaseFactory.dbtx
 
-@Target("Set of all invitations.")
+@TargetIs("Set of all invitations.")
 object Invitations {
 
 	/**

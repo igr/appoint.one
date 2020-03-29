@@ -1,11 +1,11 @@
 package domain
 
-import infra.DatabaseFactory.dbtx
 import model.DoctorEntity
 import model.NewTimeslot
 import model.TimeslotEntity
+import server.DatabaseFactory.dbtx
 
-@Target("Single doctor")
+@TargetIs("Single doctor")
 class DoctorUnit internal constructor(private val _doctor: DoctorEntity) {
 
 	suspend fun listAllTimeslots() = dbtx {

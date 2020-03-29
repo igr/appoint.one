@@ -8,10 +8,20 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 
+enum class Country(val value: Int) {
+	SERBIA(1), BOSNIA(2), CROATIA(3);
+
+	companion object {
+		fun of(value: Int): Country = values().find { it.value == value }!!
+	}
+
+}
+
 object DoctorsRepo : IntIdTable(name = "doctors") {
 	val name = varchar("name", 255)
+	val country = integer("country")
 	val confirmed = bool("confirmed")
-	val dateUpdated = long("dateUpdated").clientDefault{ System.currentTimeMillis() }
+	val dateUpdated = long("dateUpdated").clientDefault { System.currentTimeMillis() }
 }
 
 class DoctorEntity(id: EntityID<Int>) : Entity<Int>(id) {
@@ -19,6 +29,7 @@ class DoctorEntity(id: EntityID<Int>) : Entity<Int>(id) {
 
 	var name by DoctorsRepo.name
 	var confirmed by DoctorsRepo.confirmed
+	var country by DoctorsRepo.country
 	var dateUpdated by DoctorsRepo.dateUpdated
 
 	val timeslots by TimeslotEntity referrersOn TimeslotsRepo.doctor
@@ -26,6 +37,7 @@ class DoctorEntity(id: EntityID<Int>) : Entity<Int>(id) {
 	fun toDoctor() = Doctor(
 		id = id.value,
 		name = name,
+		country = Country.of(country),
 		confirmed = confirmed,
 		dateUpdated = Instant.ofEpochMilli(dateUpdated).atZone(ZoneId.systemDefault()).toLocalDateTime()
 	)
@@ -34,10 +46,12 @@ class DoctorEntity(id: EntityID<Int>) : Entity<Int>(id) {
 data class Doctor(
 	val id: Int,
 	val name: String,
+	val country: Country,
 	val confirmed: Boolean,
 	val dateUpdated: LocalDateTime
 )
 
 data class NewDoctor(
-	val name: String
+	val name: String,
+	val country: Country = Country.SERBIA
 )

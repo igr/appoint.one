@@ -1,7 +1,7 @@
 package scheduler
 
 import kotlinx.coroutines.*
-import logger
+import server.logger
 import java.util.concurrent.Executors
 import kotlin.coroutines.CoroutineContext
 
