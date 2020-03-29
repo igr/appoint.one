@@ -1,5 +1,5 @@
 import server.startServer
 
-fun main() {
-	startServer()
+fun main(args: Array<String>) {
+	startServer(args)
 }

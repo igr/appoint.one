@@ -20,6 +20,7 @@ import io.ktor.http.content.static
 import io.ktor.jackson.jackson
 import io.ktor.pebble.Pebble
 import io.ktor.routing.Routing
+import io.ktor.server.engine.commandLineEnvironment
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import org.slf4j.Logger
@@ -42,9 +43,10 @@ private fun end() {
 	scheduler.stop()
 }
 
-fun startServer() = embeddedServer(Netty) {
-	module(false)
-}.start(wait = true)
+fun startServer(args: Array<String>) {
+	val server = embeddedServer(Netty, commandLineEnvironment(args))
+	server.start(wait = true)
+}
 
 
 fun Application.module(testing: Boolean = false) {
