@@ -9,3 +9,16 @@ object CitiesRepo : Table(name = "cities") {
 
 	override val primaryKey = PrimaryKey(id, name = "id")
 }
+
+class City (
+	cityId: Int,
+	cityCountry: Int
+) {
+	val id: Int
+	val country: Country
+
+	init {
+		this.id = cityId
+		country = Country.of(cityCountry)
+	}
+}

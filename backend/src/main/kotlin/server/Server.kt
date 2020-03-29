@@ -28,10 +28,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.slf4j.event.Level
 import scheduler.Scheduler
-import server.routes.auth
-import server.routes.doctors
-import server.routes.index
-import server.routes.timeslots
+import server.routes.*
 
 private val scheduler = Scheduler(1000)
 
@@ -92,6 +89,7 @@ fun Application.module(testing: Boolean = false) {
 		auth()
 		doctors()
 		timeslots()
+		data()
 	}
 
 	with(environment.monitor) {
