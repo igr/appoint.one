@@ -29,6 +29,7 @@ object Doctors {
 		val saved = DoctorEntity.new {
 			name = doctor.name
 			confirmed = false
+			country = doctor.country.value
 			dateUpdated = System.currentTimeMillis()
 		}
 		findExisting(saved.id.value).toDoctor()

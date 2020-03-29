@@ -38,7 +38,7 @@ enum class UserRole(val value: Int) {
 	ADMIN(99);
 
 	companion object {
-		fun of(status: Int): UserRole = values().find { it.value == status }!!
+		fun of(id: Int): UserRole = values().find { it.value == id }!!
 	}
 }
 
