@@ -8,12 +8,14 @@ const http = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  errorHandle: true,
 });
 
 // Request interceptors
 http.interceptors.request.use(
   (config) => config,
   (error) => {
+    console.error('error:', error);
     Promise.reject(error);
   },
 );
@@ -22,8 +24,7 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   (response) => response,
   (error) => {
-    // error handling may be disabled by `errorHandle` option
-    if (Object.prototype.hasOwnProperty.call(error.config, 'errorHandle') && error.config.errorHandle === false) {
+    if (!error.config.errorHandle) {
       return Promise.reject(error);
     }
     if (error.response) {
