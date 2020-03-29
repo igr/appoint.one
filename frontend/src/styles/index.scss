@@ -1,70 +1,26 @@
-@import './svgicon.scss';
+@charset "UTF-8";
 
-/* Global scss */
+// ITCSS
 
-body {
-  height: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
-}
+@import '10-settings/all';
+@import '20-tools/all';
+@import '30-generic/all';
+@import '40-elements/all';
+@import '50-animations/all';
+@import '60-objects/all';
+@import '70-components/all';
+@import '90-utilities/all';
 
-html {
-  height: 100%;
-}
+// APP
 
-#app {
-  height: 100%;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-
-a,
-a:focus,
-a:hover {
-  color: inherit;
-  outline: none;
-  text-decoration: none;
-}
-a {
-  color: #C03639;
-  font-weight: bold;
-}
-
-div:focus {
-  outline: none;
-}
-
-label {
-  font-weight: 700;
-}
-
-.app-container {
-  padding: 20px;
-}
-
-.components-container {
-  margin: 30px 50px;
-  position: relative;
-}
-
-// Refine element ui upload
-.upload-container {
-  .el-upload {
-    width: 100%;
-
-    .el-upload-dragger {
-      width: 100%;
-      height: 200px;
-    }
-  }
-}
-
-
-.text-center {
-  text-align: center
-}
+// RULES
+//
+// Local CSS variables are named with `_` prefix.
+// They can be used only <= 20.
+//
+// Fonts and Colors are used as CSS variables.
+//
+// Foo components must be mixins! App components are not.
+//
+// App styles are added in separate files. Override usage in `_all.scss`
+//

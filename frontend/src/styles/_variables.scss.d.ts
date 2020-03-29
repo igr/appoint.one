@@ -1,9 +1,9 @@
-export interface IScssVariables {
+export interface ScssVariables {
   menuBg: string
   menuText: string
   menuActiveText: string
 }
 
-export const variables: IScssVariables;
+export const variables: ScssVariables;
 
 export default variables;

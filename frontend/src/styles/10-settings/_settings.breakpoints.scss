@@ -1,0 +1,18 @@
+// BREAKPOINTS-VARIABLES
+
+$breakpoints: (
+  mobile:   320px,
+  phablet:  640px,
+  tablet:   768px,
+  desktop:  980px,
+  wide:     1280px,
+  hd:       1920px
+);
+
+// returns breakpoint value
+@function breakpoint($key) {
+  @return map-get($breakpoints, $key);
+}
+
+// Breakpoints needed for sass-mq mixin
+$mq-breakpoints: $breakpoints !default;

@@ -1,0 +1,9 @@
+a {
+  @include basic-transition(color);
+  @include on-event {
+    color: var(--color-body);
+    background-color: var(--color-primary);
+  }
+
+  color: var(--color-primary);
+}
