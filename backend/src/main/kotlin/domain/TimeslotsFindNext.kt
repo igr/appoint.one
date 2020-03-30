@@ -14,6 +14,8 @@ fun _findNextTimeslots(country: Country): List<Timeslot> {
 	val dt = LocalDateTime.now().pair()
 
 /*
+	This query has N+1 problem.
+
 	return TimeslotsRepo.innerJoin(DoctorsRepo)
 		.select { TimeslotsRepo.doctor eq DoctorsRepo.id }
 		.andWhere { TimeslotsRepo.date greaterEq dt.date }
@@ -35,14 +37,9 @@ fun _findNextTimeslots(country: Country): List<Timeslot> {
 		.orderBy(TimeslotsRepo.time)
 		.limit(5)
 		.map {
-			val de = DoctorEntity.wrapRow(it).toDoctor()
+			val de = DoctorEntity.wrapRow(it)
 			TimeslotEntity.wrapRow(it).toTimeslot(de)
 		}
 		.toList()
 
-//	TimeslotsRepo.selectAll()
-//		.andWhere { TimeslotsRepo.date greaterEq dt.date }
-//		.andWhere { TimeslotsRepo.time greater dt.time }
-//		.andWhere { TimeslotsRepo.doctor.country eq country }
-//		.count()
 }

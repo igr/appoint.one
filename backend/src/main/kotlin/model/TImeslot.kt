@@ -28,11 +28,13 @@ class TimeslotEntity(id: EntityID<Int>) : Entity<Int>(id) {
 		)
 	}
 
-	fun toTimeslot(doctor: Doctor): Timeslot {
+	fun toTimeslot(doc: DoctorEntity): Timeslot {
+		assert(doctor.id == doc.id)
+
 		return Timeslot(
 			date = date,
 			time = time,
-			doctor = doctor
+			doctor = doc.toDoctor()
 		)
 	}
 }
