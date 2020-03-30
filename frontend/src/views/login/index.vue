@@ -1,10 +1,9 @@
 <template>
   <div class="login-container">
-    >>>
-    <a
-      href="#"
-      @click="handleLogin"
-    >login here</a>
+    <a href="#" @click="handleLogin">login here</a><br>
+    <router-link to="/register">
+      Register
+    </router-link>
     <div v-if="error">
       {{ $t('login.error') }}
     </div>
