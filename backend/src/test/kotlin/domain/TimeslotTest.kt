@@ -18,8 +18,8 @@ class TimeslotTest : ServerTest() {
 
 		// when
 		val saved = Doctors.addNewDoctor(doctor1)
-		Doctors.with(saved).bindTimeslots(listOf(timeslot1, timeslot2))
-		val timeslots = Doctors.with(saved).listAllTimeslots()
+		Doctors.get(saved).bindTimeslots(listOf(timeslot1, timeslot2))
+		val timeslots = Doctors.get(saved).listAllTimeslots()
 
 		// then
 		assertThat(timeslots.size).isEqualTo(2)
@@ -43,7 +43,7 @@ class TimeslotTest : ServerTest() {
 			it.bindTimeslots(listOf(timeslot1, timeslot2))
 			it.bindTimeslots(listOf(timeslot2, timeslot3))
 		}
-		val timeslots = Doctors.with(saved).listAllTimeslots()
+		val timeslots = Doctors.get(saved).listAllTimeslots()
 
 		// then
 		assertThat(timeslots.size).isEqualTo(3)

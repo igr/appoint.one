@@ -17,7 +17,7 @@ class TimeslotsFindNextTest : ServerTest() {
 		val doctor1 = Doctors.addNewDoctor(NewDoctor(name = "doc1"))
 		val futureTimeslot = NewTimeslot(LocalDateTime.now().plusHours(1))
 		val expiredTimeslot = NewTimeslot(LocalDateTime.now().minusDays(1))
-		Doctors.with(doctor1).bindTimeslots(listOf(futureTimeslot, expiredTimeslot))
+		Doctors.get(doctor1).bindTimeslots(listOf(futureTimeslot, expiredTimeslot))
 
 		// when
 		val timeslots = Timeslots.findNextTimeslots(Country.SERBIA)
