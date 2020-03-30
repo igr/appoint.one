@@ -8,15 +8,6 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 
-enum class Country(val value: Int) {
-	SERBIA(1), BOSNIA(2), CROATIA(3);
-
-	companion object {
-		fun of(value: Int): Country = values().find { it.value == value }!!
-	}
-
-}
-
 object DoctorsRepo : IntIdTable(name = "doctors") {
 	val name = varchar("name", 255)
 	val country = integer("country")
