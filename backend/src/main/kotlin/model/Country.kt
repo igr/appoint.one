@@ -5,6 +5,14 @@ enum class Country(val value: Int) {
 
 	companion object {
 		fun of(value: Int): Country = values().find { it.value == value }!!
-	}
-}
 
+		fun getAllValues(): MutableMap<Int, String> {
+			val mappedValues = mutableMapOf<Int, String>()
+			values().forEach {
+				mappedValues.put(it.value, it.toString())
+			}
+			return mappedValues
+		}
+	}
+
+}
