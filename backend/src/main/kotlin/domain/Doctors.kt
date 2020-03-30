@@ -10,11 +10,11 @@ import server.DatabaseFactory.dbtx
 @TargetIs("Set of all doctors.")
 object Doctors {
 
-	suspend fun with(doctor: Doctor): DoctorUnit = dbtx {
+	suspend fun get(doctor: Doctor): DoctorUnit = dbtx {
 		DoctorUnit(findExisting(doctor.id))
 	}
 
-	suspend fun with(doctorId: Int): DoctorUnit = dbtx {
+	suspend fun get(doctorId: Int): DoctorUnit = dbtx {
 		DoctorUnit(findExisting(doctorId))
 	}
 

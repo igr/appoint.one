@@ -1,4 +1,4 @@
-package common
+package server
 
 import domain.Doctors
 import domain.Invitations
@@ -14,7 +14,6 @@ import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import server.DatabaseFactory.dbtx
-import server.module
 
 open class ServerTest {
 

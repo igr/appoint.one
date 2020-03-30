@@ -1,10 +1,9 @@
 <template>
-  <div
-    :class="classObj"
-    class="app-wrapper"
-  >
-    [Layout]
-    <app-main />
+  <div>
+    <el-container>
+      <el-header>Header</el-header>
+      <el-main><app-main /></el-main>
+    </el-container>
   </div>
 </template>
 
@@ -30,16 +29,5 @@ export default class extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
-.app-wrapper {
-  position: relative;
-  height: 100%;
-  width: 100%;
-}
-
-.main-container {
-  min-height: 100%;
-  transition: margin-left .28s;
-  position: relative;
-}
+<style>
 </style>

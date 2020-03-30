@@ -29,6 +29,7 @@ http.interceptors.response.use(
     }
     if (error.response) {
       Message({
+        showClose: true,
         message: error.message,
         type: 'error',
         duration: 5 * 1000,

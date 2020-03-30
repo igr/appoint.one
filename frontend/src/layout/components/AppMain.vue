@@ -1,5 +1,5 @@
 <template>
-  <main class="app-main">
+  <div>
     <transition
       name="fade-transform"
       mode="out-in"
@@ -9,7 +9,7 @@
         <router-view :key="key" />
       </keep-alive>
     </transition>
-  </main>
+  </div>
 </template>
 
 <script lang="ts">
@@ -25,11 +25,5 @@ export default class extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
-  .app-main {
-    min-height: calc(100vh);
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-  }
+<style>
 </style>
