@@ -12,10 +12,7 @@ import io.ktor.application.ApplicationStopped
 import io.ktor.application.install
 import io.ktor.auth.Authentication
 import io.ktor.auth.jwt.jwt
-import io.ktor.features.CallLogging
-import io.ktor.features.ContentNegotiation
-import io.ktor.features.DefaultHeaders
-import io.ktor.features.StatusPages
+import io.ktor.features.*
 import io.ktor.http.content.resources
 import io.ktor.http.content.static
 import io.ktor.jackson.jackson
@@ -46,6 +43,12 @@ val Application.isProd get() = envKind != "dev"
 
 fun Application.module(testing: Boolean = false) {
 	install(DefaultHeaders)
+
+	install(Compression)
+
+	install(CORS) {
+		anyHost()
+	}
 
 	install(StatusPages) {
 		setup()

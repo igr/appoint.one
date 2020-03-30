@@ -1,9 +1,9 @@
 package web
 
-import common.ServerTest
 import model.NewDoctor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import server.ServerTest
 
 class DoctorApiTest : ServerTest() {
 

@@ -1,5 +1,6 @@
 package domain
 
+import model.Country
 import model.TimeslotEntity
 import model.TimeslotsRepo
 import org.jetbrains.exposed.sql.andWhere
@@ -20,7 +21,7 @@ object Timeslots {
 	}
 
 	/**
-	 * Counts available timeslots in the future.
+	 * Counts ALL available timeslots in the future.
 	 */
 	suspend fun countAvailableTimeslots() = dbtx {
 		val dt = LocalDateTime.now().pair()
@@ -29,6 +30,10 @@ object Timeslots {
 			.andWhere { TimeslotsRepo.date greaterEq dt.date }
 			.andWhere { TimeslotsRepo.time greater dt.time }
 			.count()
+	}
+
+	suspend fun findNextTimeslots(country: Country) = dbtx {
+		_findNextTimeslots(country)
 	}
 
 	private fun findExisting(id: Int): TimeslotEntity {

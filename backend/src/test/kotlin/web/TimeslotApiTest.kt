@@ -1,9 +1,11 @@
 package web
 
-import common.ServerTest
-import model.*
+import model.NewDoctor
+import model.NewDoctorTimeslots
+import model.NewTimeslot
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import server.ServerTest
 
 class TimeslotApiTest : ServerTest() {
 
