@@ -1,7 +1,7 @@
 package domain
 
 import org.junit.jupiter.api.Assertions.*
-import common.ServerTest
+import server.ServerTest
 import kotlinx.coroutines.runBlocking
 import model.Country
 import org.junit.jupiter.api.Assertions
