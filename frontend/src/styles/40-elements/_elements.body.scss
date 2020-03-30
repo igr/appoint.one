@@ -1,7 +1,4 @@
 body {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
   font-family: var(--font-family-primary);
   font-size: var(--font-base-size);
   line-height: 1.2;
@@ -9,6 +6,9 @@ body {
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  max-width: 1080px;
+  margin: 0 auto;
+  height: 100vh;
 
   &.is-blocked,
   &.is-modal-open,
