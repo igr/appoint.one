@@ -1,9 +1,6 @@
 package domain
 
-import model.Country
-import model.DoctorsRepo
-import model.TimeslotEntity
-import model.TimeslotsRepo
+import model.*
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.select
 import pair
@@ -12,10 +9,11 @@ import java.time.LocalDateTime
 /**
  * Finds next available timeslots for given inquiry.
  */
-fun _findNextTimeslots(country: Country): List<TimeslotEntity> {
+fun _findNextTimeslots(country: Country): List<Timeslot> {
 
 	val dt = LocalDateTime.now().pair()
 
+/*
 	return TimeslotsRepo.innerJoin(DoctorsRepo)
 		.select { TimeslotsRepo.doctor eq DoctorsRepo.id }
 		.andWhere { TimeslotsRepo.date greaterEq dt.date }
@@ -25,6 +23,21 @@ fun _findNextTimeslots(country: Country): List<TimeslotEntity> {
 		.orderBy(TimeslotsRepo.time)
 		.limit(5)
 		.let { TimeslotEntity.wrapRows(it) }
+		.map { it.toTimeslot() }
+		.toList()
+*/
+	return TimeslotsRepo.innerJoin(DoctorsRepo)
+		.select { TimeslotsRepo.doctor eq DoctorsRepo.id }
+		.andWhere { TimeslotsRepo.date greaterEq dt.date }
+		.andWhere { TimeslotsRepo.time greater dt.time }
+		.andWhere { DoctorsRepo.country eq country.value }
+		.orderBy(TimeslotsRepo.date)
+		.orderBy(TimeslotsRepo.time)
+		.limit(5)
+		.map {
+			val de = DoctorEntity.wrapRow(it).toDoctor()
+			TimeslotEntity.wrapRow(it).toTimeslot(de)
+		}
 		.toList()
 
 //	TimeslotsRepo.selectAll()

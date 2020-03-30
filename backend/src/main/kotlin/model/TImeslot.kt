@@ -27,6 +27,14 @@ class TimeslotEntity(id: EntityID<Int>) : Entity<Int>(id) {
 			doctor = doctor.toDoctor()
 		)
 	}
+
+	fun toTimeslot(doctor: Doctor): Timeslot {
+		return Timeslot(
+			date = date,
+			time = time,
+			doctor = doctor
+		)
+	}
 }
 
 data class NewTimeslot(

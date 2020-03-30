@@ -10,24 +10,29 @@ import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.route
+import model.Country
 import model.NewDoctorTimeslots
 
 fun Route.timeslots() {
 
     route("/timeslots") {
 
-        post("/") {
-            val newDoctorTimeslots = call.receive<NewDoctorTimeslots>()
+	    post("/") {
+		    val newDoctorTimeslots = call.receive<NewDoctorTimeslots>()
 
-            call.respond(HttpStatusCode.Created,
-                Doctors
-                    .with(newDoctorTimeslots.doctorId)
-                    .bindTimeslots(newDoctorTimeslots.timeslots))
-        }
+		    call.respond(HttpStatusCode.Created,
+			    Doctors
+				    .with(newDoctorTimeslots.doctorId)
+				    .bindTimeslots(newDoctorTimeslots.timeslots))
+	    }
 
-        get("/count") {
-            call.respond(Timeslots.countAvailableTimeslots())
-        }
+	    get("/count") {
+		    call.respond(Timeslots.countAvailableTimeslots())
+	    }
+
+	    get("/available") {
+		    call.respond(Timeslots.findNextTimeslots(Country.SERBIA))
+	    }
     }
 
 }
