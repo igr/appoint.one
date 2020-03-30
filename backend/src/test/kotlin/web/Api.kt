@@ -22,6 +22,26 @@ fun getDoctor(id: Int): Doctor {
 	}
 }
 
+fun getCities(): List<City> {
+	return When {
+		get("/data/cities")
+	} Then {
+		statusCode(200)
+	} Extract {
+		`as`(City::class.java.genericSuperclass)
+	}
+}
+
+fun getCountries(): MutableMap<Int, String> {
+	return When {
+		get("/data/countries")
+	} Then {
+		statusCode(200)
+	} Extract {
+		`as`(Country::class.java.genericSuperclass)
+	}
+}
+
 fun postDoctor(newDoctor: NewDoctor): Doctor {
 	return Given {
 		body(newDoctor)
