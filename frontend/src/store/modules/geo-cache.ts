@@ -21,7 +21,9 @@ class GeoCache extends VuexModule implements GeoCacheState {
   @Action
   public async GetCities() {
     if (this.cities.length === 0) {
-      const res = await CitiesApi.get();
+      const res = await CitiesApi.cities();
+
+      // Error happens here
       this.cities = res && res.data;
     }
     return this.cities;
