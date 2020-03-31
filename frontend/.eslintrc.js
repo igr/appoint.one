@@ -20,7 +20,6 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'no-restricted-syntax': ["error", "LabeledStatement", "WithStatement"],
     'no-unused-expressions': ["error", { "allowShortCircuit": true }],
-    'vue/max-attributes-per-line': 'off',
   },
   parserOptions: {
     parser: '@typescript-eslint/parser',

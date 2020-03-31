@@ -12,8 +12,7 @@ module.exports = {
         changeOrigin: true, // needed for virtual hosted sites
         ws: true, // proxy websockets
         pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: '/',
-          '^/api': '/',
+          ['^' + process.env.VUE_APP_BASE_API]: '/'
         },
       },
     },
