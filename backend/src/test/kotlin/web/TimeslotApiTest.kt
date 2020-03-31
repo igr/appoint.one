@@ -26,5 +26,4 @@ class TimeslotApiTest : ServerTest() {
 		assertThat(retrieved).extracting("time").containsExactly(800, 1000)
 	}
 
-
 }

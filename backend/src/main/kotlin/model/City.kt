@@ -10,7 +10,9 @@ object CitiesRepo : Table(name = "cities") {
 	override val primaryKey = PrimaryKey(id, name = "id")
 }
 
-class City (
+/* MODEL */
+
+class City(
 	cityId: Int,
 	cityName: String,
 	cityCountry: Int

@@ -42,7 +42,10 @@ enum class UserRole(val value: Int) {
 	}
 }
 
-data class UserId (
+/* MODEL */
+
+
+data class UserId(
 	val value: Int
 )
 
