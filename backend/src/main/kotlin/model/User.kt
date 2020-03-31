@@ -24,7 +24,7 @@ class UserEntity(id: EntityID<Int>) : Entity<Int>(id) {
 
 	fun toUser(): User {
 		return User(
-			id = id.value,
+			id = UserId(id.value),
 			password = password,
 			email = email,
 			role = UserRole.of(role)
@@ -42,8 +42,12 @@ enum class UserRole(val value: Int) {
 	}
 }
 
+data class UserId (
+	val value: Int
+)
+
 data class User(
-	val id: Int,
+	val id: UserId,
 	val email: String,
 	val password: String,
 	val role: UserRole,
