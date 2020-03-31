@@ -60,11 +60,11 @@ class User extends VuexModule implements UserState {
   }
 
   @Action
-  public async Login(userInfo: { email: string, password: string}): Promise<boolean> {
-    let { email } = userInfo;
-    email = email.trim();
+  public async Login(userInfo: { name: string, password: string}): Promise<boolean> {
+    let { name } = userInfo;
+    name = name.trim();
     const { password } = userInfo;
-    const res = await UserApi.login({ email, password }).catch((_) => ({ data: { token: '' } }));
+    const res = await UserApi.login({ name, password }).catch((_) => ({ data: { token: '' } }));
     const data = res && res.data;
 
     if (data.token === '') {

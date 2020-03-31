@@ -26,7 +26,7 @@
             v-model="valid"
           >
             <v-text-field
-              v-model="email"
+              v-model="name"
               label="email"
               prepend-icon="person"
               :rules="rules.email"
@@ -80,7 +80,7 @@ import { UserModule } from '@/store/modules/user';
   name: 'Login',
 })
 export default class extends Vue {
-  private email = '';
+  private name = '';
 
   private valid = true;
 
@@ -107,7 +107,7 @@ export default class extends Vue {
     this.loading = true;
 
     const success = await UserModule.Login({
-      email: this.email,
+      name: this.name,
       password: this.password,
     });
     if (!success) {
