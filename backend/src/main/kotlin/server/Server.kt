@@ -97,7 +97,7 @@ fun Application.module(testing: Boolean = false) {
 
 	with(environment.monitor) {
 		subscribe(ApplicationStarted) {
-			DatabaseFactory.init(this@module.isDev)
+			DatabaseFactory.init(isDev)
 			scheduler.start()
 		}
 		subscribe(ApplicationStopped) {

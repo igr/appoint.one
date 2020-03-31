@@ -26,7 +26,7 @@ class DoctorEntity(id: EntityID<Int>) : Entity<Int>(id) {
 	val timeslots by TimeslotEntity referrersOn TimeslotsRepo.doctor
 
 	fun toDoctor() = Doctor(
-		id = id.value,
+		id = DoctorId(id.value),
 		name = name,
 		country = Country.of(country),
 		confirmed = confirmed,
@@ -34,8 +34,18 @@ class DoctorEntity(id: EntityID<Int>) : Entity<Int>(id) {
 	)
 }
 
+fun DoctorEntity.Companion.findExisting(id: Int): DoctorEntity {
+	return find { DoctorsRepo.id eq id }.single()
+}
+
+/* DOMAIN */
+
+data class DoctorId(
+	val value: Int
+)
+
 data class Doctor(
-	val id: Int,
+	val id: DoctorId,
 	val name: String,
 	val country: Country,
 	val confirmed: Boolean,

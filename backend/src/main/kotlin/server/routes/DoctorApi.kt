@@ -9,6 +9,7 @@ import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.route
+import model.DoctorId
 import model.NewDoctor
 
 fun Route.doctors() {
@@ -20,10 +21,10 @@ fun Route.doctors() {
         }
 
         get("/{id}") {
-            val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-            val doctor = Doctors.findById(id);
+	        val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
+	        val doctor = Doctors.findById(DoctorId(id));
 
-            doctor?.let { call.respond(it) } ?: call.respond(HttpStatusCode.NotFound)
+	        doctor?.let { call.respond(it) } ?: call.respond(HttpStatusCode.NotFound)
         }
 
         post {
