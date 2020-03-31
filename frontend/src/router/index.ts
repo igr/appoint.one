@@ -19,10 +19,6 @@ export const routes: RouteConfig[] = [
     ],
   },
   {
-    path: '/login',
-    component: () => import('@/views/login/index.vue'),
-  },
-  {
     path: '/404',
     component: () => import('@/views/error-page/404.vue'),
   },
@@ -36,6 +32,15 @@ export const routes: RouteConfig[] = [
         component: () => import('@/views/home/index.vue'),
         name: 'Home',
       },
+      {
+        path: '/login',
+        component: () => import('@/views/login/index.vue'),
+      },
+      {
+        path: '/register',
+        component: () => import('@/views/register/index.vue'),
+      },
+
       {
         path: 'inquire',
         component: () => import('@/views/inquire/index.vue'),

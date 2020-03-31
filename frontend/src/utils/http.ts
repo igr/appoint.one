@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Message } from 'element-ui';
+import { AppModule } from '@/store/modules/app';
 
 const http = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
@@ -28,12 +28,7 @@ http.interceptors.response.use(
       return Promise.reject(error);
     }
     if (error.response) {
-      Message({
-        showClose: true,
-        message: error.message,
-        type: 'error',
-        duration: 5 * 1000,
-      });
+      AppModule.setError(error.message);
     }
     return Promise.reject(error);
   },
