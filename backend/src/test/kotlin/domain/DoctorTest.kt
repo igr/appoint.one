@@ -1,7 +1,7 @@
 package domain
 
 import kotlinx.coroutines.runBlocking
-import model.NewDoctor
+import model.newSimpleDoctor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import server.ServerTest
@@ -12,7 +12,7 @@ class DoctorTest : ServerTest() {
 	@Test
 	fun `add doctor`() = runBlocking {
 		// given
-		val new = NewDoctor(name = "doc1")
+		val new = newSimpleDoctor("doc1")
 
 		// when
 		val saved = Doctors.addNewDoctor(new)
@@ -29,8 +29,8 @@ class DoctorTest : ServerTest() {
     @Test
     fun `find all doctors`() = runBlocking {
 	    // given
-	    val doctor1 = NewDoctor(name = "doc1")
-	    val doctor2 = NewDoctor(name = "doc2")
+	    val doctor1 = newSimpleDoctor("doc1")
+	    val doctor2 = newSimpleDoctor("doc2")
 
 	    Doctors.addNewDoctor(doctor1)
 	    Doctors.addNewDoctor(doctor2)

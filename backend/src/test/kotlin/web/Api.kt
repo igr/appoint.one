@@ -10,9 +10,9 @@ import model.*
 
 // doctor
 
-fun getDoctor(id: Int): Doctor {
+fun getDoctor(id: DoctorId): Doctor {
 	return Given {
-		pathParam("id", id)
+		pathParam("id", id.value)
 	} When {
 		get("/doctors/{id}")
 	} Then {

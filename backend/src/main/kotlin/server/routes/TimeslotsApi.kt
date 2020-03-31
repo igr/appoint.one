@@ -22,7 +22,7 @@ fun Route.timeslots() {
 
 		    call.respond(HttpStatusCode.Created,
 			    Doctors
-				    .get(newDoctorTimeslots.doctorId)
+				    .with(newDoctorTimeslots.doctorId)
 				    .bindTimeslots(newDoctorTimeslots.timeslots))
 	    }
 

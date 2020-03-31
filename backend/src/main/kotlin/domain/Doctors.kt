@@ -1,45 +1,36 @@
 package domain
 
-import model.Doctor
-import model.DoctorEntity
-import model.DoctorsRepo
-import model.NewDoctor
+import model.*
 import org.jetbrains.exposed.sql.deleteAll
 import server.DatabaseFactory.dbtx
 
 @TargetIs("Set of all doctors.")
 object Doctors {
 
-	suspend fun get(doctor: Doctor): DoctorUnit = dbtx {
-		DoctorUnit(findExisting(doctor.id))
+	suspend fun with(doctor: Doctor): DoctorUnit = dbtx {
+		DoctorUnit(DoctorEntity.findExisting(doctor.id.value))
 	}
 
-	suspend fun get(doctorId: Int): DoctorUnit = dbtx {
-		DoctorUnit(findExisting(doctorId))
+	suspend fun with(doctorId: DoctorId): DoctorUnit = dbtx {
+		DoctorUnit(DoctorEntity.findExisting(doctorId.value))
 	}
 
 	suspend fun with(doctor: Doctor, consumer: suspend (du: DoctorUnit) -> Unit): Unit = dbtx {
-		consumer(DoctorUnit(findExisting(doctor.id)))
+		consumer(DoctorUnit(DoctorEntity.findExisting(doctor.id.value)))
 	}
 
 	/**
 	 * Adds new doctor.
 	 */
 	suspend fun addNewDoctor(doctor: NewDoctor): Doctor = dbtx {
-		val saved = DoctorEntity.new {
-			name = doctor.name
-			confirmed = false
-			country = doctor.country.value
-			dateUpdated = System.currentTimeMillis()
-		}
-		findExisting(saved.id.value).toDoctor()
+		DoctorEntity.add(doctor).toDoctor()
 	}
 
 	/**
 	 * Finds doctor by ID.
 	 */
-	suspend fun findById(id: Int): Doctor? = dbtx {
-		DoctorEntity.findById(id)?.toDoctor()
+	suspend fun findById(id: DoctorId): Doctor? = dbtx {
+		DoctorEntity.findById(id.value)?.toDoctor()
 	}
 
 	/**
@@ -55,9 +46,4 @@ object Doctors {
 	suspend fun deleteAllDoctors() = dbtx {
 		DoctorsRepo.deleteAll();
 	}
-
-	private fun findExisting(id: Int): DoctorEntity {
-		return DoctorEntity.find { DoctorsRepo.id eq id }.single()
-	}
-
 }

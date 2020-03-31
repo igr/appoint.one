@@ -1,6 +1,6 @@
 package web
 
-import model.NewDoctor
+import model.newSimpleDoctor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import server.ServerTest
@@ -10,7 +10,7 @@ class DoctorApiTest : ServerTest() {
     @Test
     fun `POST doctor`() {
         //given
-        val newDoctor = NewDoctor("doc11")
+	    val newDoctor = newSimpleDoctor("doc1")
 
         // when
         val created = postDoctor(newDoctor)
