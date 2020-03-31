@@ -14,11 +14,7 @@ class City (
 	cityId: Int,
 	cityCountry: Int
 ) {
-	val id: Int
-	val country: Country
+	val id: Int = cityId
+	val country: Country = Country.of(cityCountry)
 
-	init {
-		this.id = cityId
-		country = Country.of(cityCountry)
-	}
 }
