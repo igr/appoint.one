@@ -17,7 +17,7 @@ fun Route.data() {
 		}
 
 		get("/countries") {
-			call.respond(Country.getAllValues())
+			call.respond(Country.values())
 		}
 
 	}

@@ -1,10 +1,7 @@
 package web
 
-import common.ServerTest
-import model.NewDoctor
-import org.assertj.core.api.Assertions
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import server.ServerTest
 
 class DataApiKtTest: ServerTest() {
 
