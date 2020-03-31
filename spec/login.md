@@ -2,7 +2,7 @@
 
 Unosi se:
 
-+ jedinstveni broj doktora (dodeljen od sistema, licenca?)
-+ lozinka
++ email
++ lozinka - jedinstveni broj doktora?
 
 Po uspešnom logovanju, odlazi se na: [doctor](./doctor/index.md)
