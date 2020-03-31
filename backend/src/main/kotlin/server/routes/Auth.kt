@@ -5,6 +5,7 @@ import auth.UserNotFound
 import auth.user
 import domain.Users
 import io.ktor.application.call
+import io.ktor.auth.UserPasswordCredential
 import io.ktor.auth.authenticate
 import io.ktor.request.receive
 import io.ktor.response.respond
@@ -12,7 +13,6 @@ import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.route
-import model.EmailPasswordCredential
 import model.NewUser
 
 fun Route.auth() {
@@ -20,7 +20,7 @@ fun Route.auth() {
 	route("users") {
 
 		post("/login") {
-			val credential = call.receive<EmailPasswordCredential>()
+			val credential = call.receive<UserPasswordCredential>()
 			val user = Auth.login(credential);
 			call.respond(user)
 		}
@@ -36,8 +36,11 @@ fun Route.auth() {
 	authenticate {
 		route("user") {
 			get {
-				val (_, email, _, _, token) = call.user!!
-				val user = Users.findUserByEmail(email)?.copy(token = token) ?: throw UserNotFound
+				val (_, name, _, _, token) = call.user!!
+
+				println(name)
+
+				val user = Users.findUserByUsername(name)?.copy(token = token) ?: throw UserNotFound
 				call.respond(user)
 			}
 

@@ -3,7 +3,7 @@ package domain
 import model.*
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.select
-import pair
+import toDateTimeLong
 import java.time.LocalDateTime
 
 /**
@@ -11,7 +11,7 @@ import java.time.LocalDateTime
  */
 fun _findNextTimeslots(country: Country): List<Timeslot> {
 
-	val dt = LocalDateTime.now().pair()
+	val dateTimeInt = LocalDateTime.now().toDateTimeLong()
 
 /*
 	This query has N+1 problem.
@@ -30,11 +30,9 @@ fun _findNextTimeslots(country: Country): List<Timeslot> {
 */
 	return TimeslotsRepo.innerJoin(DoctorsRepo)
 		.select { TimeslotsRepo.doctor eq DoctorsRepo.id }
-		.andWhere { TimeslotsRepo.date greaterEq dt.date }
-		.andWhere { TimeslotsRepo.time greater dt.time }
+		.andWhere { TimeslotsRepo.datetime greaterEq dateTimeInt }
 		.andWhere { DoctorsRepo.country eq country.value }
-		.orderBy(TimeslotsRepo.date)
-		.orderBy(TimeslotsRepo.time)
+		.orderBy(TimeslotsRepo.datetime)
 		.limit(5)
 		.map {
 			val de = DoctorEntity.wrapRow(it)

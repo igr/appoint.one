@@ -1,7 +1,7 @@
 package web
 
-import model.EmailPasswordCredential
+import io.ktor.auth.UserPasswordCredential
 import model.NewUser
 
-val testUser = NewUser(email = "foo@test.com", password = "pass123")
-val testUserCredentials = EmailPasswordCredential(email = "foo@test.com", password = "pass123")
+val testUser = NewUser(name = "foo@test.com", password = "pass123")
+val testUserCredentials = UserPasswordCredential(name = "foo@test.com", password = "pass123")

@@ -1,5 +1,6 @@
 package web
 
+import io.ktor.auth.UserPasswordCredential
 import io.restassured.http.ContentType
 import io.restassured.module.kotlin.extensions.Extract
 import io.restassured.module.kotlin.extensions.Given
@@ -73,7 +74,7 @@ fun postTimeslot(newDoctorTimeslot: NewDoctorTimeslots): List<Timeslot> {
 
 // auth
 
-fun userLogin(credentials: EmailPasswordCredential): User {
+fun userLogin(credentials: UserPasswordCredential): User {
 	return Given {
 		body(credentials)
 		contentType(ContentType.JSON)
@@ -86,7 +87,7 @@ fun userLogin(credentials: EmailPasswordCredential): User {
 	}
 }
 
-fun user(token: String): User {
+fun userGet(token: String): User {
 	return Given {
 		header("Authorization", "Bearer $token")
 		contentType(ContentType.JSON)

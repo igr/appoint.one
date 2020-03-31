@@ -1,10 +1,6 @@
 package domain
 
-import auth.BCryptHasher
-import model.NewUser
-import model.User
-import model.UserEntity
-import model.UsersRepo
+import model.*
 import org.jetbrains.exposed.sql.deleteAll
 import server.DatabaseFactory.dbtx
 
@@ -16,17 +12,11 @@ object Users {
 //		if (UserEntity.find { UsersRepo.email eq user.email }.any()) {
 //			throw UserAlreadyExists
 //		}
-
-		// save user
-		UserEntity.new {
-			email = user.email
-			password = BCryptHasher.hashPassword(user.password)
-			role = user.role.value
-		}.toUser()
+		UserEntity.add(user).toUser()
 	}
 
-	suspend fun findUserByEmail(email: String): User? = dbtx {
-		UserEntity.find { UsersRepo.email eq email }.firstOrNull()?.toUser()
+	suspend fun findUserByUsername(name: String): User? = dbtx {
+		UserEntity.find { UsersRepo.name eq name }.firstOrNull()?.toUser()
 	}
 
 	/**

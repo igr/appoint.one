@@ -23,10 +23,10 @@ object JwtConfig {
      * Produces a token for this combination of User and Account.
      */
     fun makeToken(user: User): String = JWT.create()
-        .withSubject("Authentication")
-        .withIssuer(issuer)
-        .withClaim("id", user.id.value)
-        .withClaim("email", user.email)
+	    .withSubject("Authentication")
+	    .withIssuer(issuer)
+	    .withClaim("id", user.id.value)
+	    .withClaim("name", user.name)
         .withClaim("role", user.role.value)
         .withExpiresAt(getExpiration())
         .sign(algorithm)

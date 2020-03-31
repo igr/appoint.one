@@ -23,7 +23,7 @@ class TimeslotApiTest : ServerTest() {
 
 		// then
 		assertThat(retrieved.size).isEqualTo(2)
-		assertThat(retrieved).extracting("time").containsExactly(800, 1000)
+		assertThat(retrieved).extracting("datetime.value").containsExactly(202001010800L, 202001011000L)
 	}
 
 }

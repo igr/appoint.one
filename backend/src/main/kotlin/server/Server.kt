@@ -70,8 +70,8 @@ fun Application.module(testing: Boolean = false) {
 			verifier(JwtConfig.verifier)
 			realm = JwtConfig.realm
 			validate {
-				val email = it.payload.getClaim("email")?.asString() ?: return@validate null
-				Users.findUserByEmail(email)?.let { user ->
+				val name = it.payload.getClaim("name")?.asString() ?: return@validate null
+				Users.findUserByUsername(name)?.let { user ->
 					val token = JwtConfig.makeToken(user)
 					user.copy(token = token)
 				}

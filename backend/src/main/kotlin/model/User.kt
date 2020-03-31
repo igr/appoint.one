@@ -1,16 +1,14 @@
 package model
 
-import io.ktor.auth.Credential
+import auth.BCryptHasher
 import io.ktor.auth.Principal
 import org.jetbrains.exposed.dao.Entity
 import org.jetbrains.exposed.dao.EntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 
-data class EmailPasswordCredential(val email: String, val password: String) : Credential
-
 object UsersRepo : IntIdTable(name = "users") {
-	val email = varchar("email", 128).uniqueIndex()
+	val name = varchar("name", 128).uniqueIndex()
 	val password = varchar("password", length = 255)
 	val role = integer("role")
 }
@@ -18,7 +16,7 @@ object UsersRepo : IntIdTable(name = "users") {
 class UserEntity(id: EntityID<Int>) : Entity<Int>(id) {
 	companion object : EntityClass<Int, UserEntity>(UsersRepo)
 
-	var email by UsersRepo.email
+	var name by UsersRepo.name
 	var password by UsersRepo.password
 	var role by UsersRepo.role
 
@@ -26,11 +24,21 @@ class UserEntity(id: EntityID<Int>) : Entity<Int>(id) {
 		return User(
 			id = UserId(id.value),
 			password = password,
-			email = email,
+			name = name,
 			role = UserRole.of(role)
 		)
 	}
 }
+
+fun UserEntity.Companion.add(user: NewUser): UserEntity {
+	return UserEntity.new {
+		name = user.name
+		password = BCryptHasher.hashPassword(user.password)
+		role = user.role.value
+	}
+}
+
+/* MODEL */
 
 enum class UserRole(val value: Int) {
 	GUEST(0),
@@ -42,23 +50,20 @@ enum class UserRole(val value: Int) {
 	}
 }
 
-/* MODEL */
-
-
 data class UserId(
 	val value: Int
 )
 
 data class User(
 	val id: UserId,
-	val email: String,
+	val name: String,
 	val password: String,
 	val role: UserRole,
 	val token: String = ""
 ) : Principal
 
 data class NewUser(
-	val email: String,
+	val name: String,
 	val password: String,
 	val role: UserRole = UserRole.GUEST
 )
