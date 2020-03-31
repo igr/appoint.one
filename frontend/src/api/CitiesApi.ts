@@ -1,9 +1,10 @@
 import http from '@/utils/http';
 
 class CitiesApi {
-  get() {
-    return http.get('/data/cities');
-  }
+  cities = () => http({
+    url: '/data/cities',
+    method: 'get',
+  });
 }
 
 export default new CitiesApi();
