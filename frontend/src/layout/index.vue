@@ -1,30 +1,41 @@
 <template>
   <div>
-    <el-container>
-      <el-header>Header</el-header>
-      <el-main><app-main /></el-main>
-    </el-container>
+    <v-app-bar
+      app
+      color="primary"
+      dark
+    >
+      <div class="d-flex align-center">
+        <router-link to="/">
+          <v-img
+            alt="Vuetify Logo"
+            class="shrink mr-2"
+            contain
+            src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+            transition="scale-transition"
+            width="40"
+          />
+        </router-link>
+      </div>
+
+      <v-spacer />
+    </v-app-bar>
+
+    <v-content>
+      <router-view :key="key" />
+    </v-content>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { DeviceType } from '@/store/modules/app';
-import { AppMain } from './components';
 
 @Component({
   name: 'Layout',
-  components: {
-    AppMain,
-  },
 })
 export default class extends Vue {
-  private device: DeviceType = DeviceType.Desktop;
-
-  get classObj() {
-    return {
-      mobile: this.device === DeviceType.Mobile,
-    };
+  get key() {
+    return this.$route.path;
   }
 }
 </script>

@@ -1,15 +1,18 @@
 <template>
-  <div class="c-app">
+  <v-app>
+    <Alert />
     <router-view />
-  </div>
+  </v-app>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import Alert from '@/components/Alert/index.vue';
 
-@Component({})
+@Component({
+  components: {
+    Alert,
+  },
+})
 export default class App extends Vue {}
 </script>
-
-<style>
-</style>
