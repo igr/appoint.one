@@ -1,6 +1,7 @@
 package model
 
 import auth.BCryptHasher
+import com.fasterxml.jackson.annotation.JsonIgnore
 import io.ktor.auth.Principal
 import org.jetbrains.exposed.dao.Entity
 import org.jetbrains.exposed.dao.EntityClass
@@ -57,7 +58,8 @@ data class UserId(
 data class User(
 	val id: UserId,
 	val name: String,
-	val password: String,
+	@JsonIgnore
+	val password: String = "",
 	val role: UserRole,
 	val token: String = ""
 ) : Principal
