@@ -7,7 +7,11 @@
       cols="12"
       md="8"
     >
-      <v-card class="elevation-12">
+      <v-card
+        ref="card"
+        class="elevation-12"
+        :loading="loading"
+      >
         <v-toolbar
           color="#34558b"
           dark
@@ -57,8 +61,9 @@
         </v-card-actions>
       </v-card>
       <v-alert
-        v-if="error"
+        v-model="error"
         type="error"
+        transition="slide-y-transition"
         dismissible
       >
         {{ $t('login.error') }}
@@ -85,6 +90,8 @@ export default class extends Vue {
 
   private error: boolean = false;
 
+  private loading: boolean = false;
+
   private rules = {
     email: [
       (v: string) => !!v || 'E-mail is required',
@@ -97,12 +104,15 @@ export default class extends Vue {
   };
 
   private async handleLogin() {
+    this.loading = true;
+
     const success = await UserModule.Login({
       email: this.email,
       password: this.password,
     });
     if (!success) {
       this.error = true;
+      this.loading = false;
       return;
     }
 
