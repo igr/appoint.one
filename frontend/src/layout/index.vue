@@ -22,7 +22,9 @@
     </v-app-bar>
 
     <v-content>
-      <router-view :key="key" />
+      <v-container fluid fill-height>
+        <router-view :key="key" />
+      </v-container>
     </v-content>
   </div>
 </template>
