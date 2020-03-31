@@ -1,11 +1,8 @@
 export default {
   login: {
-    title: 'Login Form',
-    logIn: 'Login',
-    username: 'Username',
-    password: 'Password',
-    any: 'any',
-    thirdparty: 'Or connect with',
-    error: 'Greška prilikom logovanja',
+    title: 'Prijava',
+    error: 'Greška prilikom prijave',
+    register: 'Registracija',
+    submit: 'Prijavi',
   },
 };

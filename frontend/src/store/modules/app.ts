@@ -4,21 +4,26 @@ import {
 import store from '@/store';
 
 export interface AppState {
-  error: string;
+  alertMessage: string;
 }
 
 @Module({ dynamic: true, store, name: 'app' })
 class App extends VuexModule implements AppState {
-  public error: string = '';
+  public alertMessage: string = '';
 
   @Mutation
-  private SET_ERROR(message: string) {
-    this.error = message;
+  private SET_ALERT_MESSAGE(message: string) {
+    this.alertMessage = message;
   }
 
   @Action
-  public setError(message: string) {
-    this.SET_ERROR(message);
+  public setAlertMessage(message: string) {
+    this.SET_ALERT_MESSAGE(message);
+  }
+
+  @Action
+  public clearAlertMessage() {
+    this.SET_ALERT_MESSAGE('');
   }
 }
 

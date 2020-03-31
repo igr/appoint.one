@@ -1,9 +1,19 @@
 <template>
-  <v-row align="center" justify="center">
-    <v-col cols="12" sm="8" md="4">
+  <v-row
+    align="center"
+    justify="center"
+  >
+    <v-col
+      cols="12"
+      md="8"
+    >
       <v-card class="elevation-12">
-        <v-toolbar color="#34558b" dark flat>
-          <v-toolbar-title>Login</v-toolbar-title>
+        <v-toolbar
+          color="#34558b"
+          dark
+          flat
+        >
+          <v-toolbar-title>{{ $t('login.title') }}</v-toolbar-title>
           <v-spacer />
         </v-toolbar>
         <v-card-text>
@@ -34,19 +44,23 @@
             name="registre"
             to="/register"
           >
-            REGISTER
+            {{ $t('login.register') }}
           </v-btn>
           <v-btn
             name="submit"
             :disabled="!valid"
-            @click="handleLogin"
             color="primary"
+            @click="handleLogin"
           >
-            LOGIN
+            {{ $t('login.submit') }}
           </v-btn>
         </v-card-actions>
       </v-card>
-      <v-alert v-if="error" type="error" dismissible>
+      <v-alert
+        v-if="error"
+        type="error"
+        dismissible
+      >
         {{ $t('login.error') }}
       </v-alert>
     </v-col>

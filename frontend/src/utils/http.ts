@@ -28,7 +28,7 @@ http.interceptors.response.use(
       return Promise.reject(error);
     }
     if (error.response) {
-      AppModule.setError(error.message);
+      AppModule.setAlertMessage(error.message);
     }
     return Promise.reject(error);
   },

@@ -16,12 +16,21 @@
         Login
       </router-link>
     </div>
+    <div>
+      <a
+        href="#"
+        @click="logout"
+      >
+        Logout
+      </a>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import HelloWorld from '@/components/HelloWorld.vue';
+import { UserModule } from '@/store/modules/user';
 
 @Component({
   name: 'Home',
@@ -30,6 +39,9 @@ import HelloWorld from '@/components/HelloWorld.vue';
   },
 })
 export default class extends Vue {
+  logout() {
+    UserModule.LogOut();
+  }
 }
 </script>
 

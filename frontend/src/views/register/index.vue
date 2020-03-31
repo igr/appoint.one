@@ -1,7 +1,14 @@
 <template>
-  <v-row>
-    <v-col cols="12">
-      <h1>Registracija</h1>
+  <v-row
+    justify="center"
+  >
+    <v-col
+      cols="12"
+      md="8"
+    >
+      <h1 class="heading mb-6">
+        Registracija
+      </h1>
 
       <v-stepper
         v-model="step"
@@ -44,13 +51,14 @@
                 :row="true"
                 mandatory
                 required
+                label="Pol"
               >
                 <v-radio
-                  label="Man"
+                  label="Muški"
                   value="true"
                 />
                 <v-radio
-                  label="Woman"
+                  label="Ženski"
                   value="false"
                 />
               </v-radio-group>
@@ -61,15 +69,23 @@
                 required
               />
 
-              <v-btn
-                color="primary"
-                @click="step = 2"
+              <v-row
+                justify="center"
+                class="mt-6"
               >
-                Continue
-              </v-btn>
-              <v-btn text>
-                Cancel
-              </v-btn>
+                <v-btn
+                  text
+                  to="/home"
+                >
+                  Cancel
+                </v-btn>
+                <v-btn
+                  color="primary"
+                  @click="step = 2"
+                >
+                  Continue
+                </v-btn>
+              </v-row>
             </v-stepper-content>
 
             <!-- STEP 2 -->
@@ -86,16 +102,23 @@
                 required
               />
 
-              <v-btn
-                color="primary"
-                @click="step = 3"
+              <v-row
+                justify="center"
+                class="mt-6"
               >
-                Continue
-              </v-btn>
-
-              <v-btn text>
-                Cancel
-              </v-btn>
+                <v-btn
+                  text
+                  @click="step = 1"
+                >
+                  Nazad
+                </v-btn>
+                <v-btn
+                  color="primary"
+                  @click="step = 3"
+                >
+                  Continue
+                </v-btn>
+              </v-row>
             </v-stepper-content>
 
             <!-- STEP 3 -->
@@ -106,22 +129,35 @@
                 required
               />
 
-              <v-btn
-                color="primary"
-                type="submit"
-                :disabled="!valid"
-                @click="handleLogin"
+              <v-row
+                justify="center"
+                class="mt-6"
               >
-                SUBMIT
-              </v-btn>
-
-              <v-btn text>
-                Cancel
-              </v-btn>
+                <v-btn
+                  text
+                  @click="step = 2"
+                >
+                  Nazad
+                </v-btn>
+                <v-btn
+                  color="primary"
+                  type="submit"
+                  :disabled="!valid"
+                  @click.prevent="handleLogin"
+                >
+                  SUBMIT
+                </v-btn>
+              </v-row>
             </v-stepper-content>
           </v-form>
         </v-stepper-items>
       </v-stepper>
+      <v-alert
+        v-if="savedOk"
+        type="info"
+      >
+        Uspešno ste registrovani. Sačekajte potvrdu.
+      </v-alert>
     </v-col>
   </v-row>
 </template>
@@ -140,12 +176,11 @@ export default class extends Vue {
 
   private form: NewDoctor = new NewDoctor();
 
+  private savedOk = false;
+
   private async handleLogin() {
     await DoctorApi.postNewDoctor(this.form);
-    return false;
-    // this.$router.push({
-    //   path: this.redirect || '/',
-    // });
+    this.savedOk = true;
   }
 }
 </script>

@@ -1,7 +1,16 @@
 <template>
-  <v-snackbar v-model="message" top="top" color="red" :timeout="5000">
+  <v-snackbar
+    v-model="showMessage"
+    top="top"
+    color="red"
+    :timeout="5000"
+  >
     {{ message }}
-    <v-btn text dark @click.native="close">
+    <v-btn
+      text
+      dark
+      @click.native="close"
+    >
       close
     </v-btn>
   </v-snackbar>
@@ -13,16 +22,16 @@ import { AppModule } from '@/store/modules/app';
 
 @Component
 export default class Alert extends Vue {
-  set message(value) {
-    AppModule.setError(value);
+  public close() {
+    AppModule.clearAlertMessage();
   }
 
-  public close() {
-    AppModule.setError('');
+  get showMessage() {
+    return this.message !== '';
   }
 
   get message() {
-    return AppModule.error;
+    return AppModule.alertMessage;
   }
 }
 </script>
