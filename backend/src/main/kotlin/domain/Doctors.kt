@@ -23,13 +23,7 @@ object Doctors {
 	 * Adds new doctor.
 	 */
 	suspend fun addNewDoctor(doctor: NewDoctor): Doctor = dbtx {
-		val saved = DoctorEntity.new {
-			name = doctor.name
-			confirmed = false
-			country = doctor.country.value
-			dateUpdated = System.currentTimeMillis()
-		}
-		DoctorEntity.findExisting(saved.id.value).toDoctor()
+		DoctorEntity.add(doctor).toDoctor()
 	}
 
 	/**
