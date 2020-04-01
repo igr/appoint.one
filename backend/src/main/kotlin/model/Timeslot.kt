@@ -1,49 +1,28 @@
 package model
 
 import DateTime
-import org.jetbrains.exposed.dao.Entity
-import org.jetbrains.exposed.dao.EntityClass
-import org.jetbrains.exposed.dao.id.EntityID
-import org.jetbrains.exposed.dao.id.IntIdTable
 
-object TimeslotsRepo : IntIdTable(name = "timeslots") {
-	val datetime = long("datetime").index()
-	val doctor = reference("doctor_id", DoctorsRepo.id)
-}
+enum class TimeslotStatus(val value: Int) {
 
-class TimeslotEntity(id: EntityID<Int>) : Entity<Int>(id) {
-	companion object : EntityClass<Int, TimeslotEntity>(TimeslotsRepo)
+	NEW(0),
+	RESERVED(10),
+	CANCELED(20),
+	DONE(30);
 
-	var datetime by TimeslotsRepo.datetime
-	var doctor by DoctorEntity referencedOn TimeslotsRepo.doctor
-
-	fun toTimeslot(): Timeslot {
-		return Timeslot(
-			datetime = DateTime(datetime),
-			doctor = doctor.toDoctor()
-		)
-	}
-
-	fun toTimeslot(doc: DoctorEntity): Timeslot {
-		assert(doctor.id == doc.id)
-
-		return Timeslot(
-			datetime = DateTime(datetime),
-			doctor = doc.toDoctor()
-		)
+	companion object {
+		fun of(id: Int): TimeslotStatus = values().find { it.value == id }!!
 	}
 }
 
-fun TimeslotEntity.Companion.add(timeslot: NewTimeslot, doc: DoctorEntity): TimeslotEntity {
-	return TimeslotEntity.new {
-		datetime = timeslot.value
-		doctor = doc
-	}
-}
+data class TimeslotId(
+	override val value: Int
+) : Id()
 
 typealias NewTimeslot = DateTime
 
 data class Timeslot(
+	val id: TimeslotId,
+	val status: TimeslotStatus,
 	val datetime: DateTime,
 	val doctor: Doctor
 )

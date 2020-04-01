@@ -2,7 +2,10 @@ package server
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import model.*
+import model.CitiesRepo
+import model.DoctorsRepo
+import model.TimeslotsRepo
+import model.UsersRepo
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -19,7 +22,6 @@ object DatabaseFactory {
 				DoctorsRepo,
 				CitiesRepo,
 				TimeslotsRepo,
-				InvitationRepo,
 				UsersRepo)
 
 			loadInitialCities()

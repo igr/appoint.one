@@ -23,8 +23,7 @@ object DoctorsRepo : IntIdTable(name = "doctors") {
 	val confirmed = bool("confirmed")
 	val dateUpdated = long("dateUpdated").clientDefault { System.currentTimeMillis() }
 
-	// todo rename to Ref!
-	val user = reference("user_id", UsersRepo.id)
+	val userRef = reference("user_id", UsersRepo.id)
 }
 
 class DoctorEntity(id: EntityID<Int>) : Entity<Int>(id) {
@@ -45,10 +44,8 @@ class DoctorEntity(id: EntityID<Int>) : Entity<Int>(id) {
 	var confirmed by DoctorsRepo.confirmed
 	var dateUpdated by DoctorsRepo.dateUpdated
 
-	// todo renmae to ref
-	var user by UserEntity referencedOn DoctorsRepo.user
-
-	val timeslots by TimeslotEntity referrersOn TimeslotsRepo.doctor
+	var userRef by UserEntity referencedOn DoctorsRepo.userRef
+	val timeslots by TimeslotEntity referrersOn TimeslotsRepo.doctoreRef
 
 	private fun toDoctorData() = DoctorData(
 		name = name,
@@ -68,15 +65,19 @@ class DoctorEntity(id: EntityID<Int>) : Entity<Int>(id) {
 	fun toDoctor() = Doctor(
 		id = DoctorId(id.value),
 		data = toDoctorData(),
-		user = user.toUser()
+		user = userRef.toUser()
 	)
+}
+
+fun DoctorEntity.Companion.findById(userId: DoctorId): DoctorEntity? {
+	return findById(userId.value)
 }
 
 fun DoctorEntity.Companion.findExisting(id: Int): DoctorEntity {
 	return find { DoctorsRepo.id eq id }.single()
 }
 
-fun DoctorEntity.Companion.add(doctor: DoctorData, _user: UserEntity): DoctorEntity {
+fun DoctorEntity.Companion.add(doctor: DoctorData, userEntity: UserEntity): DoctorEntity {
 	return DoctorEntity.new {
 		name = doctor.name
 		email = doctor.email
@@ -90,6 +91,6 @@ fun DoctorEntity.Companion.add(doctor: DoctorData, _user: UserEntity): DoctorEnt
 		pic = doctor.pic
 		confirmed = false
 		dateUpdated = System.currentTimeMillis()
-		user = _user
+		userRef = userEntity
 	}
 }

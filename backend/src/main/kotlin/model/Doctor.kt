@@ -2,10 +2,9 @@ package model
 
 import java.time.LocalDateTime
 
-
 data class DoctorId(
-	val value: Int
-)
+	override val value: Int
+) : Id()
 
 enum class DoctorSex(val value: Boolean) {
 	MALE(true), FEMALE(false);
@@ -31,10 +30,9 @@ data class DoctorData(
 	val dateUpdated: LocalDateTime = LocalDateTime.now()
 )
 
-abstract class Foo {
-	abstract val a: String;
-}
-
+/**
+ * Doctor + User.
+ */
 data class Doctor(
 	val id: DoctorId,
 	val data: DoctorData,

@@ -33,21 +33,20 @@ object Doctors {
 	}
 
 	/**
-	 * Finds doctor by ID.
+	 * Finds existing doctor by ID.
 	 */
 	suspend fun findById(id: DoctorId): Doctor? = dbtx {
-		DoctorEntity.findById(id.value)?.toDoctor()
+		DoctorEntity.findById(id)?.toDoctor()
 	}
 
 	/**
-	 * Returns Doctor by its user id.
+	 * Returns doctor by its user id.
 	 */
 	suspend fun findByUserId(userId: UserId): Doctor? = dbtx {
 		DoctorEntity
-			.find { DoctorsRepo.user eq userId.value }
+			.find { DoctorsRepo.userRef eq userId.value }
 			.firstOrNull()?.toDoctor()
 	}
-
 
 	/**
 	 * Returns all doctors, ordered by ID (added time)

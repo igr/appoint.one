@@ -30,9 +30,6 @@ private fun newDoctorData(name: String): DoctorData {
 	)
 }
 
-/**
- * Creates new doctor.
- */
 fun newSimpleDoctor(name: String, userId: UserId): NewDoctorWithUser {
 	return NewDoctorWithUser(
 		data = newDoctorData(name),

@@ -1,7 +1,6 @@
 package server
 
 import domain.Doctors
-import domain.Invitations
 import domain.Timeslots
 import domain.Users
 import io.ktor.server.engine.ApplicationEngine
@@ -51,7 +50,6 @@ open class ServerTest {
     @BeforeEach
     fun before() = runBlocking {
         dbtx {
-            Invitations.deleteAllInvitations()
 	        Timeslots.deleteAllTimeslots()
 	        Doctors.deleteAllDoctors()
 	        Users.deleteAllUsers()
