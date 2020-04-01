@@ -1,6 +1,8 @@
 export class NewDoctor {
   name: string = '';
 
+  email: string = '';
+
   sex: boolean = true;
 
   country: number = 1;

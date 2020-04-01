@@ -50,7 +50,7 @@ export const routes: RouteConfig[] = [
         component: () => import('@/views/doctor/index.vue'),
         meta: {
           permission: {
-            role: ['doctor'],
+            role: ['DOC'],
             access: true,
           },
         },

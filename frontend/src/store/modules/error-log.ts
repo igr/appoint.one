@@ -14,7 +14,7 @@ export interface ErrorLogState {
 }
 
 @Module({ dynamic: true, store, name: 'errorLog' })
-class ErrorLog extends VuexModule implements ErrorLogState {
+class ErrorLogClass extends VuexModule implements ErrorLogState {
   public logs: ErrorLogData[] = [];
 
   @Mutation
@@ -38,4 +38,4 @@ class ErrorLog extends VuexModule implements ErrorLogState {
   }
 }
 
-export const ErrorLogModule = getModule(ErrorLog);
+export const ErrorLogModule = getModule(ErrorLogClass);

@@ -9,6 +9,7 @@ import java.time.ZoneId
 
 object DoctorsRepo : IntIdTable(name = "doctors") {
 	val name = varchar("name", 255)
+	val email = varchar("email", 255)
 	val sex = bool("sex")
 	val country = integer("country")
 
@@ -30,6 +31,7 @@ class DoctorEntity(id: EntityID<Int>) : Entity<Int>(id) {
 	companion object : EntityClass<Int, DoctorEntity>(DoctorsRepo)
 
 	var name by DoctorsRepo.name
+	var email by DoctorsRepo.email
 	var sex by DoctorsRepo.sex
 	var country by DoctorsRepo.country
 
@@ -50,6 +52,7 @@ class DoctorEntity(id: EntityID<Int>) : Entity<Int>(id) {
 
 	private fun toDoctorData() = DoctorData(
 		name = name,
+		email = email,
 		sex = DoctorSex.of(sex),
 		country = Country.of(country),
 		year = year,
@@ -76,6 +79,7 @@ fun DoctorEntity.Companion.findExisting(id: Int): DoctorEntity {
 fun DoctorEntity.Companion.add(doctor: DoctorData, _user: UserEntity): DoctorEntity {
 	return DoctorEntity.new {
 		name = doctor.name
+		email = doctor.email
 		sex = doctor.sex.value
 		country = doctor.country.value
 		year = doctor.year

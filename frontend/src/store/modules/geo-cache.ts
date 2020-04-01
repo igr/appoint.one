@@ -10,7 +10,7 @@ export interface GeoCacheState {
 }
 
 @Module({ dynamic: true, store, name: 'geo' })
-class GeoCache extends VuexModule implements GeoCacheState {
+class GeoCacheClass extends VuexModule implements GeoCacheState {
   cities: City[] = [];
 
   @Mutation
@@ -30,4 +30,4 @@ class GeoCache extends VuexModule implements GeoCacheState {
   }
 }
 
-export const GetCacheModule = getModule(GeoCache);
+export const GetCacheModule = getModule(GeoCacheClass);

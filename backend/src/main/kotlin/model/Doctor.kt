@@ -17,6 +17,7 @@ enum class DoctorSex(val value: Boolean) {
 
 data class DoctorData(
 	val name: String,
+	val email: String,
 	val sex: DoctorSex,
 	val country: Country,
 //	val city: City,
@@ -27,7 +28,7 @@ data class DoctorData(
 	val zoom: String,
 	val pic: Boolean,
 	val confirmed: Boolean,
-	val dateUpdated: LocalDateTime
+	val dateUpdated: LocalDateTime = LocalDateTime.now()
 )
 
 abstract class Foo {
