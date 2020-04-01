@@ -3,7 +3,7 @@ package domain
 import model.*
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.select
-import toDateTimeLong
+import toDateTime
 import java.time.LocalDateTime
 
 /**
@@ -11,7 +11,7 @@ import java.time.LocalDateTime
  */
 fun _findNextTimeslots(country: Country): List<Timeslot> {
 
-	val dateTimeInt = LocalDateTime.now().toDateTimeLong()
+	val dateTimeInt = LocalDateTime.now().toDateTime().value
 
 /*
 	This query has N+1 problem.

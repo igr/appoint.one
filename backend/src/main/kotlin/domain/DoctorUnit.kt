@@ -21,7 +21,7 @@ class DoctorUnit internal constructor(private val _doctor: DoctorEntity) {
 		timeslotList
 			.filter {
 				existingTimeslots.none { existing ->
-					existing.datetime.equalsTo(it.date, it.time)
+					existing.datetime == it
 				}
 			}
 			.map {

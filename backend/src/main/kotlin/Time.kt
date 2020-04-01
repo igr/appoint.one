@@ -2,36 +2,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import java.time.LocalDateTime
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class DateTime(val date: Int, val time: Int) {
+data class DateTime(val year: Int, val month: Int, val day: Int, val hour: Int, val minute: Int) {
+
+	constructor(date: Int, time: Int) : this(date / 10_000, (date % 10_000) / 100, (date % 100), time / 100, time % 100)
 
 	constructor(date: Long) : this((date / 10_000).toInt(), (date % 10_000).toInt())
 
-	constructor(date: LocalDateTime) : this(date.toDateInt(), date.toTimeInt())
+	constructor(date: LocalDateTime) : this(date.year, date.monthValue, date.dayOfMonth, date.hour, date.minute);
 
-	fun equalsTo(date: Int, time: Int): Boolean {
-		return this.date == date && this.time == time
-	}
-
-	val value: Long
-		get() = date * 10_000L + time;
+	val value: Long = ((((year * 100L + month) * 100 + day) * 100 + hour) * 100) + minute;
 }
 
 fun LocalDateTime.toDateTime(): DateTime {
-	val date = this.year * 10000 + this.monthValue * 100 + this.dayOfMonth
-	val time = this.hour * 100 + this.minute
-	return DateTime(date, time)
-}
-
-fun LocalDateTime.toDateTimeLong(): Long {
-	val date = this.year * 10000 + this.monthValue * 100 + this.dayOfMonth
-	val time = this.hour * 100 + this.minute
-	return date * 10_000L + time
-}
-
-fun LocalDateTime.toDateInt(): Int {
-	return this.year * 10000 + this.monthValue * 100 + this.dayOfMonth
-}
-
-fun LocalDateTime.toTimeInt(): Int {
-	return this.hour * 100 + this.minute
+	return DateTime(this)
 }
