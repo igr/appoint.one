@@ -5,29 +5,24 @@ import UserApi from '@/api/UserApi';
 import AppCookies from '@/utils/cookies';
 import { resetRouter } from '@/router';
 import store from '@/store';
+import { User } from '@/model/User';
 
 export interface UserState {
+  id: number,
   token: string
   name: string
-  avatar: string
-  introduction: string
   roles: string[]
-  email: string
 }
 
 @Module({ dynamic: true, store, name: 'user' })
-class User extends VuexModule implements UserState {
+class UserModuleClass extends VuexModule implements UserState {
   public token = AppCookies.getToken() || '';
+
+  public id = 0;
 
   public name = '';
 
-  public avatar = '';
-
-  public introduction = '';
-
   public roles: string[] = [];
-
-  public email = '';
 
   @Mutation
   private SET_TOKEN(token: string) {
@@ -40,23 +35,13 @@ class User extends VuexModule implements UserState {
   }
 
   @Mutation
-  private SET_AVATAR(avatar: string) {
-    this.avatar = avatar;
-  }
-
-  @Mutation
-  private SET_INTRODUCTION(introduction: string) {
-    this.introduction = introduction;
+  private SET_ID(id: number) {
+    this.id = id;
   }
 
   @Mutation
   private SET_ROLES(roles: string[]) {
     this.roles = roles;
-  }
-
-  @Mutation
-  private SET_EMAIL(email: string) {
-    this.email = email;
   }
 
   @Action
@@ -65,7 +50,7 @@ class User extends VuexModule implements UserState {
     name = name.trim();
     const { password } = userInfo;
     const res = await UserApi.login({ name, password }).catch((_) => ({ data: { token: '' } }));
-    const data = res && res.data;
+    const data: User = res && res.data;
 
     if (data.token === '') {
       return false;
@@ -73,7 +58,9 @@ class User extends VuexModule implements UserState {
 
     AppCookies.setToken(data.token);
     this.SET_TOKEN(data.token);
-    this.GetUserInfo();
+    this.SET_ROLES([data.role]);
+    this.SET_NAME(data.name);
+    this.SET_ID(data.id);
     return true;
   }
 
@@ -81,6 +68,8 @@ class User extends VuexModule implements UserState {
   public ResetToken() {
     AppCookies.removeToken();
     this.SET_TOKEN('');
+    this.SET_ID(0);
+    this.SET_NAME('');
     this.SET_ROLES([]);
   }
 
@@ -94,7 +83,7 @@ class User extends VuexModule implements UserState {
       throw Error('Verification failed, please Login again.');
     }
     const {
-      roles, name, avatar, introduction, email,
+      roles, name,
     } = data.user;
     // roles must be a non-empty array
     if (!roles || roles.length <= 0) {
@@ -102,19 +91,13 @@ class User extends VuexModule implements UserState {
     }
     this.SET_ROLES(roles);
     this.SET_NAME(name);
-    this.SET_AVATAR(avatar);
-    this.SET_INTRODUCTION(introduction);
-    this.SET_EMAIL(email);
   }
 
   @Action
   public async LogOut() {
     await UserApi.logout();
-    AppCookies.removeToken();
+    this.ResetToken();
     resetRouter();
-
-    this.SET_TOKEN('');
-    this.SET_ROLES([]);
   }
 
   /**
@@ -129,4 +112,4 @@ class User extends VuexModule implements UserState {
   }
 }
 
-export const UserModule = getModule(User);
+export const UserModule = getModule(UserModuleClass);

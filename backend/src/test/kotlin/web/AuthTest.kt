@@ -24,7 +24,7 @@ class AuthTest : ServerTest() {
 
 		// then
 		assertThat(user.name).isEqualTo(testUser.name)
-		assertThat(user.password).isNotEqualTo(testUser.password)
+		assertThat(user.password).isEmpty()
 		assertThat(user.token).isNotEmpty()     // kotlin issue, must use the method
 
 		Unit

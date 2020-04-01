@@ -1,4 +1,4 @@
-package server.routes
+package routes
 
 import auth.Auth
 import auth.UserNotFound

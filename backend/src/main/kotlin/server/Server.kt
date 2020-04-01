@@ -24,8 +24,8 @@ import io.ktor.server.netty.Netty
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.slf4j.event.Level
+import routes.*
 import scheduler.Scheduler
-import server.routes.*
 
 private val scheduler = Scheduler(1000)
 
@@ -90,6 +90,7 @@ fun Application.module(testing: Boolean = false) {
 		}
 		index()
 		auth()
+		role()
 		doctors()
 		timeslots()
 		data()

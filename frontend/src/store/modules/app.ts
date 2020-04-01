@@ -8,7 +8,7 @@ export interface AppState {
 }
 
 @Module({ dynamic: true, store, name: 'app' })
-class App extends VuexModule implements AppState {
+class AppModuleClass extends VuexModule implements AppState {
   public alertMessage: string = '';
 
   @Mutation
@@ -27,4 +27,4 @@ class App extends VuexModule implements AppState {
   }
 }
 
-export const AppModule = getModule(App);
+export const AppModule = getModule(AppModuleClass);

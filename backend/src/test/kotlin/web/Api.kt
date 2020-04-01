@@ -43,7 +43,7 @@ fun getCountries(): MutableMap<Int, String> {
 	}
 }
 
-fun postDoctor(newDoctor: NewDoctor): Doctor {
+fun postDoctor(newDoctor: NewDoctorAndUser): Doctor {
 	return Given {
 		body(newDoctor)
 		contentType(ContentType.JSON)

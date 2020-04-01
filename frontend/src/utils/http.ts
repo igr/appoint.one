@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { AppModule } from '@/store/modules/app';
+import { UserModule } from '@/store/modules/user';
 
 const http = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
@@ -7,6 +8,7 @@ const http = axios.create({
   // withCredentials: true // send cookies when cross-domain requests
   headers: {
     'Content-Type': 'application/json',
+    Authorization: `Bearer ${UserModule ? UserModule.token : ''}`,
   },
   errorHandle: false,
 });

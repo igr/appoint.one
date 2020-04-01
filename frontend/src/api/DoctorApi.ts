@@ -2,16 +2,24 @@ import http from '@/utils/http';
 import { NewDoctor } from '@/model/NewDoctor';
 
 class DoctorApi {
-  get() {
-    return http.get('/doctors');
-  }
+  getDoctor = (userId: number) => http({
+    url: `doctors/${userId}`,
+    method: 'get',
+  });
 
   postNewDoctor = (doctor: NewDoctor) => http({
     url: 'doctors',
     method: 'post',
     data: {
-      ...doctor,
-      sex: doctor.sex ? 'MALE' : 'FEMALE',
+      doctor: {
+        ...doctor,
+        sex: doctor.sex ? 'MALE' : 'FEMALE',
+      },
+      user: {
+        name: doctor.email,
+        password: Math.random().toString(36).slice(-8),
+        role: 'DOC',
+      },
     },
   });
 }

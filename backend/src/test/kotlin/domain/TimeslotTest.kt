@@ -3,6 +3,7 @@ package domain
 import kotlinx.coroutines.runBlocking
 import model.NewTimeslot
 import model.newSimpleDoctor
+import model.newSimpleUserWithDoctorRole
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import server.ServerTest
@@ -12,7 +13,8 @@ class TimeslotTest : ServerTest() {
 	@Test
 	fun `add timeslots`() = runBlocking {
 		// given
-		val doctor1 = newSimpleDoctor("doc1")
+		val user1 = Users.registerUser(newSimpleUserWithDoctorRole("pera"))
+		val doctor1 = newSimpleDoctor("doc1", user1.id)
 		val timeslot1 = NewTimeslot(date = 20200101, time = 1930)
 		val timeslot2 = NewTimeslot(date = 20200101, time = 2000)
 
@@ -32,7 +34,8 @@ class TimeslotTest : ServerTest() {
 	@Test
 	fun `add timeslots and ignore duplicates`() = runBlocking {
 		// given
-		val doctor1 = newSimpleDoctor("doc1")
+		val user1 = Users.registerUser(newSimpleUserWithDoctorRole("pera"))
+		val doctor1 = newSimpleDoctor("doc1", user1.id)
 		val timeslot1 = NewTimeslot(date = 20200101, time = 1930)
 		val timeslot2 = NewTimeslot(date = 20200101, time = 2000)
 		val timeslot3 = NewTimeslot(date = 20200101, time = 2030)

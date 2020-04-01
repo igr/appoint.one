@@ -7,7 +7,7 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
-import server.db.createDevAdmin
+import server.db.createDevData
 import server.db.loadInitialCities
 
 object DatabaseFactory {
@@ -24,7 +24,7 @@ object DatabaseFactory {
 
 			loadInitialCities()
 			if (isDev) {
-				createDevAdmin()
+				createDevData()
 			}
 		}
     }
