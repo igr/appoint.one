@@ -5,6 +5,11 @@ class CitiesApi {
     url: '/data/cities',
     method: 'get',
   });
+
+  countries = () => http({
+    url: '/data/countries',
+    method: 'get',
+  });
 }
 
 export default new CitiesApi();
