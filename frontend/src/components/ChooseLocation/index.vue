@@ -12,20 +12,19 @@
     <v-row no-gutters>
       <v-col cols="2">
         <img
-          src="../../assets/images/serbia.png"
           v-if="countries[countryIndex].name.toLowerCase() === 'serbia'"
-        />
+          src="../../assets/images/serbia.png"
+        >
         <img
-          src="../../assets/images/croatia.png"
           v-if="countries[countryIndex].name.toLowerCase() === 'croatia'"
-        />
+          src="../../assets/images/croatia.png"
+        >
         <img
-          src="../../assets/images/bosnia.png"
           v-if="countries[countryIndex].name.toLowerCase() === 'bosnia'"
-        />
+          src="../../assets/images/bosnia.png"
+        >
       </v-col>
       <v-col cols="4">
-        &nbsp;
         <v-menu
           :close-on-click="true"
           :close-on-content-click="true"
@@ -56,33 +55,15 @@
       </v-col>
 
       <v-col cols="4">
-        <v-menu
-          :close-on-click="true"
-          :close-on-content-click="true"
-          :offset-x="false"
-          :offset-y="true"
-        >
-          <template v-slot:activator="{ on }">
-            <v-btn
-              color="primary"
-              dark
-              v-on="on"
-            >
-              {{ cities[cityIndex].name }}
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-item
-              v-for="(item, index) in cities"
-              :key="index"
-              @click="cityClicked(index)"
-            >
-              <v-list-item-title>
-                {{ item.name }}
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
+        <v-autocomplete
+          v-model="selectedCity"
+          :items="cities.map(city => city.name)"
+          dense
+          solo
+          placeholder="Type In"
+          color="grey"
+          @select="cityClicked(1)"
+        />
       </v-col>
     </v-row>
   </div>
@@ -94,7 +75,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Country } from '@/model/Country';
 // eslint-disable-next-line no-unused-vars
 import { City } from '@/model/City';
-// import CitiesApi from '@/api/CitiesApi';
+import CitiesApi from '@/api/CitiesApi';
 
   @Component
 export default class ChooseLocation extends Vue {
@@ -108,13 +89,11 @@ export default class ChooseLocation extends Vue {
 
     private cityIndex = 0;
 
-    private countryFlagPath = ''
+    private selectedCity = null;
 
     private countryClicked(i: number) {
       if (i !== this.countryIndex) {
         this.countryIndex = i;
-        this.countryFlagPath = `../../assets/images/${this.countries[this.countryIndex].name.toLowerCase()}.png`;
-        console.log(this.countryFlagPath);
         this.cities = [];
         this.allCities.forEach((city) => {
           if (city.country === this.countries[this.countryIndex].id) {
@@ -156,8 +135,10 @@ export default class ChooseLocation extends Vue {
       ];
       this.countryClicked(0);
 
-      //  const co = await CitiesApi.countries();
-      //  const ci = await CitiesApi.cities();
+      const co = await CitiesApi.countries();
+      const ci = await CitiesApi.cities();
+      console.log(co);
+      console.log(ci);
     }
 }
 </script>
