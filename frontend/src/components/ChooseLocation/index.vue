@@ -1,78 +1,74 @@
 <template>
-  <div id="cl">
-    <v-app id="inspire">
-      <v-container>
-        <v-row>
-          <v-col cols="4">
-            Country
-          </v-col>
-          <v-col cols="4">
-            City
-          </v-col>
-        </v-row>
-        <v-row no-gutters>
-          <v-col cols="4">
-            <v-menu
-              :close-on-click="true"
-              :close-on-content-click="true"
-              :offset-x="false"
-              :offset-y="true"
+  <div>
+    <v-row>
+      <v-col cols="4">
+        Country
+      </v-col>
+      <v-col cols="4">
+        City
+      </v-col>
+    </v-row>
+    <v-row no-gutters>
+      <v-col cols="4">
+        <v-menu
+          :close-on-click="true"
+          :close-on-content-click="true"
+          :offset-x="false"
+          :offset-y="true"
+        >
+          <template v-slot:activator="{ on }">
+            <v-btn
+              color="primary"
+              dark
+              v-on="on"
             >
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  color="primary"
-                  dark
-                  v-on="on"
-                >
-                  {{ countries[countryIndex].name }}
-                </v-btn>
-              </template>
-              <v-list>
-                <v-list-item
-                  v-for="(item, index) in countries"
-                  :key="index"
-                  @click="countryClicked(index)"
-                >
-                  <v-list-item-title>
-                    {{ item.name }}
-                  </v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </v-col>
+              {{ countries[countryIndex].name }}
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="(item, index) in countries"
+              :key="index"
+              @click="countryClicked(index)"
+            >
+              <v-list-item-title>
+                {{ item.name }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-col>
 
-          <v-col cols="4">
-            <v-menu
-              :close-on-click="true"
-              :close-on-content-click="true"
-              :offset-x="false"
-              :offset-y="true"
+      <v-col cols="4">
+        <v-menu
+          :close-on-click="true"
+          :close-on-content-click="true"
+          :offset-x="false"
+          :offset-y="true"
+        >
+          <template v-slot:activator="{ on }">
+            <v-btn
+              color="primary"
+              dark
+              v-on="on"
             >
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  color="primary"
-                  dark
-                  v-on="on"
-                >
-                  {{ cities[cityIndex].name }}
-                </v-btn>
-              </template>
-              <v-list>
-                <v-list-item
-                  v-for="(item, index) in cities"
-                  :key="index"
-                  @click="cityClicked(index)"
-                >
-                  <v-list-item-title>
-                    {{ item.name }}
-                  </v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-app>
+              {{ cities[cityIndex].name }}
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="(item, index) in cities"
+              :key="index"
+              @click="cityClicked(index)"
+            >
+              <v-list-item-title>
+                {{ item.name }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -83,7 +79,7 @@ import { Country } from '@/model/Country';
 // eslint-disable-next-line no-unused-vars
 import { City } from '@/model/City';
 
-  @Component
+@Component
 export default class ChooseLocation extends Vue {
     private countries: Country[] = [
       { name: 'Serbia', id: 1 },

@@ -9,6 +9,9 @@
       </h1>
 
       <NumberOfTimeslots />
+
+      <ChooseLocation />
+
       <AvailableTimeslots />
     </v-col>
   </v-row>
@@ -18,12 +21,14 @@
 import { Component, Vue } from 'vue-property-decorator';
 import AvailableTimeslots from '@/components/AvailableTimeslots/index.vue';
 import NumberOfTimeslots from '@/components/NumberOfTimeslots/index.vue';
+import ChooseLocation from '@/components/ChooseLocation/index.vue';
 
 @Component({
   name: 'Inquiry',
   components: {
     AvailableTimeslots,
     NumberOfTimeslots,
+    ChooseLocation,
   },
 })
 export default class extends Vue {
