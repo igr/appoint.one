@@ -1,4 +1,4 @@
-package server.routes
+package routes
 
 import io.ktor.application.call
 import io.ktor.pebble.PebbleContent

@@ -9,8 +9,8 @@ import model.newSimpleDoctor
 
 fun createDevAdmin() {
 	runBlocking {
-		Users.registerUser(NewUser("a@a.com", "admin", UserRole.ADMIN))
-		Users.registerUser(NewUser("d@d.com", "doc", UserRole.DOC))
-		Doctors.addNewDoctor(newSimpleDoctor("Pera"))
+		val admin = Users.registerUser(NewUser("a@a.com", "admin", UserRole.ADMIN))
+		val doc = Users.registerUser(NewUser("d@d.com", "doc", UserRole.DOC))
+		Doctors.addNewDoctor(newSimpleDoctor("Pera", doc.id))
 	}
 }

@@ -1,4 +1,4 @@
-package server.routes
+package routes
 
 import domain.Cities
 import io.ktor.application.call

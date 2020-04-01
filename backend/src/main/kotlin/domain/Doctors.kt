@@ -22,8 +22,14 @@ object Doctors {
 	/**
 	 * Adds new doctor.
 	 */
-	suspend fun addNewDoctor(doctor: NewDoctor): Doctor = dbtx {
-		DoctorEntity.add(doctor).toDoctor()
+	suspend fun addNewDoctor(doctor: NewDoctorWithUser): Doctor = dbtx {
+		val user = UserEntity.findById(doctor.userId)!!
+		DoctorEntity.add(doctor.data, user).toDoctor()
+	}
+
+	suspend fun addNewDoctor(payload: NewDoctorAndUser): Doctor = dbtx {
+		val user = UserEntity.add(payload.user)
+		DoctorEntity.add(payload.doctor, user).toDoctor()
 	}
 
 	/**
@@ -34,9 +40,19 @@ object Doctors {
 	}
 
 	/**
+	 * Returns Doctor by its user id.
+	 */
+	suspend fun findByUserId(userId: UserId): Doctor? = dbtx {
+		DoctorEntity
+			.find { DoctorsRepo.user eq userId.value }
+			.firstOrNull()?.toDoctor()
+	}
+
+
+	/**
 	 * Returns all doctors, ordered by ID (added time)
 	 */
-	suspend fun findAllDoctors(): List<Doctor> = dbtx {
+	suspend fun listAllDoctors(): List<Doctor> = dbtx {
 		DoctorEntity.all().sortedBy { it.id }.toList().map { it.toDoctor() }
 	}
 

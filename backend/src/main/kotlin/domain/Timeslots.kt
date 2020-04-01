@@ -1,7 +1,6 @@
 package domain
 
 import model.Country
-import model.TimeslotEntity
 import model.TimeslotsRepo
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.deleteAll
@@ -33,10 +32,6 @@ object Timeslots {
 
 	suspend fun findNextTimeslots(country: Country) = dbtx {
 		_findNextTimeslots(country)
-	}
-
-	private fun findExisting(id: Int): TimeslotEntity {
-		return TimeslotEntity.find { TimeslotsRepo.id eq id }.single()
 	}
 
 }

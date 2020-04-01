@@ -1,4 +1,4 @@
-package server.routes
+package routes
 
 import domain.Doctors
 import domain.Timeslots

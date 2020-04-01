@@ -9,15 +9,15 @@ class DoctorApiTest : ServerTest() {
 
     @Test
     fun `POST doctor`() {
-        //given
+	    //given
 	    val newDoctor = newSimpleDoctor("doc1")
 
-        // when
-        val created = postDoctor(newDoctor)
-        val retrieved = getDoctor(created.id)
-        // then
-        assertThat(created.name).isEqualTo(newDoctor.name)
-        assertThat(created).isEqualTo(retrieved)
+	    // when
+	    val created = postDoctor(newDoctor)
+	    val retrieved = getDoctor(created.id)
+	    // then
+	    assertThat(created.data).isEqualToIgnoringGivenFields(newDoctor.doctor, "dateUpdated")
+	    assertThat(created).isEqualTo(retrieved)
     }
 
 }
