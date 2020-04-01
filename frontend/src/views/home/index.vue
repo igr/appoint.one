@@ -1,6 +1,9 @@
 <template>
   <v-row justify="center">
-    <v-col cols="12" md="8">
+    <v-col
+      cols="12"
+      md="8"
+    >
       <!-- link1 -->
       <v-hover>
         <template v-slot="{ hover }">
@@ -14,7 +17,7 @@
               class="pa-6"
               style="background-color: #38393e"
               src="@/assets/images/menu-doctor.png"
-            ></v-img>
+            />
             <v-card-title>
               psihoterapeuti
             </v-card-title>
@@ -37,7 +40,7 @@
               class="align-center"
               style="background-color: #38393e"
               src="@/assets/images/menu-user.png"
-            ></v-img>
+            />
             <v-card-title>
               korisnici
             </v-card-title>
