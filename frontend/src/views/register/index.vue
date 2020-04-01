@@ -46,6 +46,12 @@
                 label="Ime i prezime"
                 required
               />
+              <v-text-field
+                v-model="form.email"
+                label="Email"
+                required
+                type="email"
+              />
               <v-radio-group
                 v-model="form.sex"
                 :row="true"
