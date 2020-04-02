@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { AppModule } from '@/store/modules/app';
 import { UserModule } from '@/store/modules/user';
 
@@ -10,15 +10,14 @@ const http = axios.create({
     Authorization: `Bearer ${UserModule ? UserModule.token : ''}`,
     'Content-Type': 'application/json',
   },
-  errorHandle: false,
-  validateStatus: (status) => status < 500,
+  validateStatus: (status) => status < 400,
 });
 
 // Request interceptors
 http.interceptors.request.use(
   (config) => config,
   (error) => {
-    console.error('Error:', error);
+    console.error('>> Error:', error);
     Promise.reject(error);
   },
 );
@@ -27,9 +26,6 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.config.errorHandle) {
-      return Promise.reject(error);
-    }
     if (error.response && error.response.status >= 500) {
       AppModule.setAlertMessage(error.message);
     }
@@ -39,30 +35,27 @@ http.interceptors.response.use(
 
 export default http;
 
+export function isSuccess(response: AxiosResponse): boolean {
+  return response.status < 300;
+}
 
-export function http2(request: AxiosRequestConfig, statusHandlers: {[key: number]: () => boolean}) {
-  return http(request).then((res) => {
-    const statusCode = res.status;
-    let handler = statusHandlers[statusCode];
+export function isError(response: AxiosResponse): boolean {
+  return response.status >= 300;
+}
 
-    if (!handler) {
-      // try x00 handler instead
-      if (statusCode % 100 > 0) {
-        // if statusCode ends with not '00'
-        const newStatusCode = Math.floor(statusCode / 100) * 100;
-        handler = statusHandlers[newStatusCode];
-      }
-    }
+export function isStatus(response: AxiosResponse, status: number): boolean {
+  if (status < 300) {
+    return false;
+  }
+  return response.status === status;
+}
 
-    if (!handler) {
-      if (statusCode < 300) {
-        // indicate that status code was not processed
-        return true;
-      }
-      const msg = `${statusCode}: ${res.statusText}`;
-      AppModule.setAlertMessage(msg);
-      throw Error(msg);
-    }
-    return !handler();
-  });
+export function isError4xx(response: AxiosResponse): boolean {
+  const hundreds = Math.floor(response.data.status / 100);
+  return (hundreds === 4);
+}
+
+export function isError5xx(response: AxiosResponse): boolean {
+  const hundreds = Math.floor(response.data.status / 100);
+  return (hundreds === 5);
 }

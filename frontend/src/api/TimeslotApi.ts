@@ -1,5 +1,4 @@
-import http, { http2 } from '@/utils/http';
-import { AppModule } from '@/store/modules/app';
+import http from '@/utils/http';
 
 class TimeslotApi {
   count = () => http({
@@ -16,15 +15,10 @@ class TimeslotApi {
     },
   });
 
-  reserveTimeslot = (timeslotId: number) => http2({
+  reserveTimeslot = (timeslotId: number) => http({
     url: `/timeslots/${timeslotId}/reserve`,
     method: 'put',
-  }, {
-    409: () => {
-      AppModule.setInfoMessage('Rezervisanje nije uspelo. Pokušajte ponovo.');
-      return true;
-    },
-  })
+  });
 }
 
 export default new TimeslotApi();

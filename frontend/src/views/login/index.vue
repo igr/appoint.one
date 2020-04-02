@@ -60,14 +60,6 @@
           </v-btn>
         </v-card-actions>
       </v-card>
-      <v-alert
-        v-model="error"
-        type="error"
-        transition="slide-y-transition"
-        dismissible
-      >
-        {{ $t('login.error') }}
-      </v-alert>
     </v-col>
   </v-row>
 </template>
@@ -75,6 +67,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { UserModule } from '@/store/modules/user';
+import { AppModule } from '@/store/modules/app';
 
 @Component({
   name: 'Login',
@@ -87,8 +80,6 @@ export default class extends Vue {
   private password = '';
 
   private redirect?: string;
-
-  private error: boolean = false;
 
   private loading: boolean = false;
 
@@ -110,13 +101,14 @@ export default class extends Vue {
       name: this.name,
       password: this.password,
     });
-    if (!success) {
-      this.error = true;
+
+    if (success !== 200) {
+      AppModule.setInfoMessage(`Logovanje nije uspelo: ${success}`);
       this.loading = false;
       return;
     }
 
-    this.$router.push({
+    await this.$router.push({
       path: this.redirect || '/',
     });
   }

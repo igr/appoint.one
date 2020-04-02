@@ -5,18 +5,7 @@ class UserApi {
     url: '/users/login',
     method: 'post',
     data,
-    errorHandle: true,
   });
-
-  async getUserInfo(param: {}) {
-    return {
-      data: {
-        user: {
-          roles: ['doctor'], name: 'Pera', avatar: '', introduction: '', email: '',
-        },
-      },
-    };
-  }
 
   async logout() {
     return '';

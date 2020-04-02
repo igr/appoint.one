@@ -5,7 +5,6 @@ import UserApi from '@/api/UserApi';
 import AppCookies from '@/utils/cookies';
 import { resetRouter } from '@/router';
 import store from '@/store';
-import { User } from '@/model/User';
 
 export interface UserState {
   id: number,
@@ -45,23 +44,27 @@ class UserModuleClass extends VuexModule implements UserState {
   }
 
   @Action
-  public async Login(userInfo: { name: string, password: string}): Promise<boolean> {
+  public async Login(userInfo: { name: string, password: string}): Promise<number> {
     let { name } = userInfo;
     name = name.trim();
     const { password } = userInfo;
-    const res = await UserApi.login({ name, password }).catch((_) => ({ data: { token: '' } }));
-    const data: User = res && res.data;
+    try {
+      const res = await UserApi.login({ name, password });
+      const { data } = res;
 
-    if (data.token === '') {
-      return false;
+      if (!data.token || data.token === '') {
+        return 404;
+      }
+
+      AppCookies.setToken(data.token);
+      this.SET_TOKEN(data.token);
+      this.SET_ROLES([data.role]);
+      this.SET_NAME(data.name);
+      this.SET_ID(data.id);
+      return 200;
+    } catch (error) {
+      return error.response.status;
     }
-
-    AppCookies.setToken(data.token);
-    this.SET_TOKEN(data.token);
-    this.SET_ROLES([data.role]);
-    this.SET_NAME(data.name);
-    this.SET_ID(data.id);
-    return true;
   }
 
   @Action
@@ -71,26 +74,6 @@ class UserModuleClass extends VuexModule implements UserState {
     this.SET_ID(0);
     this.SET_NAME('');
     this.SET_ROLES([]);
-  }
-
-  @Action
-  public async GetUserInfo() {
-    if (this.token === '') {
-      throw Error('GetUserInfo: token is undefined!');
-    }
-    const { data } = await UserApi.getUserInfo({ });
-    if (!data) {
-      throw Error('Verification failed, please Login again.');
-    }
-    const {
-      roles, name,
-    } = data.user;
-    // roles must be a non-empty array
-    if (!roles || roles.length <= 0) {
-      throw Error('GetUserInfo: roles must be a non-null array!');
-    }
-    this.SET_ROLES(roles);
-    this.SET_NAME(name);
   }
 
   @Action

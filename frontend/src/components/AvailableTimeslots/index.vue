@@ -61,6 +61,8 @@ import AppCookies from '@/utils/cookies';
 import { Timeslot } from '@/model/Timeslot';
 // eslint-disable-next-line no-unused-vars
 import { DateTime } from '@/model/DateTime';
+import { isStatus } from '@/utils/http';
+import { AppModule } from '@/store/modules/app';
 
 @Component
 export default class AvailableTimeslots extends Vue {
@@ -87,7 +89,7 @@ export default class AvailableTimeslots extends Vue {
     this.timeslotList = data;
   }
 
-  submit() {
+  async submit() {
     if (this.selected === undefined) {
       return;
     }
@@ -96,14 +98,14 @@ export default class AvailableTimeslots extends Vue {
     }
     const timeslotId = this.timeslotList[this.selected].id.value;
 
-    TimeslotApi.reserveTimeslot(timeslotId).then(
-      (ok) => {
-        if (!ok) {
-          return;
-        }
-        this.$router.push('/appointment');
-      },
-    );
+    try {
+      await TimeslotApi.reserveTimeslot(timeslotId);
+      await this.$router.push(`/appointment/${timeslotId}`);
+    } catch (err) {
+      if (isStatus(err.response, 409)) {
+        AppModule.setInfoMessage('Ne može da se rezerviše.');
+      }
+    }
   }
 }
 </script>

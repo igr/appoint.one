@@ -34,7 +34,7 @@ export default class Info extends Vue {
   }
 
   get type() {
-    return 'warning';
+    return 'error';
   }
 }
 </script>
