@@ -7,10 +7,10 @@ import model.add
 import server.DatabaseFactory.dbtx
 
 @TargetIs("Single doctor")
-class DoctorUnit internal constructor(private val _doctor: DoctorEntity) {
+class DoctorUnit internal constructor(private val doctorEntity: DoctorEntity) {
 
 	suspend fun listAllTimeslots() = dbtx {
-		_doctor.timeslots
+		doctorEntity.timeslots
 			.sortedWith(compareBy { it.datetime })
 			.map { it.toTimeslot() }
 	}
@@ -25,7 +25,7 @@ class DoctorUnit internal constructor(private val _doctor: DoctorEntity) {
 				}
 			}
 			.map {
-				TimeslotEntity.add(it, _doctor).toTimeslot()
+				TimeslotEntity.add(it, doctorEntity).toTimeslot()
 			}
 	}
 

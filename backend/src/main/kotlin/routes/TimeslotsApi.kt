@@ -6,33 +6,36 @@ import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
-import io.ktor.routing.Route
-import io.ktor.routing.get
-import io.ktor.routing.post
-import io.ktor.routing.route
+import io.ktor.routing.*
 import model.Country
 import model.NewDoctorTimeslots
+import model.TimeslotId
 
 fun Route.timeslots() {
 
-    route("/timeslots") {
+	route("/timeslots") {
 
-	    post("/") {
-		    val newDoctorTimeslots = call.receive<NewDoctorTimeslots>()
+		post("/") {
+			val newDoctorTimeslots = call.receive<NewDoctorTimeslots>()
 
-		    call.respond(HttpStatusCode.Created,
-			    Doctors
-				    .with(newDoctorTimeslots.doctorId)
-				    .bindTimeslots(newDoctorTimeslots.timeslots))
-	    }
+			call.respond(HttpStatusCode.Created,
+				Doctors
+					.with(newDoctorTimeslots.doctorId)
+					.bindTimeslots(newDoctorTimeslots.timeslots))
+		}
 
-	    get("/count") {
-		    call.respond(Timeslots.countAvailableTimeslots())
-	    }
+		get("/count") {
+			call.respond(Timeslots.countAvailableTimeslots())
+		}
 
-	    get("/available") {
-		    call.respond(Timeslots.findNextTimeslots(Country.SERBIA))
-	    }
-    }
+		get("/available") {
+			call.respond(Timeslots.findNextTimeslots(Country.SERBIA))
+		}
+
+		put("{id}/reserve") {
+			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
+			call.respond(HttpStatusCode.NoContent, Timeslots.with(TimeslotId(id)).reserve());
+		}
+	}
 
 }

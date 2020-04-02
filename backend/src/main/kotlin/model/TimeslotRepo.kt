@@ -40,6 +40,11 @@ class TimeslotEntity(id: EntityID<Int>) : Entity<Int>(id) {
 	}
 }
 
+fun TimeslotEntity.Companion.findExisting(id: Int): TimeslotEntity {
+	return find { TimeslotsRepo.id eq id }.single()
+}
+
+
 fun TimeslotEntity.Companion.add(timeslot: NewTimeslot, doc: DoctorEntity): TimeslotEntity {
 	return TimeslotEntity.new {
 		status = TimeslotStatus.NEW.value

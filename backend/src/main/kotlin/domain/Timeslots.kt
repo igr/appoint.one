@@ -1,7 +1,6 @@
 package domain
 
-import model.Country
-import model.TimeslotsRepo
+import model.*
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.deleteAll
 import org.jetbrains.exposed.sql.selectAll
@@ -11,6 +10,10 @@ import java.time.LocalDateTime
 
 @TargetIs("Set of all timeslots.")
 object Timeslots {
+
+	suspend fun with(timeslotId: TimeslotId): TimeslotUnit = dbtx {
+		TimeslotUnit(TimeslotEntity.findExisting(timeslotId.value))
+	}
 
 	/**
 	 * Deletes all time slots.

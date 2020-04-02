@@ -14,6 +14,11 @@ class TimeslotApi {
       city,
     },
   });
+
+  reserveTimeslot = (timeslotId: number) => http({
+    url: `/timeslots/${timeslotId}/reserve`,
+    method: 'put',
+  })
 }
 
 export default new TimeslotApi();
