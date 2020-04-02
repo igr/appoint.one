@@ -51,11 +51,6 @@
         </template>
       </v-hover>
       <div>
-        <router-link to="/login">
-          Login
-        </router-link>
-      </div>
-      <div>
         <a
           href="#"
           @click="logout"

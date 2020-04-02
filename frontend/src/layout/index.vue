@@ -19,6 +19,12 @@
         </router-link>
       </div>
       <v-spacer />
+      <v-btn
+        icon
+        to="/login"
+      >
+        <v-icon>mdi-account-box</v-icon>
+      </v-btn>
     </v-app-bar>
     <v-content>
       <info />
