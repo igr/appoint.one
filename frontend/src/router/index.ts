@@ -40,10 +40,13 @@ export const routes: RouteConfig[] = [
         path: '/register',
         component: () => import('@/views/register/index.vue'),
       },
-
       {
         path: 'inquire',
         component: () => import('@/views/inquire/index.vue'),
+      },
+      {
+        path: 'appointment',
+        component: () => import('@/views/appointment/index.vue'),
       },
       {
         path: 'doctor',

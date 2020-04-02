@@ -4,6 +4,7 @@
       app
       color="primary"
       dark
+      :fixed="true"
     >
       <div class="d-flex align-center">
         <router-link to="/">
@@ -17,12 +18,14 @@
           />
         </router-link>
       </div>
-
       <v-spacer />
     </v-app-bar>
-
     <v-content>
-      <v-container fluid fill-height>
+      <info />
+      <v-container
+        fluid
+        fill-height
+      >
         <router-view :key="key" />
       </v-container>
     </v-content>
@@ -31,9 +34,13 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import Info from '@/components/Info/index.vue';
 
 @Component({
   name: 'Layout',
+  components: {
+    Info,
+  },
 })
 export default class extends Vue {
   get key() {

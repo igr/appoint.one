@@ -16,6 +16,7 @@ fun StatusPages.Configuration.setup() {
 		val status = when (internal) {
 			is AuthenticationException -> internal.status
 			is AuthorizationException -> internal.status
+			is StatusException -> internal.status
 			else -> HttpStatusCode.InternalServerError
 		}
 

@@ -1,19 +1,12 @@
 <template>
-  <v-snackbar
+  <v-alert
     v-model="showMessage"
-    top="top"
-    color="red"
-    :timeout="5000"
+    :type="type"
+    :dismissible="true"
+    :prominent="true"
   >
     {{ message }}
-    <v-btn
-      text
-      dark
-      @click.native="close"
-    >
-      close
-    </v-btn>
-  </v-snackbar>
+  </v-alert>
 </template>
 
 <script lang="ts">
@@ -21,9 +14,9 @@ import { Component, Vue } from 'vue-property-decorator';
 import { AppModule } from '@/store/modules/app';
 
 @Component
-export default class Alert extends Vue {
+export default class Info extends Vue {
   public close() {
-    AppModule.clearAlertMessage();
+    AppModule.clearInfoMessage();
   }
 
   get showMessage() {
@@ -37,7 +30,11 @@ export default class Alert extends Vue {
   }
 
   get message() {
-    return AppModule.alertMessage;
+    return AppModule.infoMessage;
+  }
+
+  get type() {
+    return 'warning';
   }
 }
 </script>

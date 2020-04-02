@@ -5,11 +5,14 @@ import store from '@/store';
 
 export interface AppState {
   alertMessage: string;
+  infoMessage: string;
 }
 
 @Module({ dynamic: true, store, name: 'app' })
 class AppModuleClass extends VuexModule implements AppState {
   public alertMessage: string = '';
+
+  public infoMessage: string = '';
 
   @Mutation
   private SET_ALERT_MESSAGE(message: string) {
@@ -21,9 +24,24 @@ class AppModuleClass extends VuexModule implements AppState {
     this.SET_ALERT_MESSAGE(message);
   }
 
+  @Mutation
+  private SET_INFO_MESSAGE(message: string) {
+    this.infoMessage = message;
+  }
+
+  @Action
+  public setInfoMessage(message: string) {
+    this.SET_INFO_MESSAGE(message);
+  }
+
   @Action
   public clearAlertMessage() {
     this.SET_ALERT_MESSAGE('');
+  }
+
+  @Action
+  public clearInfoMessage() {
+    this.SET_INFO_MESSAGE('');
   }
 }
 

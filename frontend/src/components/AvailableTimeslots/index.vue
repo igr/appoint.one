@@ -97,13 +97,13 @@ export default class AvailableTimeslots extends Vue {
     const timeslotId = this.timeslotList[this.selected].id.value;
 
     TimeslotApi.reserveTimeslot(timeslotId).then(
-      () => {
-        console.log('rezervisano');
+      (ok) => {
+        if (!ok) {
+          return;
+        }
+        this.$router.push('/appointment');
       },
-    )
-      .catch((err) => {
-        console.log(`error ${err}`);
-      });
+    );
   }
 }
 </script>
