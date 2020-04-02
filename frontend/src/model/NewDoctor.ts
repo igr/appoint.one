@@ -1,4 +1,6 @@
-export class NewDoctor {
+import { DoctorData } from '@/model/DoctorData';
+
+export class NewDoctor implements DoctorData {
   name: string = '';
 
   email: string = '';

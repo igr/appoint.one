@@ -72,6 +72,19 @@ fun postTimeslot(newDoctorTimeslot: NewDoctorTimeslots): List<Timeslot> {
 	}
 }
 
+fun getTimeslot(timeslotId: TimeslotId): Timeslot {
+	return Given {
+		contentType(ContentType.JSON)
+	} When {
+		get("/timeslots/${timeslotId.value}")
+	} Then {
+		statusCode(200)
+	} Extract {
+		`as`(Timeslot::class.java)
+	}
+}
+
+
 // auth
 
 fun userLogin(credentials: UserPasswordCredential): User {

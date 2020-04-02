@@ -73,8 +73,8 @@ fun DoctorEntity.Companion.findById(userId: DoctorId): DoctorEntity? {
 	return findById(userId.value)
 }
 
-fun DoctorEntity.Companion.findExisting(id: Int): DoctorEntity {
-	return findById(id)!!
+fun DoctorEntity.Companion.findExisting(userId: DoctorId): DoctorEntity {
+	return findById(userId.value)!!
 }
 
 fun DoctorEntity.Companion.add(doctor: DoctorData, userEntity: UserEntity): DoctorEntity {

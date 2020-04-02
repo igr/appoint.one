@@ -64,14 +64,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue';
 import { UserModule } from '@/store/modules/user';
 
 @Component({
   name: 'Home',
-  components: {
-    HelloWorld,
-  },
 })
 export default class extends Vue {
   private hover: boolean = false;

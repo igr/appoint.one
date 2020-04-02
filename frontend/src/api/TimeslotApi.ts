@@ -19,6 +19,11 @@ class TimeslotApi {
     url: `/timeslots/${timeslotId}/reserve`,
     method: 'put',
   });
+
+  get = (timeslotId: number) => http({
+    url: `/timeslots/${timeslotId}`,
+    method: 'get',
+  })
 }
 
 export default new TimeslotApi();

@@ -1,6 +1,5 @@
-import { NewDoctor } from '@/model/NewDoctor';
-import { User } from '@/model/User';
 import { DateTime } from '@/model/DateTime';
+import { Doctor } from '@/model/Doctor';
 
 export interface Timeslot {
   id: {
@@ -8,13 +7,7 @@ export interface Timeslot {
   },
   status: TimeslotStatus,
   datetime: DateTime,
-  doctor: {
-    id: {
-      value: number,
-    },
-    data: NewDoctor,
-    user: User,
-  }
+  doctor: Doctor
 }
 
 export enum TimeslotStatus {

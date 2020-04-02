@@ -8,15 +8,15 @@ import server.DatabaseFactory.dbtx
 object Doctors {
 
 	suspend fun with(doctor: Doctor): DoctorUnit = dbtx {
-		DoctorUnit(DoctorEntity.findExisting(doctor.id.value))
+		DoctorUnit(DoctorEntity.findExisting(doctor.id))
 	}
 
 	suspend fun with(doctorId: DoctorId): DoctorUnit = dbtx {
-		DoctorUnit(DoctorEntity.findExisting(doctorId.value))
+		DoctorUnit(DoctorEntity.findExisting(doctorId))
 	}
 
 	suspend fun with(doctor: Doctor, consumer: suspend (du: DoctorUnit) -> Unit): Unit = dbtx {
-		consumer(DoctorUnit(DoctorEntity.findExisting(doctor.id.value)))
+		consumer(DoctorUnit(DoctorEntity.findExisting(doctor.id)))
 	}
 
 	/**
@@ -59,6 +59,6 @@ object Doctors {
 	 * Deletes all doctors.
 	 */
 	suspend fun deleteAllDoctors() = dbtx {
-		DoctorsRepo.deleteAll();
+		DoctorsRepo.deleteAll()
 	}
 }

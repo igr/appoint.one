@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 object Timeslots {
 
 	suspend fun with(timeslotId: TimeslotId): TimeslotUnit = dbtx {
-		TimeslotUnit(TimeslotEntity.findExisting(timeslotId.value))
+		TimeslotUnit(TimeslotEntity.findExisting(timeslotId))
 	}
 
 	/**
@@ -35,6 +35,10 @@ object Timeslots {
 
 	suspend fun findNextTimeslots(country: Country) = dbtx {
 		_findNextTimeslots(country)
+	}
+
+	suspend fun findById(id: TimeslotId): Timeslot? = dbtx {
+		TimeslotEntity.findById(id)?.toTimeslot()
 	}
 
 }

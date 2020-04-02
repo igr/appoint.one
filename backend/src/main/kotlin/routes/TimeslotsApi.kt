@@ -34,8 +34,16 @@ fun Route.timeslots() {
 
 		put("{id}/reserve") {
 			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-			call.respond(HttpStatusCode.NoContent, Timeslots.with(TimeslotId(id)).reserve());
+			call.respond(HttpStatusCode.NoContent, Timeslots.with(TimeslotId(id)).reserve())
 		}
+
+		get("/{id}") {
+			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
+			val timeslot = Timeslots.findById(TimeslotId(id))
+
+			timeslot?.let { call.respond(it) } ?: call.respond(HttpStatusCode.NotFound)
+		}
+
 	}
 
 }

@@ -1,5 +1,7 @@
 package web
 
+import domain.Doctors
+import kotlinx.coroutines.runBlocking
 import model.NewDoctorTimeslots
 import model.NewTimeslot
 import model.newSimpleDoctor
@@ -24,6 +26,23 @@ class TimeslotApiTest : ServerTest() {
 		// then
 		assertThat(retrieved.size).isEqualTo(2)
 		assertThat(retrieved).extracting("datetime.value").containsExactly(202001010800L, 202001011000L)
+	}
+
+	@Test
+	fun `GET timeslot`() = runBlocking {
+		// given
+		val doc1 = postDoctor(newSimpleDoctor("pera"))
+		val timeslots = Doctors.with(doc1).bindTimeslots(listOf(
+			NewTimeslot(20200101, 800)
+		));
+
+		// when
+		val timeslot = getTimeslot(timeslots[0].id)
+
+		// then
+		assertThat(timeslot).isNotNull
+
+		Unit
 	}
 
 }
