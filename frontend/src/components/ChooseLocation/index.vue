@@ -1,30 +1,8 @@
 <template>
   <div>
-    <v-row>
-      <v-col cols="1" />
-      <v-col cols="3">
-        Country
-      </v-col>
-      <v-col cols="4">
-        City
-      </v-col>
-    </v-row>
     <v-row no-gutters>
-      <v-col cols="1">
-        <img
-          v-if="countryIndex === 0"
-          src="../../assets/images/country-1.png"
-        >
-        <img
-          v-if="countryIndex === 2"
-          src="../../assets/images/country-3.png"
-        >
-        <img
-          v-if="countryIndex === 1"
-          src="../../assets/images/country-2.png"
-        >
-      </v-col>
-      <v-col cols="3">
+      <v-col cols="3" class="offset-2">
+        <div>Država</div>
         <v-menu
           :close-on-click="true"
           :close-on-content-click="true"
@@ -37,6 +15,10 @@
               dark
               v-on="on"
             >
+              <img
+                :src="require(`@/assets/images/country-${countries[countryIndex].id}.png`)"
+                style="margin-right: 10px"
+              >
               {{ countries[countryIndex].name }}
             </v-btn>
           </template>
@@ -47,6 +29,10 @@
               @click="countryClicked(index)"
             >
               <v-list-item-title>
+                <img
+                  :src="require(`@/assets/images/country-${item.id}.png`)"
+                  style="position: relative; top:10px;"
+                >
                 {{ item.name }}
               </v-list-item-title>
             </v-list-item>
@@ -55,6 +41,7 @@
       </v-col>
 
       <v-col cols="4">
+        <div>Grad</div>
         <v-autocomplete
           v-model="selectedCity"
           :items="cities.map(city => city.name)"
@@ -133,6 +120,10 @@ export default class ChooseLocation extends Vue {
       const ci = await CitiesApi.cities();
       this.allCities = ci.data;
       this.countries = co.data;
+    }
+
+    img() {
+      return '@/assets/images/country-1.png';
     }
 }
 </script>
