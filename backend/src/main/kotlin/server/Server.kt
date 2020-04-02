@@ -43,9 +43,9 @@ fun Application.module(testing: Boolean = false) {
 
 	install(Compression)
 
-	install(CORS) {
-		anyHost()
-	}
+//	install(CORS) {
+//		anyHost()
+//	}
 
 	install(StatusPages) {
 		setup()
