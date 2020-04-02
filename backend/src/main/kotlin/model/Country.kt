@@ -6,9 +6,15 @@ enum class Country(val value: Int) {
 	companion object {
 		fun of(value: Int): Country = values().find { it.value == value }!!
 
-		fun valuesAsMap(): Map<Int, String> {
-			return values().map { it.value to it.name }.toMap()
+		fun valuesAsMap(): List<CountryClass> {
+			return values().map { CountryClass(it.value, it.name.toLowerCase().capitalize()) }
 		}
 	}
 
 }
+
+class CountryClass (
+	val id: Int,
+	val name: String
+)
+

@@ -13,12 +13,7 @@ object CitiesRepo : Table(name = "cities") {
 /* MODEL */
 
 class City(
-	cityId: Int,
-	cityName: String,
-	cityCountry: Int
-) {
-	val id: Int = cityId
-	val name: String = cityName
-	val country: Country = Country.of(cityCountry)
-
-}
+	val id: Int,
+	val name: String,
+	val country: Int
+)

@@ -131,8 +131,8 @@ export default class ChooseLocation extends Vue {
 
       const co = await CitiesApi.countries();
       const ci = await CitiesApi.cities();
-      console.log(co);
-      console.log(ci);
+      this.allCities = ci.data;
+      this.countries = co.data;
     }
 }
 </script>
