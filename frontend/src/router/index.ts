@@ -45,7 +45,8 @@ export const routes: RouteConfig[] = [
         component: () => import('@/views/inquire/index.vue'),
       },
       {
-        path: 'appointment',
+        path: 'appointment/:id',
+        props: true,
         component: () => import('@/views/appointment/index.vue'),
       },
       {
@@ -85,18 +86,20 @@ function _hasAccessToRoute(route: Route) {
     }
   }
 
-  if (!access) {
-    return { access, redirect: '/login' };
-  }
-  return { access };
+  return access;
 }
 
 router.beforeEach((to, from, next) => {
-  const { access, redirect } = _hasAccessToRoute(to);
+  const access = _hasAccessToRoute(to);
   if (access) {
     next();
   } else {
-    next({ path: redirect });
+    next({
+      path: '/login',
+      query: {
+        redirect: to.fullPath,
+      },
+    });
   }
 });
 
