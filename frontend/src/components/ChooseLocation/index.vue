@@ -12,16 +12,16 @@
     <v-row no-gutters>
       <v-col cols="1">
         <img
-          v-if="countries[countryIndex].name.toLowerCase() === 'serbia'"
-          src="../../assets/images/serbia.png"
+          v-if="countryIndex === 0"
+          src="../../assets/images/country-1.png"
         >
         <img
-          v-if="countries[countryIndex].name.toLowerCase() === 'croatia'"
-          src="../../assets/images/croatia.png"
+          v-if="countryIndex === 2"
+          src="../../assets/images/country-3.png"
         >
         <img
-          v-if="countries[countryIndex].name.toLowerCase() === 'bosnia'"
-          src="../../assets/images/bosnia.png"
+          v-if="countryIndex === 1"
+          src="../../assets/images/country-2.png"
         >
       </v-col>
       <v-col cols="3">
@@ -124,8 +124,8 @@ export default class ChooseLocation extends Vue {
       ];
       this.countries = [
         { name: 'Serbia', id: 1 },
-        { name: 'Croatia', id: 2 },
-        { name: 'Bosnia', id: 3 },
+        { name: 'Bosnia', id: 2 },
+        { name: 'Croatia', id: 3 },
       ];
       this.countryClicked(0);
 
