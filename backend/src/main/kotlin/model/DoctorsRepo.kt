@@ -82,7 +82,7 @@ fun DoctorEntity.Companion.add(doctor: DoctorData, userEntity: UserEntity): Doct
 		name = doctor.name
 		email = doctor.email
 		sex = doctor.sex.value
-		country = doctor.country.value
+		country = doctor.country.id
 		year = doctor.year
 		occupation = doctor.occupation
 		education = doctor.education

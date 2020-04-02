@@ -6,7 +6,7 @@ import io.ktor.response.respond
 import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.route
-import model.Country
+import model.Countries
 
 fun Route.data() {
 
@@ -17,7 +17,7 @@ fun Route.data() {
 		}
 
 		get("/countries") {
-			call.respond(Country.valuesAsMap())
+			call.respond(Countries.values.sortedBy { it.id })
 		}
 
 	}

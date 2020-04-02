@@ -1,7 +1,7 @@
 package server.db
 
 import model.CitiesRepo
-import model.Country
+import model.Country_SERBIA
 import org.jetbrains.exposed.sql.insertIgnore
 
 fun loadInitialCities() {
@@ -12,9 +12,9 @@ fun loadInitialCities() {
             "Sremska Mitrovica", "Vršac", "Bor", "Prokuplje", "Loznica")
         .forEachIndexed { index, cityName ->
             CitiesRepo.insertIgnore {
-                it[id] = index + 1
-                it[name] = cityName
-				it[country] = Country.SERBIA.value
+	            it[id] = index + 1
+	            it[name] = cityName
+	            it[country] = Country_SERBIA.id
             }
         }
 }

@@ -7,7 +7,7 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.*
-import model.Country
+import model.Country_SERBIA
 import model.NewDoctorTimeslots
 import model.TimeslotId
 
@@ -29,7 +29,7 @@ fun Route.timeslots() {
 		}
 
 		get("/available") {
-			call.respond(Timeslots.findNextTimeslots(Country.SERBIA))
+			call.respond(Timeslots.findNextTimeslots(Country_SERBIA))
 		}
 
 		put("{id}/reserve") {

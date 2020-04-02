@@ -1,7 +1,7 @@
 package domain
 
 import kotlinx.coroutines.runBlocking
-import model.Country
+import model.Country_SERBIA
 import model.NewTimeslot
 import model.newSimpleDoctor
 import model.newSimpleUserWithDoctorRole
@@ -23,7 +23,7 @@ class TimeslotsFindNextTest : ServerTest() {
 		Doctors.with(doctor1).bindTimeslots(listOf(futureTimeslot, expiredTimeslot))
 
 		// when
-		val timeslots = Timeslots.findNextTimeslots(Country.SERBIA)
+		val timeslots = Timeslots.findNextTimeslots(Country_SERBIA)
 
 		// then
 		assertThat(timeslots.size).isEqualTo(1)

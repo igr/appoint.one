@@ -18,7 +18,7 @@ private fun newDoctorData(name: String): DoctorData {
 		name = name,
 		email = "${name}@dot.com",
 		sex = DoctorSex.MALE,
-		country = Country.SERBIA,
+		country = Country_SERBIA,
 		year = 1990,
 		occupation = "Occupation",
 		education = 4,
