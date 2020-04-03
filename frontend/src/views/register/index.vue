@@ -42,15 +42,19 @@
             <!-- STEP 1 -->
             <v-stepper-content step="1">
               <v-text-field
+                ref="nameRef"
                 v-model="form.name"
                 label="Ime i prezime"
+                :rules="rules.nameAndSurname"
                 required
               />
               <v-text-field
+                ref="emailRef"
                 v-model="form.email"
                 label="Email"
-                required
                 type="email"
+                :rules="rules.email"
+                required
               />
               <v-radio-group
                 v-model="form.sex"
@@ -69,9 +73,11 @@
                 />
               </v-radio-group>
               <v-text-field
+                ref="yearRef"
                 v-model="form.year"
                 label="Godina rođenja"
                 type="number"
+                :rules="rules.year"
                 required
               />
 
@@ -86,8 +92,10 @@
                   Cancel
                 </v-btn>
                 <v-btn
+                  v-if="showContinue1"
                   color="primary"
                   @click="step = 2"
+                  :disabled="!($refs.nameRef.valid && $refs.emailRef.valid && $refs.yearRef.valid)"
                 >
                   Continue
                 </v-btn>
@@ -97,14 +105,18 @@
             <!-- STEP 2 -->
             <v-stepper-content step="2">
               <v-text-field
+                ref="professionRef"
                 v-model="form.occupation"
                 label="Zanimanje"
+                :rules="rules.profession"
                 required
               />
               <v-text-field
+                ref="eduYearRef"
                 v-model="form.education"
                 label="Godine edukacije"
                 type="number"
+                :rules="rules.eduYear"
                 required
               />
 
@@ -119,8 +131,10 @@
                   Nazad
                 </v-btn>
                 <v-btn
+                  v-if="showContinue2"
                   color="primary"
                   @click="step = 3"
+                  :disabled="!($refs.professionRef.valid && $refs.eduYearRef.valid)"
                 >
                   Continue
                 </v-btn>
@@ -132,6 +146,7 @@
               <v-text-field
                 v-model="form.phone"
                 label="Telefon"
+                :rules="rules.phoneNumber"
                 required
               />
 
@@ -180,9 +195,49 @@ export default class extends Vue {
 
   private valid = false;
 
+  private showContinue1 = false;
+
+  private showContinue2 = false;
+
   private form: NewDoctor = new NewDoctor();
 
   private savedOk = false;
+
+  mounted() {
+    this.showContinue1 = true;
+    this.showContinue2 = true;
+    console.log(this.$refs.id1);
+  }
+
+  private rules = {
+    nameAndSurname: [
+      (v: string) => !!v || 'Ime i prezime obavezni',
+    ],
+    email: [
+      (v: string) => !!v || 'E-mail obavezan',
+      (v: string) => /.+@.+\..+/.test(v) || 'E-mail mora biti validan',
+      (v: string) => !!v && /.+@.+\..+/.test(v),
+    ],
+    year: [
+      (v: number) => !!v || 'Godina rodjena obavezna',
+      (v: number) => (v <= 2000 && v >= 1900) || 'Godina rodjena mora biti validna (1900 - 2000)',
+      (v: number) => !!v && (v <= 2000 && v >= 1900),
+    ],
+    profession: [
+      (v: number) => !!v || 'Zanimanje obavezno',
+    ],
+    eduYear: [
+      (v: number) => !!v || 'Godine edukacije obavezne',
+      (v: number) => (v <= 20 && v >= 0) || 'Godine edukacije moraju biti validne (0 - 20)',
+      (v: number) => !!v && (v <= 20 && v >= 0),
+    ],
+    phoneNumber: [
+      (v: number) => !!v || 'Broj telefona obavezan',
+      (v: number) => v >= 0 || 'Broj telefona mora biti validan',
+      (v: number) => !!v && v >= 0,
+    ],
+
+  };
 
   private async handleLogin() {
     await DoctorApi.postNewDoctor(this.form);
