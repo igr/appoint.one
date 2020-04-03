@@ -1,96 +1,82 @@
 <template>
-  <v-card>
-    <v-card-title>
-      Lista terapeuta
-      <v-spacer></v-spacer>
-      <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        label="Pretraga"
-        single-line
-        hide-details
-      ></v-text-field>
-    </v-card-title>
-    <v-data-table
-      :headers="headers"
-      :items="doctors"
-      :items-per-page="15"
-      :search="search"
-      class="elevation-1"
+  <v-row justify="center">
+    <v-col
+      cols="12"
+      md="8"
     >
-      <template v-slot:item.confirmed="{ item }">
-        <v-simple-checkbox v-model="item.confirmed" disabled></v-simple-checkbox>
-      </template>
-    </v-data-table>
-  </v-card>
+      <v-card>
+        <v-card-title>
+          Lista terapeuta
+          <v-spacer />
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Pretraga"
+            single-line
+            hide-details
+          />
+        </v-card-title>
+        <v-data-table
+          :headers="headers"
+          :items="doc"
+          :items-per-page="15"
+          :search="search"
+          class="elevation-1"
+        >
+          <template v-slot:item.data.confirmed="{ item }">
+            <v-simple-checkbox
+              v-model="item.data.confirmed"
+              disabled
+            />
+          </template>
+        </v-data-table>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
-<script>
+<script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+// eslint-disable-next-line no-unused-vars
+import { Doctor } from '@/model/Doctor';
+import DoctorApi from '@/api/DoctorApi';
 
-  @Component({
-    name: 'ListOfDoctors',
-  })
+@Component({
+  name: 'ListOfDoctors',
+})
 export default class extends Vue {
-  data() {
-    return {
-      search: '',
-      headers: [
-        {
-          text: 'ID',
-          align: 'start',
-          sortable: true,
-          value: 'id',
-        },
-        { text: 'Ime', value: 'name' },
-        { text: 'Prezime', value: 'email' },
-        { text: 'Pol', value: 'sex' },
-        { text: 'Drzava', value: 'country' },
-        { text: 'Godina Rodjenja', value: 'year' },
-        { text: 'Telefon', value: 'phone' },
-        { text: 'Zoom', value: 'zoom' },
-        { text: 'Potvrdjen', value: 'confirmed' },
-        { text: 'Updatovan', value: 'dateUpdated' },
-      ],
-      doctors: [
-        {
-          id: 45,
-          name: 'pera',
-          email: 'pera@dot.com',
-          sex: 'M',
-          country: 'Serbia',
-          year: 1990,
-          phone: +38112344321,
-          zoom: 'z o o m',
-          confirmed: true,
-          dateUpdated: '22-3-2019',
-        },
-        {
-          id: 45,
-          name: 'pera',
-          email: 'pera@dot.com',
-          sex: 'M',
-          country: 'Serbia',
-          year: 1990,
-          phone: +38112344321,
-          zoom: 'z o o m',
-          confirmed: false,
-          dateUpdated: '22-3-2019',
-        },
-        {
-          id: 45,
-          name: 'pera',
-          email: 'pera@dot.com',
-          sex: 'M',
-          country: 'Serbia',
-          year: 1990,
-          phone: +38112344321,
-          zoom: 'z o o m',
-          confirmed: false,
-          dateUpdated: '22-3-2019',
-        },
-      ],
-    };
+  private search = '';
+
+  private headers = [
+    {
+      text: 'ID',
+      align: 'start',
+      sortable: true,
+      value: 'id',
+    },
+    { text: 'Ime', value: 'data.name' },
+    { text: 'Država', value: 'data.country.name' },
+    { text: 'e-pošta', value: 'data.email' },
+    { text: 'Telefon', value: 'data.phone' },
+    { text: 'Zoom', value: 'data.zoom' },
+    { text: 'Potvrđen', value: 'data.confirmed' },
+  ];
+
+  private doctors: Doctor[] = [];
+
+  get doc(): Doctor[] {
+    return this.doctors;
+  }
+
+  async created() {
+    this.fetchData();
+  }
+
+  private async fetchData() {
+    const { data } = await DoctorApi.getAll();
+    const d: Doctor[] = data;
+    d.forEach((it) => this.doctors.push(it));
+    console.log(this.doctors);
   }
 }
 </script>

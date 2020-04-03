@@ -50,10 +50,6 @@ export const routes: RouteConfig[] = [
         component: () => import('@/views/appointment/index.vue'),
       },
       {
-        path: '/admin/doctors',
-        component: () => import('@/views/doctors/index.vue'),
-      },
-      {
         path: '/my',
         component: () => import('@/views/my/index.vue'),
         meta: {
@@ -64,6 +60,16 @@ export const routes: RouteConfig[] = [
         },
       },
 
+    ],
+  },
+  {
+    path: '/admin',
+    component: Layout,
+    children: [
+      {
+        path: 'doctors',
+        component: () => import('@/views/doctors/index.vue'),
+      },
     ],
   },
   { path: '*', redirect: '/404' },
