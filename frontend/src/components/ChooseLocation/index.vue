@@ -1,7 +1,10 @@
 <template>
   <div>
     <v-row no-gutters>
-      <v-col cols="3" class="offset-2">
+      <v-col
+        cols="3"
+        class="offset-2"
+      >
         <div>Država</div>
         <v-menu
           :close-on-click="true"
@@ -87,7 +90,6 @@ export default class ChooseLocation extends Vue {
           }
         });
         this.cityIndex = 0;
-        console.log(this.countries[this.countryIndex].name);
       }
     }
 

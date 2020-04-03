@@ -12,7 +12,7 @@ module.exports = {
         changeOrigin: true, // needed for virtual hosted sites
         ws: true, // proxy websockets
         pathRewrite: {
-          '/api': '/'
+          '/api': '/',
         },
       },
     },
@@ -20,4 +20,12 @@ module.exports = {
   transpileDependencies: [
     'vuetify',
   ],
+  chainWebpack: (config) => {
+    config
+      .plugin('html')
+      .tap((args) => {
+        args[0].title = 'pomoć psihoterapeuta';
+        return args;
+      });
+  },
 };

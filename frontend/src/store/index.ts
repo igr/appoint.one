@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { UserState } from './modules/user';
-import { GeoCacheState } from './modules/geo-cache';
-import { DoctorState } from './modules/doctor';
+import { UserState } from '@/store/modules/user';
+import { GeoCacheState } from '@/store/modules/geo-cache';
+import { DoctorState } from '@/store/modules/doctor';
 
 Vue.use(Vuex);
 

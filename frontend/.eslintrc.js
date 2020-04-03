@@ -18,8 +18,16 @@ module.exports = {
     'class-methods-use-this': 'off',
     'import/no-cycle': 'off',
     'import/prefer-default-export': 'off',
-    'no-restricted-syntax': ["error", "LabeledStatement", "WithStatement"],
-    'no-unused-expressions': ["error", { "allowShortCircuit": true }],
+    'no-restricted-syntax': ['error', 'LabeledStatement', 'WithStatement'],
+    'no-unused-expressions': ['error', { 'allowShortCircuit': true }],
+    'import/extensions': 'off',
+  },
+  settings: {
+    'import/resolver': {
+      'node': {
+        'extensions': ['.js', '.jsx', '.ts', '.tsx']
+      }
+    }
   },
   parserOptions: {
     parser: '@typescript-eslint/parser',

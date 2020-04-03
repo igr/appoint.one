@@ -64,7 +64,6 @@ export default class extends Vue {
     this.timeslot = data;
     this.doctor = this.timeslot?.doctor;
     this.datetime = this.timeslot?.datetime;
-    console.log(this.doctor);
     this.isLoading = false;
     return data;
   }

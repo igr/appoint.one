@@ -15,7 +15,9 @@
       cols="6"
       align-self="center"
     >
-      <h1 class="headline">{{ message }}</h1>
+      <h1 class="headline">
+        {{ message }}
+      </h1>
 
       <p>
         Please check that the URL you entered is correct,
@@ -40,7 +42,6 @@ export default class extends Vue {
   private message = '404 Page Not Found'
 
   public beforeRouteEnter(to: Route, from: Route, next: any): void {
-    console.log(from);
     next();
   }
 }

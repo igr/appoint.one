@@ -17,7 +17,7 @@ const http = axios.create({
 http.interceptors.request.use(
   (config) => config,
   (error) => {
-    console.error('>> Error:', error);
+    // console.error('>> Error:', error);
     Promise.reject(error);
   },
 );

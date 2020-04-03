@@ -2,7 +2,7 @@ import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 
 import AppCookies from '@/utils/cookies';
-import rsLocale from './rs';
+import rsLocale from '@/lang/rs';
 
 Vue.use(VueI18n);
 

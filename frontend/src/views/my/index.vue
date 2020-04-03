@@ -180,7 +180,6 @@ export default class extends Vue {
   }
 
   async submit() {
-    console.log('Submit');
     const res = await TimeslotApi.post(this.doctor.id, toDateTime(this.date, this.time));
     const allTimeslots: Timeslot[] = res.data;
 

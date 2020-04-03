@@ -9,7 +9,7 @@ import i18n from '@/lang';
 
 import * as directives from '@/directives';
 import * as filters from '@/filters';
-import vuetify from './plugins/vuetify';
+import vuetify from '@/plugins/vuetify';
 
 Vue.config.productionTip = false;
 
