@@ -3,11 +3,15 @@ package model
 import org.jetbrains.exposed.dao.Entity
 import org.jetbrains.exposed.dao.EntityClass
 import org.jetbrains.exposed.dao.id.EntityID
-import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.dao.id.IdTable
+import org.jetbrains.exposed.sql.Column
 import java.time.Instant
 import java.time.ZoneId
 
-object DoctorsRepo : IntIdTable(name = "doctors") {
+object DoctorsRepo : IdTable<Int>(name = "doctors") {
+	override val id: Column<EntityID<Int>> = integer("id").entityId()
+	override val primaryKey by lazy { super.primaryKey ?: PrimaryKey(id) }
+
 	val name = varchar("name", 255)
 	val email = varchar("email", 255)
 	val sex = bool("sex")
@@ -74,7 +78,7 @@ fun DoctorEntity.Companion.findExisting(userId: Int): DoctorEntity {
 }
 
 fun DoctorEntity.Companion.add(doctor: DoctorData, userEntity: UserEntity): DoctorEntity {
-	return DoctorEntity.new {
+	return DoctorEntity.new(id = userEntity.id.value) {
 		name = doctor.name
 		email = doctor.email
 		sex = doctor.sex.value

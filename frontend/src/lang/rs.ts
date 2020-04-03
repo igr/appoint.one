@@ -1,8 +1,8 @@
 export default {
   login: {
-    title: 'Prijava',
+    title: 'Prijava na sistem',
     error: 'Greška prilikom prijave',
     register: 'Registracija',
-    submit: 'Prijavi',
+    submit: 'Prijava',
   },
 };

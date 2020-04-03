@@ -2,8 +2,8 @@ import http from '@/utils/http';
 import { NewDoctor } from '@/model/NewDoctor';
 
 class DoctorApi {
-  getDoctor = (userId: number) => http({
-    url: `doctors/${userId}`,
+  getDoctor = (docId: number) => http({
+    url: `doctors/${docId}`,
     method: 'get',
   });
 

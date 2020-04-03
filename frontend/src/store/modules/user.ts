@@ -1,16 +1,20 @@
 import {
   VuexModule, Module, Action, Mutation, getModule,
 } from 'vuex-module-decorators';
+import { Vue } from 'vue-property-decorator';
 import UserApi from '@/api/UserApi';
 import AppCookies from '@/utils/cookies';
 import { resetRouter } from '@/router';
 import store from '@/store';
+import { Doctor } from '@/model/Doctor';
+import DoctorApi from '@/api/DoctorApi';
 
 export interface UserState {
   id: number,
   token: string
   name: string
   roles: string[]
+  doctor: Doctor
 }
 
 @Module({ dynamic: true, store, name: 'user' })
@@ -22,6 +26,9 @@ class UserModuleClass extends VuexModule implements UserState {
   public name = '';
 
   public roles: string[] = [];
+
+  // @ts-ignore
+  public doctor: Doctor = {};
 
   @Mutation
   private SET_TOKEN(token: string) {
@@ -43,6 +50,14 @@ class UserModuleClass extends VuexModule implements UserState {
     this.roles = roles;
   }
 
+  @Mutation
+  private SET_DOCTOR(data: any) {
+    // Must make it REACTIVE!
+    Object.keys(data).forEach((key) => {
+      Vue.set(this.doctor, key, data[key]);
+    });
+  }
+
   @Action
   public async Login(userInfo: { name: string, password: string}): Promise<number> {
     let { name } = userInfo;
@@ -61,6 +76,9 @@ class UserModuleClass extends VuexModule implements UserState {
       this.SET_ROLES([data.role]);
       this.SET_NAME(data.name);
       this.SET_ID(data.id);
+
+      const doc = await DoctorApi.getDoctor(data.id);
+      this.SET_DOCTOR(doc.data);
       return 200;
     } catch (error) {
       return error.response.status;

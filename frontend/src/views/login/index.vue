@@ -27,14 +27,14 @@
           >
             <v-text-field
               v-model="name"
-              label="email"
+              label="E-pošta"
               prepend-icon="person"
               :rules="rules.email"
               autocomplete="email"
             />
             <v-text-field
               v-model="password"
-              label="Password"
+              label="Lozinka"
               prepend-icon="lock"
               type="password"
               :rules="rules.password"

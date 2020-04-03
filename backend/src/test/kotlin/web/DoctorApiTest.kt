@@ -17,7 +17,7 @@ class DoctorApiTest : ServerTest() {
 	    val retrieved = getDoctor(created.id)
 	    // then
 	    assertThat(created.data).isEqualToIgnoringGivenFields(newDoctor.doctor, "dateUpdated")
-	    assertThat(created).isEqualTo(retrieved)
+	    assertThat(created.id).isEqualTo(retrieved.id)
     }
 
 }

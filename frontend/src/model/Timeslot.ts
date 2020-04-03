@@ -2,9 +2,7 @@ import { DateTime } from '@/model/DateTime';
 import { Doctor } from '@/model/Doctor';
 
 export interface Timeslot {
-  id: {
-    value: number,
-  },
+  id: number,
   status: TimeslotStatus,
   datetime: DateTime,
   doctor: Doctor

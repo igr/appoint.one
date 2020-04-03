@@ -11,7 +11,7 @@
             :elevation="hover ? 24 : 6"
             class="mb-12 mx-auto"
             max-width="400px"
-            to="/doctor"
+            to="/my"
           >
             <v-img
               class="pa-6"
@@ -22,7 +22,7 @@
               psihoterapeuti
             </v-card-title>
             <v-card-text>
-              Ovo je tekst
+              Prijava psihoterapeuta
             </v-card-text>
           </v-card>
         </template>
@@ -45,7 +45,7 @@
               korisnici
             </v-card-title>
             <v-card-text>
-              Ovo je tekst
+              Zakazivanje termina
             </v-card-text>
           </v-card>
         </template>

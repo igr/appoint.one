@@ -28,7 +28,7 @@ export const routes: RouteConfig[] = [
     redirect: '/home',
     children: [
       {
-        path: 'home',
+        path: '/home',
         component: () => import('@/views/home/index.vue'),
         name: 'Home',
       },
@@ -45,13 +45,17 @@ export const routes: RouteConfig[] = [
         component: () => import('@/views/inquire/index.vue'),
       },
       {
-        path: 'appointment/:id',
+        path: '/appointment/:id',
         props: true,
         component: () => import('@/views/appointment/index.vue'),
       },
+      // {
+      //   path: 'doctor',
+      //   component: () => import('@/views/doctor/index.vue'),
+      // },
       {
-        path: 'doctor',
-        component: () => import('@/views/doctor/index.vue'),
+        path: '/my',
+        component: () => import('@/views/my/index.vue'),
         meta: {
           permission: {
             role: ['DOC'],
@@ -59,6 +63,7 @@ export const routes: RouteConfig[] = [
           },
         },
       },
+
     ],
   },
   { path: '*', redirect: '/404' },
