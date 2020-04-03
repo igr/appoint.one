@@ -92,10 +92,10 @@
                   Cancel
                 </v-btn>
                 <v-btn
-                  v-if="showContinue1"
+                  v-if="showContinue"
                   color="primary"
-                  @click="step = 2"
                   :disabled="!($refs.nameRef.valid && $refs.emailRef.valid && $refs.yearRef.valid)"
+                  @click="step = 2"
                 >
                   Continue
                 </v-btn>
@@ -131,10 +131,10 @@
                   Nazad
                 </v-btn>
                 <v-btn
-                  v-if="showContinue2"
+                  v-if="showContinue"
                   color="primary"
-                  @click="step = 3"
                   :disabled="!($refs.professionRef.valid && $refs.eduYearRef.valid)"
+                  @click="step = 3"
                 >
                   Continue
                 </v-btn>
@@ -195,18 +195,14 @@ export default class extends Vue {
 
   private valid = false;
 
-  private showContinue1 = false;
-
-  private showContinue2 = false;
+  private showContinue = false;
 
   private form: NewDoctor = new NewDoctor();
 
   private savedOk = false;
 
   mounted() {
-    this.showContinue1 = true;
-    this.showContinue2 = true;
-    console.log(this.$refs.id1);
+    this.showContinue = true;
   }
 
   private rules = {
