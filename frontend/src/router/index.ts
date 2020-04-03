@@ -49,10 +49,10 @@ export const routes: RouteConfig[] = [
         props: true,
         component: () => import('@/views/appointment/index.vue'),
       },
-      // {
-      //   path: 'doctor',
-      //   component: () => import('@/views/doctor/index.vue'),
-      // },
+      {
+        path: '/admin/doctors',
+        component: () => import('@/views/doctors/index.vue'),
+      },
       {
         path: '/my',
         component: () => import('@/views/my/index.vue'),
