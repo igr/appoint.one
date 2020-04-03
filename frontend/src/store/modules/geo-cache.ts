@@ -4,6 +4,7 @@ import {
 import store from '@/store';
 import { City } from '@/model/City';
 import CitiesApi from '@/api/CitiesApi';
+import { Country } from '@/model/Country';
 
 export interface GeoCacheState {
   cities: City[];
@@ -12,6 +13,8 @@ export interface GeoCacheState {
 @Module({ dynamic: true, store, name: 'geo' })
 class GeoCacheClass extends VuexModule implements GeoCacheState {
   cities: City[] = [];
+
+  countries: Country[] = [];
 
   @Mutation
   private SET_CITIES(cities: City[]) {
@@ -23,11 +26,25 @@ class GeoCacheClass extends VuexModule implements GeoCacheState {
     if (this.cities.length === 0) {
       const res = await CitiesApi.cities();
 
-      // Error happens here
-      this.cities = res && res.data;
+      this.context.commit('SET_CITIES', res && res.data);
     }
     return this.cities;
   }
+
+  @Mutation
+  private SET_COUNTRIES(countries: Country[]) {
+    this.countries = countries;
+  }
+
+  @Action
+  public async GetCountries() {
+    if (this.countries.length === 0) {
+      const res = await CitiesApi.countries();
+      this.context.commit('SET_COUNTRIES', res && res.data);
+    }
+
+    return this.countries;
+  }
 }
 
-export const GetCacheModule = getModule(GeoCacheClass);
+export const GeoCacheModule = getModule(GeoCacheClass);
