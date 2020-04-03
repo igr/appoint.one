@@ -1,8 +1,17 @@
-# Login za doktore
+# Login
+
+Prijava na sistem je za:
+
++ doktor
++ admine
 
 Unosi se:
 
-+ email
-+ lozinka - jedinstveni broj doktora?
++ email/korisničko ime
++ lozinka
 
-Po uspešnom logovanju, odlazi se na: [doctor](./doctor/index.md)
+Po uspešnom logovanju, odlazi se na stranu koja je tražena ili na početnu.
+
+## Registracija
+
+Na login strani nalazi se i dugme za [registraciju](register.md).

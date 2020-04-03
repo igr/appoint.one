@@ -1,6 +1,6 @@
 # Doktor
 
-> Ako doktor nije ulogovan: [login](../login.md)
+> Ako doktor nije ulogovan: [login](login.md)
 
 Prikazuju se osnovni podaci o doktoru, kako ih vidi korisnik.
 
