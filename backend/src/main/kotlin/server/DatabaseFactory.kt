@@ -11,7 +11,9 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
 import server.db.createDevData
-import server.db.loadInitialCities
+import server.db.loadInitialCitiesOfBosnia
+import server.db.loadInitialCitiesOfCroatia
+import server.db.loadInitialCitiesOfSerbia
 
 object DatabaseFactory {
 
@@ -24,7 +26,10 @@ object DatabaseFactory {
 				TimeslotsRepo,
 				UsersRepo)
 
-			loadInitialCities()
+			loadInitialCitiesOfSerbia()
+			loadInitialCitiesOfBosnia()
+			loadInitialCitiesOfCroatia()
+
 			if (isDev) {
 				createDevData()
 			}
