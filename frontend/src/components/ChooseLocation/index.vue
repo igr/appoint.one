@@ -7,6 +7,7 @@
       >
         <div>Država</div>
         <v-menu
+          v-if="componentCreated"
           :close-on-click="true"
           :close-on-content-click="true"
           :offset-x="false"
@@ -64,7 +65,8 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Country } from '@/model/Country';
 // eslint-disable-next-line no-unused-vars
 import { City } from '@/model/City';
-import CitiesApi from '@/api/CitiesApi';
+// import CitiesApi from '@/api/CitiesApi';
+import { GeoCacheModule } from '@/store/modules/geo-cache';
 
   @Component
 export default class ChooseLocation extends Vue {
@@ -80,6 +82,8 @@ export default class ChooseLocation extends Vue {
 
     private selectedCity = null;
 
+    private componentCreated = false;
+
     private countryClicked(i: number) {
       if (i !== this.countryIndex) {
         this.countryIndex = i;
@@ -93,35 +97,12 @@ export default class ChooseLocation extends Vue {
       }
     }
 
-    async created() {
-      this.allCities = [
-        { id: 1, name: 'Beograd', country: 1 },
-        { id: 2, name: 'Novi Sad', country: 1 },
-        { id: 3, name: 'Zrenjanin', country: 1 },
-        { id: 4, name: 'Pancevo', country: 1 },
-        { id: 5, name: 'Cacak', country: 1 },
-        { id: 6, name: 'Zagreb', country: 2 },
-        { id: 7, name: 'Split', country: 2 },
-        { id: 8, name: 'Rijeka', country: 2 },
-        { id: 9, name: 'Dubrovnik', country: 2 },
-        { id: 10, name: 'Pula', country: 2 },
-        { id: 11, name: 'Sarajevo', country: 3 },
-        { id: 12, name: 'Mostar', country: 3 },
-        { id: 13, name: 'Tuzla', country: 3 },
-        { id: 14, name: 'Bihac', country: 3 },
-        { id: 15, name: 'Trebinje', country: 3 },
-      ];
-      this.countries = [
-        { name: 'Srbija', id: 1 },
-        { name: 'Bosnia', id: 2 },
-        { name: 'Croatia', id: 3 },
-      ];
+    async beforeCreate() {
+      this.componentCreated = false;
+      this.allCities = await GeoCacheModule.GetCities();
+      this.countries = await GeoCacheModule.GetCountries();
       this.countryClicked(0);
-
-      const co = await CitiesApi.countries();
-      const ci = await CitiesApi.cities();
-      this.allCities = ci.data;
-      this.countries = co.data;
+      this.componentCreated = true;
     }
 
     img() {
