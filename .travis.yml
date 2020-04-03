@@ -1,8 +1,18 @@
-language: generic
+language: java
 
-sudo: false
+services:
+  - docker
 
-matrix:
-    include:
-        - env: PROJECT=backend
-        - env: PROJECT=frontend
+before_install:
+  - docker-compose -f docker/docker-compose.yml
+
+before_script: cd backend
+script: ./gradlew build
+
+before_cache:
+  - rm -f $HOME/backend/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/backend/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/backend/.gradle/caches/
+    - $HOME/backend/.gradle/wrapper/
