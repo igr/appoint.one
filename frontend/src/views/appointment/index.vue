@@ -9,12 +9,10 @@
       </h1>
       <div v-if="!isLoading">
         <day-big :datetime="datetime" />
-        <p class="text-center">
-          kod sledećeg psihotereapeuta:
-        </p>
+
         <doctor-profile :doc="doctor" />
-        <p style="text-align: center">
-          Molimo zapamtite link do ove stranice i sve podatke.
+        <p class="text-center text-uppercase">
+          Sačuvajte link do ove stranice i podatke.
         </p>
       </div>
       <div v-else>

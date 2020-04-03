@@ -1,5 +1,5 @@
 <template>
-  <v-sheet color="primary" class="col-4 offset-4 white--text font-weight-black text-center">
+  <v-sheet color="green" class="col-4 offset-4 white--text font-weight-black text-center">
     Preostalo slobodnih termina: {{ count }}
   </v-sheet>
 </template>

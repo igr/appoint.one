@@ -33,3 +33,36 @@ export const isInFuture = (datetime: DateTime): boolean => {
   }
   return false;
 };
+
+
+const months = [
+  'Januar', 'Februar', 'Mart', 'April', 'Maj', 'Juni', 'Juli', 'Avgust', 'Septembar', 'Oktobar', 'Novembar', 'Decembar',
+];
+
+export const toDateString = (datetime: DateTime): string => {
+  let y = `-${datetime.year}`;
+  if (datetime.year === new Date().getFullYear()) {
+    y = '';
+  }
+  return `${datetime.day}-${months[datetime.month - 1]}${y}`;
+};
+
+export const toTimeString = (datetime: DateTime): string => {
+  let h = `${datetime.hour}`;
+  if (h.length === 1) {
+    h = `0${h}`;
+  }
+  let m = `${datetime.minute}`;
+  if (m.length === 1) {
+    m = `0${m}`;
+  }
+
+  return `${h}:${m}`;
+};
+
+export const toDateTimeString = (datetime: DateTime): string => {
+  const date = toDateString(datetime);
+  const time = toTimeString(datetime);
+
+  return `${date} ${time}`;
+};

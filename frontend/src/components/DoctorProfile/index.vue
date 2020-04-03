@@ -1,6 +1,6 @@
 <template>
-  <v-row>
-    <v-col cols="8" class="offset-2">
+  <v-row justify="center">
+    <v-col cols="12" md="8">
       <v-card>
         <v-card-text align="center">
           <div>psihoterapeut</div>

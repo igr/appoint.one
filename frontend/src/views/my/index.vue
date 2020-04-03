@@ -4,26 +4,24 @@
       cols="12"
       md="8"
     >
-      <h1 class="heading">
-        {{ doctor.data.name }}
-      </h1>
-      <div class="subtitle-1">
-        {{ doctor.data.occupation }}
-      </div>
-      <v-btn
-        fab
-        dark
-        large
-        color="primary"
-        @click.stop="dialog = true"
-      >
-        <v-icon>mdi-plus</v-icon>
-      </v-btn>
+      <doctor-profile :doc="doctor" />
+
+      <v-row justify="center">
+        <v-btn
+          dark
+          large
+          class="col-6"
+          color="primary"
+          @click.stop="dialog = true"
+        >
+          <v-icon>mdi-plus</v-icon> Dodavanje termina
+        </v-btn>
+      </v-row>
       <v-dialog
         v-model="dialog"
         max-width="300"
       >
-        <v-card>
+        <v-card class="pa-6">
           <v-card-title class="headline">
             Novi termin
           </v-card-title>
@@ -60,11 +58,10 @@
         </v-card>
       </v-dialog>
 
-      <h2 class="mt-6">
-        Pregled termina
-      </h2>
-
-      <v-row :v-if="isLoading">
+      <v-row
+        :v-if="isLoading"
+        class="mt-12"
+      >
         <v-col cols="6">
           <h3>Budući</h3>
           <v-timeline dense>
@@ -79,13 +76,13 @@
                 small
                 fill-dot
               >
-                {{ item.datetime.year }}/{{ item.datetime.month }}/{{ item.datetime.day }}
-                {{ item.datetime.hour }}:{{ item.datetime.minute }}
+                {{ dateStr(item.datetime) }}
                 <v-btn
                   v-if="item.status === 'NEW'"
                   fab
                   x-small
                   alt="Obriši"
+                  class="ml-6"
                   @click="removeTimeslot(item)"
                 >
                   <v-icon>mdi-minus</v-icon>
@@ -111,12 +108,12 @@
                 small
                 fill-dot
               >
-                {{ item.datetime.year }}/{{ item.datetime.month }}/{{ item.datetime.day }}
-                {{ item.datetime.hour }}:{{ item.datetime.minute }}
+                {{ dateStr(item.datetime) }}
+
                 <v-btn
                   fab
                   x-small
-                  alt="Add comment"
+                  alt="Add comment ml-6"
                 >
                   <v-icon>mdi-check</v-icon>
                 </v-btn>
@@ -138,10 +135,16 @@ import DoctorApi from '@/api/DoctorApi';
 // eslint-disable-next-line no-unused-vars
 import { Timeslot } from '@/model/Timeslot';
 import TimeslotApi from '@/api/TimeslotApi';
-import { isInFuture, toDateTime } from '@/utils/time';
+import { isInFuture, toDateTime, toDateTimeString } from '@/utils/time';
+import DoctorProfile from '@/components/DoctorProfile/index.vue';
+// eslint-disable-next-line no-unused-vars
+import { DateTime } from '@/model/DateTime';
 
 @Component({
   name: 'My',
+  components: {
+    DoctorProfile,
+  },
 })
 export default class extends Vue {
   private isLoading = true;
@@ -167,6 +170,10 @@ export default class extends Vue {
   get past(): Timeslot[] {
     return this.timeslots
       .filter((it) => !isInFuture(it.datetime));
+  }
+
+  dateStr(datetime: DateTime): String {
+    return toDateTimeString(datetime);
   }
 
   colorOf(item: {status: String}): string {

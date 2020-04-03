@@ -1,18 +1,17 @@
 <template>
-  <v-row>
+  <v-row justify="center">
     <v-col
       cols="8"
-      offset="2"
     >
       <v-card
-        class="mx-auto mt-12"
+        class="mx-auto"
         tile
       >
         <v-toolbar
           color="accent-4"
           dark
         >
-          <v-toolbar-title>Prvi sledeći termini</v-toolbar-title>
+          <v-toolbar-title>Sledeći termini:</v-toolbar-title>
         </v-toolbar>
         <v-list
           nav
@@ -29,7 +28,7 @@
             >
               <v-list-item-content>
                 <v-list-item-title>
-                  {{ formatDate(item.datetime) }} {{ formatTime(item.datetime) }}
+                  {{ toDateString(item.datetime) }}
                 </v-list-item-title>
                 <v-list-item-subtitle>
                   <div>{{ doc.data.name }}, {{ doc.data.occupation }}</div>
@@ -65,6 +64,7 @@ import { Timeslot } from '@/model/Timeslot';
 import { DateTime } from '@/model/DateTime';
 import { isStatus } from '@/utils/http';
 import { AppModule } from '@/store/modules/app';
+import { toDateTimeString } from '@/utils/time';
 
 @Component
 export default class AvailableTimeslots extends Vue {
@@ -72,12 +72,8 @@ export default class AvailableTimeslots extends Vue {
 
   private selected = -1;
 
-  formatDate(datetime: DateTime) {
-    return `${datetime.year}-${datetime.month}-${datetime.day}`;
-  }
-
-  formatTime(datetime: DateTime) {
-    return `${datetime.hour}:${datetime.minute}`;
+  toDateString(datetime: DateTime) {
+    return toDateTimeString(datetime);
   }
 
   created() {
