@@ -5,7 +5,7 @@ services:
 
 before_install:
   - cd backend
-  - docker-compose -f docker/docker-compose.yml up
+  - docker-compose -f docker/docker-compose.yml up -d
 
 script: ./gradlew build
 
