@@ -19,6 +19,7 @@ RUN apk add openjdk8
 #RUN tar -xvf /server/appoint1-shadow.tar
 COPY --from=builder /app/backend/ ./server
 COPY --from=build-stage /dist /usr/share/nginx/html
-EXPOSE 80
+COPY ./docker/default.conf /etc/nginx/conf.d/default.conf
+#EXPOSE 80
 ADD /docker/start.sh /
 CMD ["/start.sh"]
