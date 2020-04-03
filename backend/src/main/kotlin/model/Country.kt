@@ -2,7 +2,8 @@ package model
 
 data class Country(
 	val id: Int,
-	val name: String
+	val name: String,
+	val prefix: String
 ) {
 	companion object {
 		fun of(value: Int): Country {
@@ -11,12 +12,12 @@ data class Country(
 	}
 }
 
-val Country_SERBIA = Country(1, "Srbija")
+val Country_SERBIA = Country(1, "Srbija", "+381")
 val Country_BOSNIA = Country(2, "Bosna")
 val Country_CROATIA = Country(3, "Hrvatska")
 
 val Countries = mapOf(
-	1 to Country(1, "Srbija"),
-	2 to Country(2, "Bosna"),
-	3 to Country(3, "Hrvatska")
+	1 to Country_SERBIA,
+	2 to Country_BOSNIA,
+	3 to Country_CROATIA
 )
