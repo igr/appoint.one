@@ -30,7 +30,7 @@ private fun newDoctorData(name: String): DoctorData {
 	)
 }
 
-fun newSimpleDoctor(name: String, userId: UserId): NewDoctorWithUser {
+fun newSimpleDoctor(name: String, userId: Int): NewDoctorWithUser {
 	return NewDoctorWithUser(
 		data = newDoctorData(name),
 		userId = userId

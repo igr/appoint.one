@@ -21,16 +21,12 @@ class UserEntity(id: EntityID<Int>) : Entity<Int>(id) {
 
 	fun toUser(): User {
 		return User(
-			id = UserId(id.value),
+			id = id.value,
 			password = password,
 			name = name,
 			role = UserRole.of(role)
 		)
 	}
-}
-
-fun UserEntity.Companion.findById(userId: UserId): UserEntity? {
-	return UserEntity.findById(userId.value)
 }
 
 fun UserEntity.Companion.add(user: NewUser): UserEntity {

@@ -13,12 +13,8 @@ enum class UserRole(val value: Int) {
 	}
 }
 
-data class UserId(
-	override val value: Int
-) : Id()
-
 data class User(
-	val id: UserId,
+	val id: Int,
 	val name: String,
 	@JsonIgnore
 	val password: String = "",

@@ -11,7 +11,7 @@ object Doctors {
 		DoctorUnit(DoctorEntity.findExisting(doctor.id))
 	}
 
-	suspend fun with(doctorId: DoctorId): DoctorUnit = dbtx {
+	suspend fun with(doctorId: Int): DoctorUnit = dbtx {
 		DoctorUnit(DoctorEntity.findExisting(doctorId))
 	}
 
@@ -35,16 +35,16 @@ object Doctors {
 	/**
 	 * Finds existing doctor by ID.
 	 */
-	suspend fun findById(id: DoctorId): Doctor? = dbtx {
+	suspend fun findById(id: Int): Doctor? = dbtx {
 		DoctorEntity.findById(id)?.toDoctor()
 	}
 
 	/**
 	 * Returns doctor by its user id.
 	 */
-	suspend fun findByUserId(userId: UserId): Doctor? = dbtx {
+	suspend fun findByUserId(userId: Int): Doctor? = dbtx {
 		DoctorEntity
-			.find { DoctorsRepo.userRef eq userId.value }
+			.find { DoctorsRepo.userRef eq userId }
 			.firstOrNull()?.toDoctor()
 	}
 

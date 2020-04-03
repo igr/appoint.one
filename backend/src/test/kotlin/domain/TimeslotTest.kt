@@ -1,7 +1,8 @@
 package domain
 
+import DateTime
 import kotlinx.coroutines.runBlocking
-import model.NewTimeslot
+
 import model.newSimpleDoctor
 import model.newSimpleUserWithDoctorRole
 import org.assertj.core.api.Assertions.assertThat
@@ -15,8 +16,8 @@ class TimeslotTest : ServerTest() {
 		// given
 		val user1 = Users.registerUser(newSimpleUserWithDoctorRole("pera"))
 		val doctor1 = newSimpleDoctor("doc1", user1.id)
-		val timeslot1 = NewTimeslot(date = 20200101, time = 1930)
-		val timeslot2 = NewTimeslot(date = 20200101, time = 2000)
+		val timeslot1 = DateTime(date = 20200101, time = 1930)
+		val timeslot2 = DateTime(date = 20200101, time = 2000)
 
 		// when
 		val saved = Doctors.addNewDoctor(doctor1)
@@ -36,9 +37,9 @@ class TimeslotTest : ServerTest() {
 		// given
 		val user1 = Users.registerUser(newSimpleUserWithDoctorRole("pera"))
 		val doctor1 = newSimpleDoctor("doc1", user1.id)
-		val timeslot1 = NewTimeslot(date = 20200101, time = 1930)
-		val timeslot2 = NewTimeslot(date = 20200101, time = 2000)
-		val timeslot3 = NewTimeslot(date = 20200101, time = 2030)
+		val timeslot1 = DateTime(date = 20200101, time = 1930)
+		val timeslot2 = DateTime(date = 20200101, time = 2000)
+		val timeslot3 = DateTime(date = 20200101, time = 2030)
 
 		// when
 		val saved = Doctors.addNewDoctor(doctor1)

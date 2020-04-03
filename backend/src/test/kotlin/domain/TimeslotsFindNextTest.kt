@@ -1,8 +1,8 @@
 package domain
 
+import DateTime
 import kotlinx.coroutines.runBlocking
 import model.Country_SERBIA
-import model.NewTimeslot
 import model.newSimpleDoctor
 import model.newSimpleUserWithDoctorRole
 import org.assertj.core.api.Assertions.assertThat
@@ -18,8 +18,8 @@ class TimeslotsFindNextTest : ServerTest() {
 		// given
 		val user1 = Users.registerUser(newSimpleUserWithDoctorRole("pera"))
 		val doctor1 = Doctors.addNewDoctor(newSimpleDoctor("doc1", user1.id))
-		val futureTimeslot: NewTimeslot = LocalDateTime.now().plusHours(1).toDateTime()
-		val expiredTimeslot: NewTimeslot = LocalDateTime.now().minusDays(1).toDateTime()
+		val futureTimeslot: DateTime = LocalDateTime.now().plusHours(1).toDateTime()
+		val expiredTimeslot: DateTime = LocalDateTime.now().minusDays(1).toDateTime()
 		Doctors.with(doctor1).bindTimeslots(listOf(futureTimeslot, expiredTimeslot))
 
 		// when

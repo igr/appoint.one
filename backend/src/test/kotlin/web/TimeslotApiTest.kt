@@ -1,9 +1,9 @@
 package web
 
+import DateTime
 import domain.Doctors
 import kotlinx.coroutines.runBlocking
-import model.NewDoctorTimeslots
-import model.NewTimeslot
+import model.NewDoctorTimeslot
 import model.newSimpleDoctor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -15,17 +15,16 @@ class TimeslotApiTest : ServerTest() {
 	fun `POST timeslot`() {
 		// given
 		val doc1 = postDoctor(newSimpleDoctor("pera"))
-		val newDoctorTimeslot = NewDoctorTimeslots(doc1.id, listOf(
-			NewTimeslot(20200101, 800),
-			NewTimeslot(20200101, 1000)
-		))
+		val newDoctorTimeslot1 = NewDoctorTimeslot(doc1.id, DateTime(20200101, 800))
+		val newDoctorTimeslot2 = NewDoctorTimeslot(doc1.id, DateTime(20200101, 1000))
 
 		// when
-		val retrieved = postTimeslot(newDoctorTimeslot)
+		val retrieved1 = postTimeslot(newDoctorTimeslot1)
+		val retrieved2 = postTimeslot(newDoctorTimeslot2)
 
 		// then
-		assertThat(retrieved.size).isEqualTo(2)
-		assertThat(retrieved).extracting("datetime.value").containsExactly(202001010800L, 202001011000L)
+		assertThat(retrieved1).extracting("datetime.value").containsExactly(202001010800L)
+		assertThat(retrieved2).extracting("datetime.value").containsExactly(202001011000L)
 	}
 
 	@Test
@@ -33,7 +32,7 @@ class TimeslotApiTest : ServerTest() {
 		// given
 		val doc1 = postDoctor(newSimpleDoctor("pera"))
 		val timeslots = Doctors.with(doc1).bindTimeslots(listOf(
-			NewTimeslot(20200101, 800)
+			DateTime(20200101, 800)
 		));
 
 		// when

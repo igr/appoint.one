@@ -8,20 +8,19 @@ import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.*
 import model.Country_SERBIA
-import model.NewDoctorTimeslots
-import model.TimeslotId
+import model.NewDoctorTimeslot
 
 fun Route.timeslots() {
 
 	route("/timeslots") {
 
 		post("/") {
-			val newDoctorTimeslots = call.receive<NewDoctorTimeslots>()
+			val newDoctorTimeslots = call.receive<NewDoctorTimeslot>()
+			val timeslots = Doctors
+				.with(newDoctorTimeslots.doctorId)
+				.bindTimeslots(listOf(newDoctorTimeslots.datetime))
 
-			call.respond(HttpStatusCode.Created,
-				Doctors
-					.with(newDoctorTimeslots.doctorId)
-					.bindTimeslots(newDoctorTimeslots.timeslots))
+			call.respond(HttpStatusCode.Created, timeslots)
 		}
 
 		get("/count") {
@@ -34,12 +33,12 @@ fun Route.timeslots() {
 
 		put("{id}/reserve") {
 			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-			call.respond(HttpStatusCode.NoContent, Timeslots.with(TimeslotId(id)).reserve())
+			call.respond(HttpStatusCode.NoContent, Timeslots.with(id).reserve())
 		}
 
 		get("/{id}") {
 			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-			val timeslot = Timeslots.findById(TimeslotId(id))
+			val timeslot = Timeslots.findById(id)
 
 			timeslot?.let { call.respond(it) } ?: call.respond(HttpStatusCode.NotFound)
 		}

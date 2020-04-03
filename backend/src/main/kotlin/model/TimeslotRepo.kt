@@ -21,7 +21,7 @@ class TimeslotEntity(id: EntityID<Int>) : Entity<Int>(id) {
 
 	fun toTimeslot(): Timeslot {
 		return Timeslot(
-			id = TimeslotId(id.value),
+			id = id.value,
 			status = TimeslotStatus.of(status),
 			datetime = DateTime(datetime),
 			doctor = doctorRef.toDoctor()
@@ -32,7 +32,7 @@ class TimeslotEntity(id: EntityID<Int>) : Entity<Int>(id) {
 		assert(doctorRef.id == doc.id)
 
 		return Timeslot(
-			id = TimeslotId(id.value),
+			id = id.value,
 			status = TimeslotStatus.of(status),
 			datetime = DateTime(datetime),
 			doctor = doc.toDoctor()
@@ -40,18 +40,14 @@ class TimeslotEntity(id: EntityID<Int>) : Entity<Int>(id) {
 	}
 }
 
-fun TimeslotEntity.Companion.findExisting(id: TimeslotId): TimeslotEntity {
-	return find { TimeslotsRepo.id eq id.value }.single()
+fun TimeslotEntity.Companion.findExisting(id: Int): TimeslotEntity {
+	return findById(id)!!
 }
 
-fun TimeslotEntity.Companion.findById(id: TimeslotId): TimeslotEntity? {
-	return findById(id.value);
-}
-
-fun TimeslotEntity.Companion.add(timeslot: NewTimeslot, doc: DoctorEntity): TimeslotEntity {
+fun TimeslotEntity.Companion.add(dateTime: DateTime, doc: DoctorEntity): TimeslotEntity {
 	return TimeslotEntity.new {
 		status = TimeslotStatus.NEW.value
-		datetime = timeslot.value
+		datetime = dateTime.value
 		doctorRef = doc
 	}
 }

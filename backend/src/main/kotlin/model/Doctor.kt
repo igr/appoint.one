@@ -2,10 +2,6 @@ package model
 
 import java.time.LocalDateTime
 
-data class DoctorId(
-	override val value: Int
-) : Id()
-
 enum class DoctorSex(val value: Boolean) {
 	MALE(true), FEMALE(false);
 
@@ -34,14 +30,14 @@ data class DoctorData(
  * Doctor + User.
  */
 data class Doctor(
-	val id: DoctorId,
+	val id: Int,
 	val data: DoctorData,
 	val user: User
 )
 
 data class NewDoctorWithUser(
 	val data: DoctorData,
-	val userId: UserId
+	val userId: Int
 )
 
 data class NewDoctorAndUser(

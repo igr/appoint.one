@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 @TargetIs("Set of all timeslots.")
 object Timeslots {
 
-	suspend fun with(timeslotId: TimeslotId): TimeslotUnit = dbtx {
+	suspend fun with(timeslotId: Int): TimeslotUnit = dbtx {
 		TimeslotUnit(TimeslotEntity.findExisting(timeslotId))
 	}
 
@@ -37,7 +37,7 @@ object Timeslots {
 		_findNextTimeslots(country)
 	}
 
-	suspend fun findById(id: TimeslotId): Timeslot? = dbtx {
+	suspend fun findById(id: Int): Timeslot? = dbtx {
 		TimeslotEntity.findById(id)?.toTimeslot()
 	}
 

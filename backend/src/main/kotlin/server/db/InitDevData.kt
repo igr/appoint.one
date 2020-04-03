@@ -3,10 +3,10 @@ package server.db
 import domain.Doctors
 import domain.Users
 import kotlinx.coroutines.runBlocking
-import model.NewTimeslot
 import model.NewUser
 import model.UserRole
 import model.newSimpleDoctor
+import toDateTime
 import java.time.LocalDateTime
 
 fun createDevData() {
@@ -16,7 +16,7 @@ fun createDevData() {
 
 		val doctor = Doctors.addNewDoctor(newSimpleDoctor("Pera", doc.id))
 
-		val nextTimeslot = NewTimeslot(LocalDateTime.now().plusDays(1))
+		val nextTimeslot = LocalDateTime.now().plusDays(1).toDateTime()
 		Doctors.with(doctor).bindTimeslots(listOf(nextTimeslot))
 	}
 }

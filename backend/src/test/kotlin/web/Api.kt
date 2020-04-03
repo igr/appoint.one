@@ -11,9 +11,9 @@ import model.*
 
 // doctor
 
-fun getDoctor(id: DoctorId): Doctor {
+fun getDoctor(id: Int): Doctor {
 	return Given {
-		pathParam("id", id.value)
+		pathParam("id", id)
 	} When {
 		get("/doctors/{id}")
 	} Then {
@@ -59,7 +59,7 @@ fun postDoctor(newDoctor: NewDoctorAndUser): Doctor {
 
 // timeslot
 
-fun postTimeslot(newDoctorTimeslot: NewDoctorTimeslots): List<Timeslot> {
+fun postTimeslot(newDoctorTimeslot: NewDoctorTimeslot): List<Timeslot> {
 	return Given {
 		body(newDoctorTimeslot)
 		contentType(ContentType.JSON)
@@ -72,11 +72,11 @@ fun postTimeslot(newDoctorTimeslot: NewDoctorTimeslots): List<Timeslot> {
 	}
 }
 
-fun getTimeslot(timeslotId: TimeslotId): Timeslot {
+fun getTimeslot(timeslotId: Int): Timeslot {
 	return Given {
 		contentType(ContentType.JSON)
 	} When {
-		get("/timeslots/${timeslotId.value}")
+		get("/timeslots/${timeslotId}")
 	} Then {
 		statusCode(200)
 	} Extract {

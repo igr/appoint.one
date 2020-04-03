@@ -14,20 +14,14 @@ enum class TimeslotStatus(val value: Int) {
 	}
 }
 
-data class TimeslotId(
-	override val value: Int
-) : Id()
-
-typealias NewTimeslot = DateTime
-
 data class Timeslot(
-	val id: TimeslotId,
+	val id: Int,
 	val status: TimeslotStatus,
 	val datetime: DateTime,
 	val doctor: Doctor
 )
 
-data class NewDoctorTimeslots(
-	val doctorId: DoctorId,
-	val timeslots: List<NewTimeslot>
+data class NewDoctorTimeslot(
+	val doctorId: Int,
+	val datetime: DateTime
 )

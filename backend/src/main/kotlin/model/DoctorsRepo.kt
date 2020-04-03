@@ -63,18 +63,14 @@ class DoctorEntity(id: EntityID<Int>) : Entity<Int>(id) {
 	)
 
 	fun toDoctor() = Doctor(
-		id = DoctorId(id.value),
+		id = id.value,
 		data = toDoctorData(),
 		user = userRef.toUser()
 	)
 }
 
-fun DoctorEntity.Companion.findById(userId: DoctorId): DoctorEntity? {
-	return findById(userId.value)
-}
-
-fun DoctorEntity.Companion.findExisting(userId: DoctorId): DoctorEntity {
-	return findById(userId.value)!!
+fun DoctorEntity.Companion.findExisting(userId: Int): DoctorEntity {
+	return DoctorEntity.findById(userId)!!
 }
 
 fun DoctorEntity.Companion.add(doctor: DoctorData, userEntity: UserEntity): DoctorEntity {

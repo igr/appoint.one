@@ -7,7 +7,6 @@ import io.ktor.response.respond
 import io.ktor.routing.Route
 import io.ktor.routing.post
 import io.ktor.routing.route
-import model.UserId
 
 fun Route.role() {
 
@@ -15,7 +14,7 @@ fun Route.role() {
 		route("users") {
 			post("doctor/{id}") {
 				val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-				Doctors.findByUserId(UserId(id))
+				Doctors.findByUserId(id)
 				call.respond("23")
 			}
 		}
