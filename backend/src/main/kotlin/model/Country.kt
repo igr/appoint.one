@@ -11,12 +11,12 @@ data class Country(
 	}
 }
 
-val Country_SERBIA = Country(1, "Serbia")
+val Country_SERBIA = Country(1, "Srbija")
 val Country_BOSNIA = Country(2, "Bosna")
-val Country_CROATIA = Country(3, "Croatia")
+val Country_CROATIA = Country(3, "Hrvatska")
 
 val Countries = mapOf(
-	1 to Country(1, "Serbia"),
+	1 to Country(1, "Srbija"),
 	2 to Country(2, "Bosna"),
 	3 to Country(3, "Hrvatska")
 )
