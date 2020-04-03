@@ -76,7 +76,6 @@ export default class extends Vue {
     const { data } = await DoctorApi.getAll();
     const d: Doctor[] = data;
     d.forEach((it) => this.doctors.push(it));
-    console.log(this.doctors);
   }
 }
 </script>

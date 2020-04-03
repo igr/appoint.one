@@ -39,7 +39,7 @@ object DatabaseFactory {
     private fun hikari(): HikariDataSource {
 	    val config = HikariConfig("/hikari.properties")
 	    if (System.getenv("DATABASE_URL") != null) {
-		    config.jdbcUrl = System.getenv("DATABASE_URL")
+		    config.jdbcUrl = "jdbc:" + System.getenv("DATABASE_URL")
 	    }
 	    if (System.getenv("DATABASE_USER") != null) {
 		    config.username = System.getenv("DATABASE_USER")
