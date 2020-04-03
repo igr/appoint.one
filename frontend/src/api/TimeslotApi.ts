@@ -34,6 +34,11 @@ class TimeslotApi {
       datetime,
     },
   });
+
+  delete = (timeslotId: number) => http({
+    url: `/timeslots/${timeslotId}`,
+    method: 'delete',
+  })
 }
 
 export default new TimeslotApi();

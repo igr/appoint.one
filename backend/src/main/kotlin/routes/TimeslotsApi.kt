@@ -43,6 +43,13 @@ fun Route.timeslots() {
 			timeslot?.let { call.respond(it) } ?: call.respond(HttpStatusCode.NotFound)
 		}
 
+		delete("/{id}") {
+			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
+			Timeslots.deleteById(id)
+
+			call.respond(HttpStatusCode.Accepted)
+		}
+
 	}
 
 }

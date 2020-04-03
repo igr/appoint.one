@@ -3,6 +3,7 @@ package domain
 import model.*
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.deleteAll
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.selectAll
 import server.DatabaseFactory.dbtx
 import toDateTime
@@ -40,6 +41,10 @@ object Timeslots {
 
 	suspend fun findById(id: Int): Timeslot? = dbtx {
 		TimeslotEntity.findById(id)?.toTimeslot()
+	}
+
+	suspend fun deleteById(id: Int) = dbtx {
+		TimeslotsRepo.deleteWhere { TimeslotsRepo.id eq id }
 	}
 
 }
