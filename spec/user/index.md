@@ -1,13 +1,21 @@
 # Zahtev
 
-Korisnik zahteva doktora.
++ Ispisan je ukupan broj termina
++ Država je preselektovan i mora biti izabrana
++ Grad nije preselektovan i ne mora biti izabran
 
-Spisak od 5 sledećih termina:
+Daje se spisak od 5 termina iz iste države. Prioritet imaju doktori iz istog grada. Ukoliko ih nema, daju se iz ostalih gradova.
 
-+ termin 1
-+ termin 2
-+ termin 3
-+ termin 4
-+ termin 5
+Korisnik bira jedan od termina, pa ga potvrđuje.
 
-Korisnik bira neki od termina, pa ide na [korak2](step2.md)
+> Ova stranica je podložna zloupotrebi jer SVAKO može da pravi zahtev.
+
+## Prikaz potvrde
+
+Svaka potvrda ima jedinstvenu stranicu:
+
++ broj potvrde
++ datum i vreme potvrde
++ profil doktora
+
+Profil doktora sadrži dugmiće za pozivanje preko svih soc kanala.

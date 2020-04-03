@@ -1,0 +1,10 @@
+{
+  "name": "Appoint1",
+  "description": "Appoint One",
+  "repository": "https://github.com/igr/appoint.one",
+  "addons": [ "heroku-postgresql" ],
+  "env": {
+  },
+  "environments": {
+  }
+}
