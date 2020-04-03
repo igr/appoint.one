@@ -110,7 +110,7 @@ export default class ChooseLocation extends Vue {
         { id: 15, name: 'Trebinje', country: 3 },
       ];
       this.countries = [
-        { name: 'Serbia', id: 1 },
+        { name: 'Srbija', id: 1 },
         { name: 'Bosnia', id: 2 },
         { name: 'Croatia', id: 3 },
       ];

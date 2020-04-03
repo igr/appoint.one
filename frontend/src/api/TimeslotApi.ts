@@ -1,4 +1,5 @@
 import http from '@/utils/http';
+import { DateTime } from '@/model/DateTime';
 
 class TimeslotApi {
   count = () => http({
@@ -23,7 +24,16 @@ class TimeslotApi {
   get = (timeslotId: number) => http({
     url: `/timeslots/${timeslotId}`,
     method: 'get',
-  })
+  });
+
+  post = (doctorId: Number, datetime: DateTime) => http({
+    url: '/timeslots/',
+    method: 'post',
+    data: {
+      doctorId,
+      datetime,
+    },
+  });
 }
 
 export default new TimeslotApi();

@@ -9,14 +9,15 @@ import server.DatabaseFactory.dbtx
 @TargetIs("Single doctor")
 class DoctorUnit internal constructor(private val doctorEntity: DoctorEntity) {
 
-	suspend fun listAllTimeslots() = dbtx {
+	suspend fun listTimeslots() = dbtx {
 		doctorEntity.timeslots
 			.sortedWith(compareBy { it.datetime })
+			.reversed()
 			.map { it.toTimeslot() }
 	}
 
 	suspend fun bindTimeslots(timeslotList: List<DateTime>) = dbtx {
-		val existingTimeslots = listAllTimeslots()
+		val existingTimeslots = listTimeslots()
 
 		timeslotList
 			.filter {

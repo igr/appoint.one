@@ -30,6 +30,7 @@ object Timeslots {
 
 		TimeslotsRepo.selectAll()
 			.andWhere { TimeslotsRepo.datetime greaterEq dateTime.value }
+			.andWhere { TimeslotsRepo.status eq TimeslotStatus.NEW.value }
 			.count()
 	}
 

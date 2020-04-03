@@ -22,6 +22,11 @@ class DoctorApi {
       },
     },
   });
+
+  getDoctorTimeslots = (docId: number) => http({
+    url: `doctors/${docId}/timeslots`,
+    method: 'get',
+  });
 }
 
 export default new DoctorApi();

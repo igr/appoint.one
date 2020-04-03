@@ -4,12 +4,10 @@
       cols="12"
       md="8"
     >
-      <h1 class="heading">
+      <h1 class="heading text-center">
         IZBOR TERMINA
       </h1>
-
       <NumberOfTimeslots />
-
       <ChooseLocation />
 
       <AvailableTimeslots />

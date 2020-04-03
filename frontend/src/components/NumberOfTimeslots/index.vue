@@ -1,7 +1,7 @@
 <template>
-  <div id="c-number">
-    Preostalo je {{ count }} slobodnih termina.
-  </div>
+  <v-sheet color="primary" class="col-4 offset-4 white--text font-weight-black text-center">
+    Preostalo slobodnih termina: {{ count }}
+  </v-sheet>
 </template>
 
 <script lang="ts">

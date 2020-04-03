@@ -30,6 +30,7 @@ fun _findNextTimeslots(country: Country): List<Timeslot> {
 */
 	return TimeslotsRepo.innerJoin(DoctorsRepo)
 		.select { TimeslotsRepo.doctoreRef eq DoctorsRepo.id }
+		.andWhere { TimeslotsRepo.status eq TimeslotStatus.NEW.value }
 		.andWhere { TimeslotsRepo.datetime greaterEq dateTimeInt }
 		.andWhere { DoctorsRepo.country eq country.id }
 		.orderBy(TimeslotsRepo.datetime)

@@ -42,13 +42,15 @@
           </v-list-item-group>
         </v-list>
       </v-card>
-      <v-divider />
-      <v-btn
-        color="primary"
-        @click="submit"
-      >
-        Potvrdi termin!
-      </v-btn>
+      <v-row justify="content-center" class="mt-6">
+        <v-btn
+          color="primary"
+          class="ma-auto"
+          @click="submit"
+        >
+          Izaberi i potvrdi termin
+        </v-btn>
+      </v-row>
     </v-col>
   </v-row>
 </template>
@@ -96,7 +98,7 @@ export default class AvailableTimeslots extends Vue {
     if (this.selected < 0) {
       return;
     }
-    const timeslotId = this.timeslotList[this.selected].id.value;
+    const timeslotId = this.timeslotList[this.selected].id;
 
     try {
       await TimeslotApi.reserveTimeslot(timeslotId);

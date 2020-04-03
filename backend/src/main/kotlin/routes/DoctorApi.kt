@@ -19,6 +19,11 @@ fun Route.doctors() {
 			call.respond(Doctors.listAllDoctors())
 		}
 
+		post {
+			val newDoctorAndUser = call.receive<NewDoctorAndUser>()
+			call.respond(HttpStatusCode.Created, Doctors.addNewDoctor(newDoctorAndUser))
+		}
+
 		get("/{id}") {
 			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
 			val doctor = Doctors.findById(id);
@@ -26,9 +31,10 @@ fun Route.doctors() {
 			doctor?.let { call.respond(it) } ?: call.respond(HttpStatusCode.NotFound)
 		}
 
-		post {
-			val newDoctorAndUser = call.receive<NewDoctorAndUser>()
-			call.respond(HttpStatusCode.Created, Doctors.addNewDoctor(newDoctorAndUser))
+		get("/{id}/timeslots") {
+			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
+
+			call.respond(Doctors.with(id).listTimeslots())
 		}
 	}
 
