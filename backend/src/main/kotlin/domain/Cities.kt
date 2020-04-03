@@ -1,6 +1,7 @@
 package domain
 
-import model.*
+import model.CitiesRepo
+import model.City
 import org.jetbrains.exposed.sql.selectAll
 import server.DatabaseFactory.dbtx
 
@@ -8,6 +9,11 @@ import server.DatabaseFactory.dbtx
 object Cities {
 
 	suspend fun findAllCities(): List<City> = dbtx {
-		CitiesRepo.selectAll().toList().map { City(it.get(CitiesRepo.id), it.get(CitiesRepo.name), it.get(CitiesRepo.country)) }
+		CitiesRepo.selectAll().toList().map {
+			City(
+				it[CitiesRepo.id],
+				it[CitiesRepo.name],
+				it[CitiesRepo.country])
+		}
 	}
 }

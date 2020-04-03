@@ -23,7 +23,7 @@ class DoctorTest : ServerTest() {
 		val retrieved = Doctors.findById(saved.id)
 
 		assertThat(retrieved?.data).isEqualToIgnoringGivenFields(newDoctor.data, "dateUpdated")
-		assertThat(retrieved).isEqualTo(saved)
+		assertThat(retrieved).isEqualToIgnoringGivenFields(saved, "data.dateUpdated")
 
 		Unit
 	}
