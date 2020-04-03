@@ -26,7 +26,7 @@ class TimeslotTest : ServerTest() {
 
 		// then
 		assertThat(timeslots.size).isEqualTo(2)
-		assertThat(timeslots).extracting("datetime.value").containsExactly(202001011930L, 202001012000L)
+		assertThat(timeslots).extracting("datetime.value").containsExactly(202001012000L, 202001011930L)
 
 		Unit
 	}
@@ -52,7 +52,7 @@ class TimeslotTest : ServerTest() {
 		// then
 		assertThat(timeslots.size).isEqualTo(3)
 		assertThat(timeslots).extracting("datetime.value")
-			.containsExactly(202001011930, 202001012000, 202001012030)
+			.containsExactly(202001012030, 202001012000, 202001011930)
 
 		Unit
 	}
