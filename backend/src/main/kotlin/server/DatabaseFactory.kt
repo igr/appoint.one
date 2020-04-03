@@ -32,12 +32,17 @@ object DatabaseFactory {
     }
 
     private fun hikari(): HikariDataSource {
-	    val dbUser = System.getenv("PH_DATABASE_USER") ?: "phuser"
-	    val dbPass = System.getenv("PH_DATABASE_PASS") ?: "phpass1!"
-
 	    val config = HikariConfig("/hikari.properties")
-	    config.username = dbUser
-	    config.password = dbPass
+	    if (System.getenv("DATABASE_URL") != null) {
+		    config.jdbcUrl = System.getenv("DATABASE_URL")
+	    }
+	    if (System.getenv("DATABASE_USER") != null) {
+		    config.username = System.getenv("DATABASE_USER")
+	    }
+	    if (System.getenv("DATABASE_PASS") != null) {
+		    config.password = System.getenv("DATABASE_PASS")
+	    }
+
 	    config.validate()
 
 	    return HikariDataSource(config)
