@@ -21,7 +21,7 @@ services:
     ports:
       - 80:3000
     environment:
-      - DATABASE_URL=postgresql://a1database:5432/phdb
+      - DATABASE_DB=a1database:5432/phdb
       - KTOR_ENV=prod
       - "JAVA_OPTS=-Xmx300m -Xss512k -XX:CICompilerCount=2 -Dfile.encoding=UTF-8"
       - PORT=3000
