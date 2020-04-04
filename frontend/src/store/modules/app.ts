@@ -32,6 +32,7 @@ class AppModuleClass extends VuexModule implements AppState {
   @Action
   public setInfoMessage(message: string) {
     this.SET_INFO_MESSAGE(message);
+    setTimeout(() => this.SET_INFO_MESSAGE(''), 3000);
   }
 
   @Action
