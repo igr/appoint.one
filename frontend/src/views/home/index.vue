@@ -19,10 +19,10 @@
               src="@/assets/images/menu-doctor.png"
             />
             <v-card-title>
-              psihoterapeuti
+              Vi ste psihoterapeut?
             </v-card-title>
             <v-card-text>
-              Prijava psihoterapeuta
+              Prijavite se
             </v-card-text>
           </v-card>
         </template>
@@ -47,10 +47,10 @@
               src="@/assets/images/menu-user.png"
             />
             <v-card-title>
-              korisnici
+              Tražite razgovor?
             </v-card-title>
             <v-card-text>
-              Zakazivanje termina
+              Zakažite termin
             </v-card-text>
           </v-card>
         </template>
