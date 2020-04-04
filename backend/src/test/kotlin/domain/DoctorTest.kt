@@ -2,8 +2,10 @@ package domain
 
 import domain.Users.registerUser
 import kotlinx.coroutines.runBlocking
+import model.Doctor
 import model.newSimpleDoctor
 import model.newSimpleUserWithDoctorRole
+import model.resetDate
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import server.ServerTest
@@ -22,8 +24,12 @@ class DoctorTest : ServerTest() {
 		// then
 		val retrieved = Doctors.findById(saved.id)
 
-		assertThat(retrieved?.data).isEqualToIgnoringGivenFields(newDoctor.data, "dateUpdated")
-		assertThat(retrieved).isEqualToIgnoringGivenFields(saved, "data.dateUpdated")
+		val newDoctorCopy = resetDate(Doctor(saved.id, newDoctor.data, saved.user))
+		val savedCopy = resetDate(saved)
+		val retrievedCopy = resetDate(retrieved)
+
+		assertThat(retrievedCopy?.data).isEqualTo(newDoctorCopy?.data)
+		assertThat(retrievedCopy).isEqualTo(savedCopy)
 
 		Unit
 	}

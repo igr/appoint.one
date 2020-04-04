@@ -47,3 +47,9 @@ fun newSimpleDoctor(name: String): NewDoctorAndUser {
 		)
 	);
 }
+
+fun resetDate(doctor: Doctor?): Doctor? {
+	val dateTime = LocalDateTime.of(2020, 5, 11, 0, 0, 0)
+	val doctorCopy = doctor?.copy(data = doctor?.data.copy(dateUpdated = dateTime))
+	return doctorCopy;
+}
