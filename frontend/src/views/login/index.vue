@@ -61,7 +61,10 @@
         </v-card-actions>
       </v-card>
     </v-col>
-    <v-col cols="12" class="text-uppercase text-center">
+    <v-col
+      cols="12"
+      class="text-uppercase text-center"
+    >
       <a
         href="#"
         @click="logout"

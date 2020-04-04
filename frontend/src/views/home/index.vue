@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-col
       cols="12"
-      md="6"
+      md="4"
     >
       <!-- link1 -->
       <v-hover>
@@ -30,7 +30,7 @@
     </v-col>
     <v-col
       cols="12"
-      md="6"
+      md="4"
     >
       <!-- link2 -->
       <v-hover>
