@@ -5,10 +5,7 @@ import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
-import io.ktor.routing.Route
-import io.ktor.routing.get
-import io.ktor.routing.post
-import io.ktor.routing.route
+import io.ktor.routing.*
 import model.NewDoctorAndUser
 
 fun Route.doctors() {
@@ -35,6 +32,18 @@ fun Route.doctors() {
 			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
 
 			call.respond(Doctors.with(id).listTimeslots())
+		}
+
+		put("/{id}/enable") {
+			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
+			Doctors.with(id).enable(true)
+			call.respond(HttpStatusCode.Accepted)
+		}
+
+		put("/{id}/disable") {
+			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
+			Doctors.with(id).enable(false)
+			call.respond(HttpStatusCode.Accepted)
 		}
 	}
 

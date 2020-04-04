@@ -30,4 +30,8 @@ class DoctorUnit internal constructor(private val doctorEntity: DoctorEntity) {
 			}
 	}
 
+	suspend fun enable(confirmed: Boolean) = dbtx {
+		doctorEntity.confirmed = confirmed;
+	}
+
 }
