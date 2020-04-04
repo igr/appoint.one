@@ -50,6 +50,8 @@ object DatabaseFactory {
 
 	    config.validate()
 
+	    serverLogger.info("Connecting to: ${config.jdbcUrl}")
+
 	    return HikariDataSource(config)
     }
 

@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-col
       cols="12"
-      md="8"
+      md="6"
     >
       <!-- link1 -->
       <v-hover>
@@ -27,6 +27,11 @@
           </v-card>
         </template>
       </v-hover>
+    </v-col>
+    <v-col
+      cols="12"
+      md="6"
+    >
       <!-- link2 -->
       <v-hover>
         <template v-slot="{ hover }">
@@ -50,31 +55,18 @@
           </v-card>
         </template>
       </v-hover>
-      <div>
-        <a
-          href="#"
-          @click="logout"
-        >
-          Logout
-        </a>
-      </div>
     </v-col>
   </v-row>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { UserModule } from '@/store/modules/user';
 
 @Component({
   name: 'Home',
 })
 export default class extends Vue {
   private hover: boolean = false;
-
-  logout() {
-    UserModule.LogOut();
-  }
 }
 </script>
 

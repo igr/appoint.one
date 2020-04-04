@@ -13,6 +13,7 @@ korak 1
 korak 2
 
 + osnovno zanimanje
++ specijalizacija (ako je specijalista ili na specijalizaciji)
 + godina edukacije
 + psihoterapijski sertifikat
 + psihoterapijski modalitet
@@ -28,7 +29,8 @@ korak 3
 + psihijatar
 + psiholog
 + socijalni radni
-+ lekar specijalista ne/ako da dopisati specijalnost ako ne da li je na specijalizaciji/ako da dopisati iz čega `NIJE IMPLEMENTIRANO`
++ lekar specijalista *
++ lekar na specijalzaciji *
 + teolog
 + andragog
 + specijalni pedagog
@@ -42,6 +44,10 @@ korak 3
 + student andragogije
 + student defektologije
 + (Drugo...)
+
+## Specijalizacija
+
++ dopisati specijalnost
 
 ## Sertifikat
 

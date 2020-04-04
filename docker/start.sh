@@ -1,6 +1,7 @@
 #!/bin/sh -x
 
-echo 'Starting nginx on ' $PORT
+echo 'Starting nginx on' $PORT
+envsubst < /etc/nginx/conf.d/default-conf > /etc/nginx/conf.d/default.conf
 nginx
 
 echo 'Starting server...'

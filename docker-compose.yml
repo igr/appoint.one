@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  a1database:
+    image: postgres:12.2
+    container_name: a1db
+    restart: "always"
+    ports:
+      - 5432:5432
+    env_file:
+      - docker/.env
+    volumes:
+      - a1db_data:/var/lib/postgresql/data
+
+  a1server:
+    build: .
+    container_name: a1srv
+    depends_on:
+      - a1database
+    restart: "always"
+    ports:
+      - 80:3000
+    environment:
+      - DATABASE_URL=postgresql://a1database:5432/phdb
+      - KTOR_ENV=prod
+      - "JAVA_OPTS=-Xmx300m -Xss512k -XX:CICompilerCount=2 -Dfile.encoding=UTF-8"
+      - PORT=80
+
+volumes:
+  a1db_data:
