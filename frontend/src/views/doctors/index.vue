@@ -24,9 +24,9 @@
           class="elevation-1"
         >
           <template v-slot:item.data.confirmed="{ item }">
-            <v-simple-checkbox
+            <v-checkbox
               v-model="item.data.confirmed"
-              disabled
+              v-on:change="updateDoctor(item.id, item.data.confirmed)"
             />
           </template>
         </v-data-table>
@@ -61,6 +61,14 @@ export default class extends Vue {
     { text: 'Zoom', value: 'data.zoom' },
     { text: 'Potvrđen', value: 'data.confirmed' },
   ];
+
+  updateDoctor(id: number, confirmed: boolean) {
+    if (confirmed) {
+      DoctorApi.confirmDoctor(id);
+    } else {
+      DoctorApi.deConfirmDoctor(id);
+    }
+  }
 
   private doctors: Doctor[] = [];
 
