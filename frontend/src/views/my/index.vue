@@ -27,34 +27,42 @@
           </v-card-title>
           <v-card-text />
 
-          <v-text-field
-            v-model="date"
-            label="Datum: YYYY/MM/DD"
-            prepend-icon="event"
-          />
-          <v-text-field
-            v-model="time"
-            label="Vreme: HH:MM"
-            prepend-icon="event"
-          />
+          <v-form
+            ref="form"
+            v-model="valid"
+          >
+            <v-text-field
+              v-model="date"
+              label="Datum: YYYY/MM/DD"
+              prepend-icon="event"
+              :rules="rules.date"
+            />
+            <v-text-field
+              v-model="time"
+              label="Vreme: HH:MM"
+              prepend-icon="event"
+              :rules="rules.time"
+            />
 
-          <v-card-actions>
-            <v-spacer />
-            <v-btn
-              color="gray"
-              text
-              @click="dialog = false"
-            >
-              Odustani
-            </v-btn>
-            <v-btn
-              color="blue"
-              text
-              @click="submit"
-            >
-              Dodaj
-            </v-btn>
-          </v-card-actions>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                color="gray"
+                text
+                @click="cancel"
+              >
+                Odustani
+              </v-btn>
+              <v-btn
+                color="blue"
+                text
+                :disabled="!valid"
+                @click="submit"
+              >
+                Dodaj
+              </v-btn>
+            </v-card-actions>
+          </v-form>
         </v-card>
       </v-dialog>
 
@@ -139,6 +147,7 @@ import { isInFuture, toDateTime, toDateTimeString } from '@/utils/time';
 import DoctorProfile from '@/components/DoctorProfile/index.vue';
 // eslint-disable-next-line no-unused-vars
 import { DateTime } from '@/model/DateTime';
+import { isValidDate, isValidTime } from '@/utils/validate';
 
 @Component({
   name: 'My',
@@ -149,6 +158,8 @@ import { DateTime } from '@/model/DateTime';
 export default class extends Vue {
   private isLoading = true;
 
+  private valid = false;
+
   private timeslots: Timeslot[] = [];
 
   private dialog = false;
@@ -156,6 +167,19 @@ export default class extends Vue {
   private date = '';
 
   private time = '';
+
+  private rules = {
+    date: [
+      (v: string) => !!v || 'Datum obavezan',
+      (v: string) => isValidDate(v) || 'Datum mora biti validan',
+      (v: string) => !!v && isValidDate(v),
+    ],
+    time: [
+      (v: string) => !!v || 'Vreme obavezno',
+      (v: string) => isValidTime(v) || 'Vreme mora biti validno',
+      (v: string) => !!v && isValidTime(v),
+    ],
+  };
 
   get doctor(): Doctor {
     return UserModule.doctor;
@@ -184,6 +208,11 @@ export default class extends Vue {
       return 'green';
     }
     return 'blue';
+  }
+
+  cancel() {
+    this.$refs.form.reset();
+    this.dialog = false;
   }
 
   async submit() {

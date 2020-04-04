@@ -45,7 +45,7 @@
         <v-card-actions>
           <v-spacer />
           <v-btn
-            name="registre"
+            name="register"
             to="/register"
           >
             {{ $t('login.register') }}
@@ -112,7 +112,6 @@ export default class extends Vue {
     }
   }
 
-
   private async handleLogin() {
     this.loading = true;
 
@@ -120,6 +119,8 @@ export default class extends Vue {
       name: this.name,
       password: this.password,
     });
+
+    this.$refs.form.reset();
 
     if (success !== 200) {
       AppModule.setInfoMessage(`Logovanje nije uspelo: ${success}`);
