@@ -211,7 +211,8 @@ export default class extends Vue {
   }
 
   cancel() {
-    this.$refs.form.reset();
+    // this.$refs.form.reset();
+    (this.$refs.form as Vue & { reset: () => void }).reset();
     this.dialog = false;
   }
 

@@ -120,7 +120,8 @@ export default class extends Vue {
       password: this.password,
     });
 
-    this.$refs.form.reset();
+    // this.$refs.form.reset();
+    (this.$refs.form as Vue & { reset: () => void }).reset();
 
     if (success !== 200) {
       AppModule.setInfoMessage(`Logovanje nije uspelo: ${success}`);
