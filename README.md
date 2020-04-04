@@ -4,6 +4,6 @@ Schedule an appointment.
 
 [specifikacija](spec/README.md)
 
-## Provided by
+## Patrons
 
 + Zuehlke d.o.o.

@@ -26,7 +26,7 @@ fun loadInitialCitiesOfBosnia() {
 	listOf("Sarajevo")
 		.forEachIndexed { index, cityName ->
 			CitiesRepo.insertIgnore {
-				it[id] = index + 1
+				it[id] = index + 1001
 				it[name] = cityName
 				it[country] = Country_BOSNIA.id
 			}
@@ -37,7 +37,7 @@ fun loadInitialCitiesOfCroatia() {
 	listOf("Zagreb")
 		.forEachIndexed { index, cityName ->
 			CitiesRepo.insertIgnore {
-				it[id] = index + 1
+				it[id] = index + 2001
 				it[name] = cityName
 				it[country] = Country_CROATIA.id
 			}

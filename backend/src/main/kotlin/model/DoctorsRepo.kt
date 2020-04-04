@@ -19,8 +19,14 @@ object DoctorsRepo : IdTable<Int>(name = "doctors") {
 
 	//	val city = integer("city")
 	val year = integer("year")
-	val occupation = varchar("occupation", 255)
 	val education = integer("education")
+	val occupation = integer("occupation")
+	val occupation2 = varchar("occupation2", 255)
+	val occupationSpec = varchar("occupation_spec", 255)
+	val certificate = integer("certificate")
+	val modalitet = integer("modalitet")
+	val modalitet2 = varchar("modalitet2", 255)
+
 	val phone = varchar("phone", 32)
 	val zoom = varchar("zoom", 32)
 	val pic = bool("pic")
@@ -40,8 +46,14 @@ class DoctorEntity(id: EntityID<Int>) : Entity<Int>(id) {
 
 	//	var city by DoctorsRepo.city
 	var year by DoctorsRepo.year
-	var occupation by DoctorsRepo.occupation
 	var education by DoctorsRepo.education
+	var occupation by DoctorsRepo.occupation
+	var occupation2 by DoctorsRepo.occupation2
+	var occupationSpec by DoctorsRepo.occupationSpec
+	var certificate by DoctorsRepo.certificate
+	var modalitet by DoctorsRepo.modalitet
+	var modalitet2 by DoctorsRepo.modalitet2
+
 	var phone by DoctorsRepo.phone
 	var zoom by DoctorsRepo.zoom
 	var pic by DoctorsRepo.pic
@@ -55,10 +67,15 @@ class DoctorEntity(id: EntityID<Int>) : Entity<Int>(id) {
 		name = name,
 		email = email,
 		sex = DoctorSex.of(sex),
-		country = Country.of(country),
+//		country = Country.of(country),
 		year = year,
-		occupation = occupation,
 		education = education,
+		occupation = occupation,
+		occupation2 = occupation2,
+		occupationSpec = occupationSpec,
+		certificate = DoctorCertificate.of(certificate),
+		modalitet = modalitet,
+		modalitet2 = modalitet2,
 		phone = phone,
 		zoom = zoom,
 		pic = pic,
@@ -82,10 +99,15 @@ fun DoctorEntity.Companion.add(doctor: DoctorData, userEntity: UserEntity): Doct
 		name = doctor.name
 		email = doctor.email
 		sex = doctor.sex.value
-		country = doctor.country.id
+		country = 1
 		year = doctor.year
-		occupation = doctor.occupation
 		education = doctor.education
+		occupation = doctor.occupation
+		occupation2 = doctor.occupation2
+		occupationSpec = doctor.occupationSpec
+		certificate = doctor.certificate.value
+		modalitet = doctor.modalitet
+		modalitet2 = doctor.modalitet2
 		phone = doctor.phone
 		zoom = doctor.zoom
 		pic = doctor.pic

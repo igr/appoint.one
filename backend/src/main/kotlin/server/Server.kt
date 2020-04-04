@@ -3,7 +3,9 @@ package server
 import auth.JwtConfig
 import com.fasterxml.jackson.core.util.DefaultIndenter
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.mitchellbosecke.pebble.loader.ClasspathLoader
 import domain.Users
 import io.ktor.application.Application
@@ -62,6 +64,8 @@ fun Application.module(testing: Boolean = false) {
 				indentArraysWith(DefaultPrettyPrinter.FixedSpaceIndenter.instance)
 				indentObjectsWith(DefaultIndenter("  ", "\n"))
 			})
+			disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+			registerKotlinModule()
 		}
 	}
 

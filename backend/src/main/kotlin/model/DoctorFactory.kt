@@ -18,10 +18,15 @@ private fun newDoctorData(name: String): DoctorData {
 		name = name,
 		email = "${name}@dot.com",
 		sex = DoctorSex.MALE,
-		country = Country_SERBIA,
+//		country = Country_SERBIA,
 		year = 1990,
-		occupation = "Occupation",
 		education = 4,
+		occupation = 1,
+		occupation2 = "",
+		occupationSpec = "",
+		certificate = DoctorCertificate.NONE,
+		modalitet = 2,
+		modalitet2 = "",
 		phone = "641294217",
 		zoom = "Z-00-M",
 		pic = false,
@@ -45,7 +50,7 @@ fun newSimpleDoctor(name: String): NewDoctorAndUser {
 			password = "pass",
 			role = UserRole.DOC
 		)
-	);
+	)
 }
 
 fun resetDate(doctor: Doctor?): Doctor? {

@@ -71,6 +71,10 @@
       >
         Logout
       </a>
+      /
+      <router-link to="/admin">
+        admin
+      </router-link>
     </v-col>
   </v-row>
 </template>

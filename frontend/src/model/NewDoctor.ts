@@ -11,7 +11,17 @@ export class NewDoctor implements DoctorData {
 
   year: number = 1980;
 
-  occupation: string = '';
+  occupation: number = 1;
+
+  occupation2: string = '';
+
+  occupationSpec: string = '';
+
+  certificate: number = 1;
+
+  modalitet: number = 1;
+
+  modalitet2: string = '';
 
   education: number = 1;
 

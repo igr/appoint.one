@@ -94,10 +94,9 @@
                 <v-btn
                   v-if="showContinue"
                   color="primary"
-                  :disabled="!($refs.nameRef.valid && $refs.emailRef.valid && $refs.yearRef.valid)"
                   @click="step = 2"
                 >
-                  Continue
+                  Dalje
                 </v-btn>
               </v-row>
             </v-stepper-content>
@@ -105,18 +104,68 @@
             <!-- STEP 2 -->
             <v-stepper-content step="2">
               <v-text-field
-                ref="professionRef"
+                ref="eduYearRef"
+                v-model="form.education"
+                label="Godina edukacije"
+                type="number"
+                :rules="rules.eduYear"
+                required
+              />
+              <v-autocomplete
                 v-model="form.occupation"
+                :items="occupationItems"
+                hide-no-data
+                hide-selected
                 label="Zanimanje"
+              />
+              <v-text-field
+                v-if="isOccupationDrugo"
+                ref="professionRef"
+                v-model="form.occupation2"
+                label="Zanimanje (uneti ručno)"
                 :rules="rules.profession"
                 required
               />
               <v-text-field
-                ref="eduYearRef"
-                v-model="form.education"
-                label="Godine edukacije"
-                type="number"
-                :rules="rules.eduYear"
+                v-if="isOccupationSpecial"
+                ref="professionRef"
+                v-model="form.occupationSpec"
+                label="Vrsta specializacije"
+                :rules="rules.profession"
+                required
+              />
+
+              <v-radio-group
+                v-model="form.certificate"
+                label="Sertifikat"
+                row
+              >
+                <v-radio
+                  label="Ne"
+                  :value="1"
+                />
+                <v-radio
+                  label="Da - Domaći"
+                  :value="2"
+                />
+                <v-radio
+                  label="Da - Inostrani"
+                  :value="3"
+                />
+              </v-radio-group>
+              <v-autocomplete
+                v-model="form.modalitet"
+                :items="modalitetItems"
+                hide-no-data
+                hide-selected
+                label="Modalitet"
+              />
+              <v-text-field
+                v-if="isModalitetDrugo"
+                ref="professionRef"
+                v-model="fmodalitet2"
+                label="Modalitet (uneti ručno)"
+                :rules="rules.profession"
                 required
               />
 
@@ -133,10 +182,9 @@
                 <v-btn
                   v-if="showContinue"
                   color="primary"
-                  :disabled="!($refs.professionRef.valid && $refs.eduYearRef.valid)"
                   @click="step = 3"
                 >
-                  Continue
+                  Dalje
                 </v-btn>
               </v-row>
             </v-stepper-content>
@@ -147,6 +195,11 @@
                 v-model="form.phone"
                 label="Telefon"
                 :rules="rules.phoneNumber"
+                required
+              />
+              <v-text-field
+                v-model="form.zoom"
+                label="ZOOM-ID"
                 required
               />
 
@@ -186,6 +239,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { NewDoctor } from '@/model/NewDoctor';
 import DoctorApi from '@/api/DoctorApi';
+import { modalitets, occupations } from '@/utils/data';
 
 @Component({
   name: 'Register',
@@ -199,10 +253,32 @@ export default class extends Vue {
 
   private form: NewDoctor = new NewDoctor();
 
+  private fmodalitet2 : string = '';
+
   private savedOk = false;
 
   mounted() {
     this.showContinue = true;
+  }
+
+  get isOccupationDrugo() {
+    return this.form.occupation === 999;
+  }
+
+  get isOccupationSpecial() {
+    return this.form.occupation === 4 || this.form.occupation === 5;
+  }
+
+  get isModalitetDrugo() {
+    return this.form.modalitet === 999;
+  }
+
+  get modalitetItems() {
+    return modalitets;
+  }
+
+  get occupationItems() {
+    return occupations;
   }
 
   private rules = {

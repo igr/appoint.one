@@ -4,8 +4,12 @@ export interface DoctorData {
   sex: boolean,
   country: number,
   year: number,
-  occupation: string,
   education: number,
+  occupation: number,
+  occupation2: string,
+  certificate: number,
+  modalitet: number,
+  modalitet2: string,
   phone: string,
   zoom: string,
 }
