@@ -220,7 +220,7 @@ export default class extends Vue {
     const allTimeslots: Timeslot[] = res.data;
 
     allTimeslots.forEach((ts) => this.timeslots.push(ts));
-    this.dialog = false;
+    this.cancel();
   }
 
   async created() {
