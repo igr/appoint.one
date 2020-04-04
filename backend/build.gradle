@@ -77,3 +77,12 @@ jar {
         attributes 'Main-Class': 'MainKt'
     }
 }
+
+application {
+    applicationDefaultJvmArgs = [
+            '-Xmx300m',
+            '-Xss512k',
+            '-XX:CICompilerCount=2',
+            '-Dfile.encoding=UTF-8'
+    ]
+}
