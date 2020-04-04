@@ -38,12 +38,9 @@ object DatabaseFactory {
 
     private fun hikari(): HikariDataSource {
 	    val config = HikariConfig("/hikari.properties")
-	    if (System.getenv("DATABASE_URL") != null) {
-		    var databaseUrl = System.getenv("DATABASE_URL")
-		    // fix invalid jdbc name (given by Heroku)
-		    databaseUrl = databaseUrl.replaceFirst("postgres:", "postgresql:")
-
-		    config.jdbcUrl = "jdbc:$databaseUrl"
+	    if (System.getenv("DATABASE_DB") != null) {
+		    val databaseDb = System.getenv("DATABASE_DB")
+		    config.jdbcUrl = "jdbc:postgresql://$databaseDb"
 	    }
 	    if (System.getenv("DATABASE_USER") != null) {
 		    config.username = System.getenv("DATABASE_USER")

@@ -24,7 +24,7 @@ services:
       - DATABASE_URL=postgresql://a1database:5432/phdb
       - KTOR_ENV=prod
       - "JAVA_OPTS=-Xmx300m -Xss512k -XX:CICompilerCount=2 -Dfile.encoding=UTF-8"
-      - PORT=80
+      - PORT=3000
 
 volumes:
   a1db_data:
