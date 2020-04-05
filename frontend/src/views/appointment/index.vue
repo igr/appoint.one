@@ -12,8 +12,8 @@
 
         <doctor-profile :doc="doctor" />
         <p class="text-center text-uppercase mt-6">
-          Sačuvajte link do ove stranice i podatke.<br/>
-          U naznačeno vreme pozovite doktora.<br/>
+          Sačuvajte link do ove stranice i podatke.<br>
+          U naznačeno vreme pozovite doktora.<br>
         </p>
       </div>
       <div v-else>

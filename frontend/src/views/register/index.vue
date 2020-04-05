@@ -46,6 +46,7 @@
                 v-model="form.name"
                 label="Ime i prezime"
                 :rules="rules.nameAndSurname"
+                prepend-icon="mdi-human"
                 required
               />
               <v-text-field
@@ -53,6 +54,7 @@
                 v-model="form.email"
                 label="Email"
                 type="email"
+                prepend-icon="mdi-email"
                 :rules="rules.email"
                 required
               />
@@ -77,6 +79,7 @@
                 v-model="form.year"
                 label="Godina rođenja"
                 type="number"
+                prepend-icon="mdi-calendar"
                 :rules="rules.year"
                 required
               />
@@ -194,11 +197,13 @@
               <v-text-field
                 v-model="form.phone"
                 label="Telefon"
+                prepend-icon="mdi-phone"
                 :rules="rules.phoneNumber"
                 required
               />
               <v-text-field
                 v-model="form.zoom"
+                prepend-icon="mdi-webcam"
                 label="ZOOM-ID"
                 required
               />

@@ -6,71 +6,71 @@ export interface DataPair {
 export const occupations: DataPair[] = [
   {
     value: 1,
-    text: 'psihijatar',
+    text: 'Psihijatar',
   },
   {
     value: 2,
-    text: 'psiholog',
+    text: 'Psiholog',
   },
   {
     value: 3,
-    text: 'socijalni radnik',
+    text: 'Socijalni radnik',
   },
   {
     value: 4,
-    text: 'lekar specijalista *',
+    text: 'Lekar specijalista *',
   },
   {
     value: 5,
-    text: 'lekar na specijalzaciji *',
+    text: 'Lekar na specijalzaciji *',
   },
   {
     value: 6,
-    text: 'teolog',
+    text: 'Teolog',
   },
   {
     value: 7,
-    text: 'andragog',
+    text: 'Andragog',
   },
   {
     value: 8,
-    text: 'specijalni pedagog',
+    text: 'Specijalni pedagog',
   },
   {
     value: 9,
-    text: 'defektolog',
+    text: 'Defektolog',
   },
   {
     value: 10,
-    text: 'pedagog',
+    text: 'Pedagog',
   },
   {
     value: 11,
-    text: 'student medicine',
+    text: 'Student medicine',
   },
   {
     value: 12,
-    text: 'student psihologije',
+    text: 'Student psihologije',
   },
   {
     value: 13,
-    text: 'student soc.rada',
+    text: 'Student soc. rada',
   },
   {
     value: 14,
-    text: 'student teologije',
+    text: 'Student teologije',
   },
   {
     value: 15,
-    text: 'student pedagogije',
+    text: 'Student pedagogije',
   },
   {
     value: 16,
-    text: 'student andragogije',
+    text: 'Student andragogije',
   },
   {
     value: 17,
-    text: 'student defektologije',
+    text: 'Student defektologije',
   },
   {
     value: 999,

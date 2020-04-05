@@ -35,6 +35,11 @@ fun Route.timeslots() {
 			call.respond(HttpStatusCode.NoContent, TimeslotStatusUpdater(id).reserveIfNew())
 		}
 
+		put("{id}/cancel") {
+			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
+			call.respond(HttpStatusCode.NoContent, TimeslotStatusUpdater(id).cancelIfNew())
+		}
+
 		get("/{id}") {
 			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
 			val timeslot = TimeslotById(id).get()

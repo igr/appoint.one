@@ -1,5 +1,41 @@
+import {TimeslotStatus} from "@/model/Timeslot";
+import {TimeslotStatus} from "@/model/Timeslot";
 <template>
   <v-row justify="center">
+    <v-dialog
+      v-model="dialog2.show"
+      max-width="290"
+    >
+      <v-card>
+        <v-card-title class="headline">
+          Potvrdite
+        </v-card-title>
+
+        <v-card-text>
+          {{ dialog2.text }}
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer />
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="dialog2.show = false"
+          >
+            NE
+          </v-btn>
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="dialogOk()"
+          >
+            DA
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-col
       cols="12"
       md="8"
@@ -10,7 +46,7 @@
         <v-btn
           dark
           large
-          class="col-6"
+          class="col-12 mt-6 col-md-6"
           color="primary"
           @click.stop="dialog = true"
         >
@@ -66,12 +102,14 @@
         </v-card>
       </v-dialog>
 
+      <v-divider class="ma-12" />
+
       <v-row
         :v-if="isLoading"
         class="mt-12"
       >
         <v-col cols="6">
-          <h3>Budući</h3>
+          <h3>Budući termini</h3>
           <v-timeline dense>
             <v-slide-x-reverse-transition
               group
@@ -86,12 +124,11 @@
               >
                 {{ dateStr(item.datetime) }}
                 <v-btn
-                  v-if="item.status === 'NEW'"
+                  v-if="isNEW(item)"
                   fab
                   x-small
-                  alt="Obriši"
                   class="ml-6"
-                  @click="removeTimeslot(item)"
+                  @click.stop="removeTimeslot0(item)"
                 >
                   <v-icon>mdi-minus</v-icon>
                 </v-btn>
@@ -100,7 +137,7 @@
           </v-timeline>
         </v-col>
         <v-col cols="6">
-          <h3>Prošli</h3>
+          <h3>Prošli termini</h3>
           <v-timeline
             dense
             col="6"
@@ -117,11 +154,30 @@
                 fill-dot
               >
                 {{ dateStr(item.datetime) }}
-
                 <v-btn
+                  v-if="isNEW(item)"
                   fab
                   x-small
-                  alt="Add comment ml-6"
+                  class="ml-6"
+                  @click.stop="removeTimeslot0(item)"
+                >
+                  <v-icon>mdi-minus</v-icon>
+                </v-btn>
+                <v-btn
+                  v-if="isRESERVED(item)"
+                  fab
+                  x-small
+                  class="ml-6"
+                  @click.stop="cancelTimeslot0(item)"
+                >
+                  <v-icon>mdi-cancel</v-icon>
+                </v-btn>
+                <v-btn
+                  v-if="isRESERVED(item)"
+                  fab
+                  x-small
+                  class="ml-6"
+                  @click.stop="doneTimeslot(item)"
                 >
                   <v-icon>mdi-check</v-icon>
                 </v-btn>
@@ -140,8 +196,11 @@ import { UserModule } from '@/store/modules/user';
 // eslint-disable-next-line no-unused-vars
 import { Doctor } from '@/model/Doctor';
 import DoctorApi from '@/api/DoctorApi';
-// eslint-disable-next-line no-unused-vars
-import { Timeslot } from '@/model/Timeslot';
+import {
+  isTimeslotCanceled,
+  // eslint-disable-next-line no-unused-vars
+  isTimeslotDone, isTimeslotNew, isTimeslotReserved, Timeslot, TimeslotStatus,
+} from '@/model/Timeslot';
 import TimeslotApi from '@/api/TimeslotApi';
 import { isInFuture, toDateTime, toDateTimeString } from '@/utils/time';
 import DoctorProfile from '@/components/DoctorProfile/index.vue';
@@ -156,6 +215,13 @@ import { isValidDate, isValidTime } from '@/utils/validate';
   },
 })
 export default class extends Vue {
+  private dialog2 = {
+    show: false,
+    text: '',
+    action: -1,
+    item: {} as Timeslot,
+  };
+
   private isLoading = true;
 
   private valid = false;
@@ -200,12 +266,15 @@ export default class extends Vue {
     return toDateTimeString(datetime);
   }
 
-  colorOf(item: {status: String}): string {
-    if (item.status === 'RESERVED') {
+  colorOf(item: Timeslot): string {
+    if (this.isRESERVED(item)) {
       return 'red';
     }
-    if (item.status === 'DONE') {
+    if (this.isDONE(item)) {
       return 'green';
+    }
+    if (this.isCANCELED(item)) {
+      return 'black';
     }
     return 'blue';
   }
@@ -214,6 +283,7 @@ export default class extends Vue {
     // this.$refs.form.reset();
     (this.$refs.form as Vue & { reset: () => void }).reset();
     this.dialog = false;
+    this.dialog2.show = false;
   }
 
   async submit() {
@@ -235,12 +305,54 @@ export default class extends Vue {
     this.isLoading = false;
   }
 
+  dialogOk() {
+    const { action } = this.dialog2;
+    this.dialog2.show = false;
+    switch (action) {
+      case 1: this.removeTimeslot(this.dialog2.item); break;
+      case 2: this.cancelTimeslot(this.dialog2.item); break;
+      default: throw Error('BAD action');
+    }
+  }
+
+  async removeTimeslot0(timeslot: Timeslot) {
+    this.dialog2.item = timeslot;
+    this.dialog2.text = 'Da li želite da obrište termin?';
+    this.dialog2.action = 1;
+    this.dialog2.show = true;
+  }
+
   async removeTimeslot(timeslot: Timeslot) {
     await TimeslotApi.delete(timeslot.id);
     const index = this.timeslots.indexOf(timeslot);
     if (index > -1) {
       this.timeslots.splice(index, 1);
     }
+  }
+
+  async cancelTimeslot0(timeslot: Timeslot) {
+    this.dialog2.item = timeslot;
+    this.dialog2.text = 'Da li želite da označite termin kao OTKAZAN?';
+    this.dialog2.action = 2;
+    this.dialog2.show = true;
+  }
+
+  async cancelTimeslot(timeslot: Timeslot) {
+    await TimeslotApi.cancelTimeslot(timeslot.id);
+    // eslint-disable-next-line no-param-reassign
+    timeslot.status = TimeslotStatus.CANCELED;
+  }
+
+  private isNEW = isTimeslotNew;
+
+  private isRESERVED = isTimeslotReserved;
+
+  private isDONE = isTimeslotDone;
+
+  private isCANCELED = isTimeslotCanceled;
+
+  doneTimeslot(timeslot: Timeslot) {
+    this.$router.push(`/evaluation/${timeslotId}`);
   }
 }
 </script>

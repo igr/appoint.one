@@ -13,11 +13,20 @@
             {{ doc.data.name }}
           </p>
           <p>{{ occupationText(doc.data.occupation) }}</p>
-          <div class="mb-2" style="font-size: 1.5em;">
-            <v-icon class="mr-2">mdi-email</v-icon>{{ doc.data.email }}
+          <div
+            class="mb-2"
+            style="font-size: 1.5em;"
+          >
+            <v-icon class="mr-2">
+              mdi-email
+            </v-icon>
+            {{ doc.data.email }}
           </div>
           <div style="font-size: 1.5em;">
-            <v-icon class="mr-2">mdi-phone</v-icon>{{ doc.data.phone }}
+            <v-icon class="mr-2">
+              mdi-phone
+            </v-icon>
+            {{ doc.data.phone }}
           </div>
         </v-card-text>
         <v-card-actions class="justify-center">

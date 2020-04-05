@@ -21,6 +21,11 @@ class TimeslotApi {
     method: 'put',
   });
 
+  cancelTimeslot = (timeslotId: number) => http({
+    url: `/timeslots/${timeslotId}/cancel`,
+    method: 'put',
+  });
+
   get = (timeslotId: number) => http({
     url: `/timeslots/${timeslotId}`,
     method: 'get',
@@ -38,7 +43,7 @@ class TimeslotApi {
   delete = (timeslotId: number) => http({
     url: `/timeslots/${timeslotId}`,
     method: 'delete',
-  })
+  });
 }
 
 export default new TimeslotApi();

@@ -8,8 +8,8 @@
         IZBOR TERMINA
       </h1>
       <NumberOfTimeslots />
+      <v-divider class="ma-12" />
       <ChooseLocation />
-
       <AvailableTimeslots />
     </v-col>
   </v-row>
