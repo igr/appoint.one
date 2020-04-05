@@ -3,7 +3,7 @@ package routes
 import auth.Auth
 import auth.UserNotFound
 import auth.user
-import domain.Users
+import domain.user.UserByUsername
 import io.ktor.application.call
 import io.ktor.auth.UserPasswordCredential
 import io.ktor.auth.authenticate
@@ -20,7 +20,7 @@ fun Route.auth() {
 
 		post("/login") {
 			val credential = call.receive<UserPasswordCredential>()
-			val user = Auth.login(credential);
+			val user = Auth.login(credential)
 			call.respond(user)
 		}
 	}
@@ -29,10 +29,7 @@ fun Route.auth() {
 		route("user") {
 			get {
 				val (_, name, _, _, token) = call.user!!
-
-				println(name)
-
-				val user = Users.findUserByUsername(name)?.copy(token = token) ?: throw UserNotFound
+				val user = UserByUsername(name).get()?.copy(token = token) ?: throw UserNotFound
 				call.respond(user)
 			}
 

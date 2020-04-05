@@ -1,6 +1,6 @@
 package domain
 
-import model.Countries
+import domain.country.Countries
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import server.ServerTest

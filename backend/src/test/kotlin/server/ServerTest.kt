@@ -1,8 +1,8 @@
 package server
 
-import domain.Doctors
-import domain.Timeslots
-import domain.Users
+import domain.doctor.DoctorsTable
+import domain.timeslot.TimeslotsTable
+import domain.user.UsersTable
 import io.ktor.server.engine.ApplicationEngine
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
@@ -10,6 +10,7 @@ import io.restassured.RestAssured
 import io.restassured.parsing.Parser
 import io.restassured.response.ResponseBodyExtractionOptions
 import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.sql.deleteAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import server.DatabaseFactory.dbtx
@@ -50,9 +51,9 @@ open class ServerTest {
     @BeforeEach
     fun before() = runBlocking {
         dbtx {
-	        Timeslots.deleteAllTimeslots()
-	        Doctors.deleteAllDoctors()
-	        Users.deleteAllUsers()
+	        TimeslotsTable.deleteAll()
+	        DoctorsTable.deleteAll()
+	        UsersTable.deleteAll()
         }
         Unit
     }

@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.mitchellbosecke.pebble.loader.ClasspathLoader
-import domain.Users
 import io.ktor.application.Application
 import io.ktor.application.ApplicationStarted
 import io.ktor.application.ApplicationStopped
@@ -41,6 +40,10 @@ val Application.isDev get() = envKind == "dev"
 val Application.isProd get() = envKind != "dev"
 
 fun Application.module(testing: Boolean = false) {
+	if (testing) {
+		serverLogger.info("TEST MODE")
+	}
+
 	install(DefaultHeaders)
 
 	install(Compression)
@@ -75,7 +78,7 @@ fun Application.module(testing: Boolean = false) {
 			realm = JwtConfig.realm
 			validate {
 				val name = it.payload.getClaim("name")?.asString() ?: return@validate null
-				Users.findUserByUsername(name)?.let { user ->
+				domain.user.UserByUsername(name).get()?.let { user ->
 					val token = JwtConfig.makeToken(user)
 					user.copy(token = token)
 				}
@@ -94,7 +97,6 @@ fun Application.module(testing: Boolean = false) {
 		}
 		index()
 		auth()
-		role()
 		doctors()
 		timeslots()
 		data()

@@ -1,50 +1,53 @@
 package routes
 
-import domain.Doctors
-import domain.Users
+import domain.doctor.DoctorById
+import domain.doctor.DoctorEnabler
+import domain.doctor.DoctorTimeslots
+import domain.doctor.DoctorsLists
+import domain.user.NewDoctorUser
+import domain.user.Users
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.*
-import model.NewDoctorUser
 
 fun Route.doctors() {
 
 	route("/doctors") {
 
 		get {
-			call.respond(Doctors.listAllDoctors())
+			call.respond(DoctorsLists.allDoctorsOrdered())
 		}
 
 		post {
 			val newDoctorAndUser = call.receive<NewDoctorUser>()
-			call.respond(HttpStatusCode.Created, Users.addNewDoctorUser(newDoctorAndUser))
+			val doctor = Users.addAndGetDoctor(newDoctorAndUser)
+			call.respond(HttpStatusCode.Created, doctor)
 		}
 
 		get("/{id}") {
 			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-			val doctor = Doctors.findById(id);
-
+			val doctor = DoctorById(id).get()
 			doctor?.let { call.respond(it) } ?: call.respond(HttpStatusCode.NotFound)
 		}
 
 		get("/{id}/timeslots") {
 			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-
-			call.respond(Doctors.with(id).listTimeslots())
+			val timeslots = DoctorTimeslots(id).listTimeslots()
+			call.respond(timeslots)
 		}
 
 		put("/{id}/enable") {
-			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-			Doctors.with(id).enable(true)
-			call.respond(HttpStatusCode.Accepted)
+			val doctorId = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
+			DoctorEnabler(doctorId).confirmDoctor()
+			call.respond(HttpStatusCode.NoContent)
 		}
 
 		put("/{id}/disable") {
-			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-			Doctors.with(id).enable(false)
-			call.respond(HttpStatusCode.Accepted)
+			val doctorId = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
+			DoctorEnabler(doctorId).unconfirmDoctor()
+			call.respond(HttpStatusCode.NoContent)
 		}
 	}
 

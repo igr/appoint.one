@@ -3,7 +3,7 @@ package auth
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
-import model.User
+import domain.user.User
 import java.util.*
 
 object JwtConfig {

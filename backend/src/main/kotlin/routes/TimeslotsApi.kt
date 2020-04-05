@@ -1,14 +1,15 @@
 package routes
 
-import domain.Doctors
-import domain.Timeslots
+import domain.doctor.DoctorTimeslots
+import domain.timeslot.NewTimeslot
+import domain.timeslot.TimeslotById
+import domain.timeslot.TimeslotStatusUpdater
+import domain.timeslot.TimeslotsCount
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.*
-import model.Country_SERBIA
-import model.NewTimeslot
 
 fun Route.timeslots() {
 
@@ -16,36 +17,36 @@ fun Route.timeslots() {
 
 		post("/") {
 			val newDoctorTimeslots = call.receive<NewTimeslot>()
-			val timeslots = Doctors
-				.with(newDoctorTimeslots.doctorId)
-				.bindTimeslots(listOf(newDoctorTimeslots.datetime))
+
+			val timeslots = DoctorTimeslots(newDoctorTimeslots.doctorId)
+				.bindAndReturnTimeslots(listOf(newDoctorTimeslots.datetime))
 
 			call.respond(HttpStatusCode.Created, timeslots)
 		}
 
 		get("/count") {
-			call.respond(Timeslots.countAvailableTimeslots())
+			call.respond(TimeslotsCount.availableTimeslots())
 		}
 
 		get("/available") {
-			call.respond(Timeslots.findNextTimeslots(Country_SERBIA))
+			call.respond(TimeslotsCount.availableTimeslots())
 		}
 
 		put("{id}/reserve") {
 			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-			call.respond(HttpStatusCode.NoContent, Timeslots.with(id).reserve())
+			call.respond(HttpStatusCode.NoContent, TimeslotStatusUpdater(id).reserveIfNew())
 		}
 
 		get("/{id}") {
 			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-			val timeslot = Timeslots.findById(id)
+			val timeslot = TimeslotById(id).get()
 
 			timeslot?.let { call.respond(it) } ?: call.respond(HttpStatusCode.NotFound)
 		}
 
 		delete("/{id}") {
 			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-			Timeslots.deleteById(id)
+			TimeslotById(id).delete()
 
 			call.respond(HttpStatusCode.Accepted)
 		}
