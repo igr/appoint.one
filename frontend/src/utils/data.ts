@@ -1,4 +1,9 @@
-export const occupations = [
+export interface DataPair {
+  value: number,
+  text: String,
+}
+
+export const occupations: DataPair[] = [
   {
     value: 1,
     text: 'psihijatar',
@@ -72,6 +77,14 @@ export const occupations = [
     text: 'Drugo',
   },
 ];
+
+export function occupationOf(value: Number): String {
+  const lookup = occupations.find((it) => it.value === value);
+  if (lookup === undefined) {
+    throw new TypeError(`Invalid occupation ID ${value}`);
+  }
+  return lookup.text;
+}
 
 export const modalitets = [
   {
@@ -155,3 +168,11 @@ export const modalitets = [
     text: 'Drugo',
   },
 ];
+
+export function modalitetOf(value: Number) {
+  const lookup = modalitets.find((it) => it.value === value);
+  if (lookup === undefined) {
+    throw new TypeError(`Invalid occupation ID ${value}`);
+  }
+  return lookup.text;
+}

@@ -89,7 +89,7 @@ export default class ChooseLocation extends Vue {
         this.countryIndex = i;
         this.cities = [];
         this.allCities.forEach((city) => {
-          if (city.country === this.countries[this.countryIndex].id) {
+          if (city.countryId === this.countries[this.countryIndex].id) {
             this.cities.push(city);
           }
         });

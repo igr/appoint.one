@@ -5,17 +5,25 @@
     >
       <v-card
         color="red"
+        class="accent-4"
         outlined
       >
-        <v-card-text class="text-center font-weight-bold pa-8" style="font-size: 2em;">
+        <v-card-text
+          class="text-center font-weight-bold pa-8"
+          style="font-size: 2em; color: #fff;"
+        >
           {{ dateStr(datetime) }}
         </v-card-text>
       </v-card>
       <v-card
-        color="gray"
         outlined
+        color="red"
+        class="accent-2"
       >
-        <v-card-text class="text-center font-weight-bold pa-6" style="font-size: 2em;">
+        <v-card-text
+          class="text-center font-weight-bold pa-6"
+          style="font-size: 2em; color: #fff;"
+        >
           {{ timeStr(datetime) }}
         </v-card-text>
       </v-card>

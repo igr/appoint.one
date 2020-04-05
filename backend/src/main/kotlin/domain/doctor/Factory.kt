@@ -27,7 +27,7 @@ private fun newDoctorData(name: String, email: String = "${name}@dot.com"): Doct
 fun newSimpleDoctorUser(name: String, password: String = "pass", email: String = name): NewDoctorUser {
 	return NewDoctorUser(
 		doctor = newDoctorData(name, email),
-		name = name,
+		name = email,
 		password = password
 	)
 }

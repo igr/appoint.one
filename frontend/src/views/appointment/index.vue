@@ -8,15 +8,16 @@
         ZAKAZANI TERMIN #{{ id }}
       </h1>
       <div v-if="!isLoading">
-        <day-big :datetime="datetime" />
+        <day-big :datetime="timeslot.datetime" />
 
         <doctor-profile :doc="doctor" />
-        <p class="text-center text-uppercase">
-          Sačuvajte link do ove stranice i podatke.
+        <p class="text-center text-uppercase mt-6">
+          Sačuvajte link do ove stranice i podatke.<br/>
+          U naznačeno vreme pozovite doktora.<br/>
         </p>
       </div>
       <div v-else>
-        ELSE
+        {{ $t('msg.please_wait') }}
       </div>
     </v-col>
   </v-row>
@@ -24,15 +25,13 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import TimeslotApi from '@/api/TimeslotApi';
 // eslint-disable-next-line no-unused-vars
 import { Timeslot } from '@/model/Timeslot';
 // eslint-disable-next-line no-unused-vars
 import { Doctor } from '@/model/Doctor';
-// eslint-disable-next-line no-unused-vars
-import { DateTime } from '@/model/DateTime';
 import DoctorProfile from '@/components/DoctorProfile/index.vue';
 import DayBig from '@/components/DayBig/index.vue';
+import AppoitmentApi from '@/api/AppoitmentApi';
 
 @Component({
   name: 'Appointment',
@@ -45,25 +44,22 @@ export default class extends Vue {
   @Prop({ default: -1 })
   readonly id!: number;
 
-  private timeslot: Timeslot | undefined;
-
   private doctor: Doctor | undefined;
 
-  private datetime: DateTime | undefined;
+  private timeslot: Timeslot | undefined;
 
   private isLoading = true;
 
   async created() {
-    this.timeslot = await this.fetchData();
+    this.isLoading = true;
+    await this.fetchData();
   }
 
   private async fetchData() {
-    const { data } = await TimeslotApi.get(this.id);
-    this.timeslot = data;
-    this.doctor = this.timeslot?.doctor;
-    this.datetime = this.timeslot?.datetime;
+    const { data } = await AppoitmentApi.get(this.id);
+    this.doctor = data.doctor;
+    this.timeslot = data.timeslot;
     this.isLoading = false;
-    return data;
   }
 }
 </script>

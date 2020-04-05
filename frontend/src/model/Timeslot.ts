@@ -5,6 +5,11 @@ export interface Timeslot {
   id: number,
   status: TimeslotStatus,
   datetime: DateTime,
+  doctorId: number
+}
+
+export interface TimeslotAndDoctor {
+  timeslot: Timeslot,
   doctor: Doctor
 }
 

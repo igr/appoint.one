@@ -1,15 +1,24 @@
 <template>
   <v-row justify="center">
-    <v-col cols="12" md="8">
+    <v-col
+      cols="12"
+      md="8"
+    >
       <v-card>
-        <v-card-text align="center">
+        <v-card-text
+          align="center"
+        >
           <div>psihoterapeut</div>
-          <p class="display-1 text--primary">
+          <p class="display-2 text--primary">
             {{ doc.data.name }}
           </p>
-          <p>{{ doc.data.occupation }}</p>
-          <div><v-icon>mdi-email</v-icon>{{ doc.data.email }}</div>
-          <div><v-icon>mdi-phone</v-icon>{{ doc.data.phone }}</div>
+          <p>{{ occupationText(doc.data.occupation) }}</p>
+          <div class="mb-2" style="font-size: 1.5em;">
+            <v-icon class="mr-2">mdi-email</v-icon>{{ doc.data.email }}
+          </div>
+          <div style="font-size: 1.5em;">
+            <v-icon class="mr-2">mdi-phone</v-icon>{{ doc.data.phone }}
+          </div>
         </v-card-text>
         <v-card-actions class="justify-center">
           <v-btn
@@ -62,10 +71,15 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 // eslint-disable-next-line no-unused-vars
 import { Doctor } from '@/model/Doctor';
+import { occupationOf } from '@/utils/data';
 
 @Component
 export default class DoctorProfile extends Vue {
   @Prop() private doc!: Doctor;
+
+  public occupationText(value: Number) {
+    return occupationOf(value);
+  }
 }
 </script>
 

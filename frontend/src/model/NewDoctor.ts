@@ -1,5 +1,6 @@
 import { DoctorData } from '@/model/DoctorData';
 
+// todo convert to interface
 export class NewDoctor implements DoctorData {
   name: string = '';
 
@@ -28,6 +29,4 @@ export class NewDoctor implements DoctorData {
   phone: string = '';
 
   zoom: string = '';
-
-  pic = false;
 }
