@@ -3,7 +3,7 @@ package domain.doctor
 import domain.user.NewDoctorUser
 import java.time.LocalDateTime
 
-private fun newDoctorData(name: String): DoctorData {
+private fun newDoctorData(name: String, email: String = "${name}@dot.com"): DoctorData {
 	return DoctorData(
 		name = name,
 		email = "${name}@dot.com",
@@ -24,10 +24,10 @@ private fun newDoctorData(name: String): DoctorData {
 	)
 }
 
-fun newSimpleDoctorUser(name: String): NewDoctorUser {
+fun newSimpleDoctorUser(name: String, password: String = "pass", email: String = name): NewDoctorUser {
 	return NewDoctorUser(
-		doctor = newDoctorData(name),
+		doctor = newDoctorData(name, email),
 		name = name,
-		password = "pass"
+		password = password
 	)
 }

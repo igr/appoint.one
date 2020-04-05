@@ -8,7 +8,7 @@ import server.DatabaseFactory.dbtx
  */
 object CitiesList {
 
-	suspend fun allCities(): List<CityModel> = dbtx {
+	suspend fun allCities(): List<City> = dbtx {
 		CityTable.selectAll().map { it.toCity() }
 	}
 }

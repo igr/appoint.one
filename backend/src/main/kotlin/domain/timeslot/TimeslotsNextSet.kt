@@ -17,8 +17,7 @@ object TimeslotsNextSet {
 		val dateTimeInt = DateTime.now().value
 
 		(TimeslotsTable innerJoin DoctorsTable)
-			.select { TimeslotsTable.doctorId eq DoctorsTable.id }
-			.andWhere { TimeslotsTable.status eq TimeslotStatus.NEW.value }
+			.select { TimeslotsTable.status eq TimeslotStatus.NEW.value }
 			.andWhere { TimeslotsTable.datetime greaterEq dateTimeInt }
 			.orderBy(TimeslotsTable.datetime)
 			.limit(5)

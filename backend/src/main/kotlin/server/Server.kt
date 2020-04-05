@@ -99,6 +99,7 @@ fun Application.module(testing: Boolean = false) {
 		auth()
 		doctors()
 		timeslots()
+		appointment()
 		data()
 	}
 

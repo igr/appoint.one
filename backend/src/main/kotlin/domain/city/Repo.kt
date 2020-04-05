@@ -2,7 +2,7 @@ package domain.city
 
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.Table
-import org.jetbrains.exposed.sql.statements.InsertStatement
+import org.jetbrains.exposed.sql.statements.UpdateBuilder
 
 object CityTable : Table(name = "cities") {
 	val id = integer("id")
@@ -12,16 +12,17 @@ object CityTable : Table(name = "cities") {
 	override val primaryKey = PrimaryKey(id)
 }
 
-fun ResultRow.toCity() = CityModel(
+fun ResultRow.toCity() = City(
 	id = this[CityTable.id],
 	name = this[CityTable.name],
 	countryId = this[CityTable.countryId]
 )
 
-fun CityModel.data(): CityTable.(InsertStatement<Number>) -> Unit {
-	return {
-		it[id] = this@data.id
-		it[name] = this@data.name
-		it[countryId] = this@data.countryId
+fun City.data(insert: UpdateBuilder<*>) {
+	val obj = this
+	with(CityTable) {
+		insert[id] = obj.id
+		insert[name] = obj.name
+		insert[countryId] = obj.countryId
 	}
 }

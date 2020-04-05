@@ -1,6 +1,7 @@
 package domain.city
 
 import domain.country.Country_BOSNIA
+import domain.country.Country_CROATIA
 import domain.country.Country_SERBIA
 import org.jetbrains.exposed.sql.insertIgnore
 
@@ -11,26 +12,26 @@ val CitiesOfSerbia = listOf(
 	"Valjevo", "Šabac", "Sombor", "Požarevac", "Pirot", "Zaječar", "Kikinda",
 	"Sremska Mitrovica", "Vršac", "Bor", "Prokuplje", "Loznica")
 	.mapIndexed { index, cityName ->
-		CityModel(index + 1, cityName, Country_SERBIA.id)
+		City(index + 1, cityName, Country_SERBIA.id)
 	}
 
 val CitiesOfBosnia = listOf(
 	"Sarajevo")
 	.mapIndexed { index, cityName ->
-		CityModel(index + 1001, cityName, Country_BOSNIA.id)
+		City(index + 1001, cityName, Country_BOSNIA.id)
 	}
 
 val CitiesOfCroatia = listOf(
 	"Zagreb")
 	.mapIndexed { index, cityName ->
-		CityModel(index + 2001, cityName, Country_BOSNIA.id)
+		City(index + 2001, cityName, Country_CROATIA.id)
 	}
 
 
 fun storeAllCities() {
 	listOf(CitiesOfSerbia, CitiesOfBosnia, CitiesOfCroatia).forEach {
 		it.forEach { city ->
-			CityTable.insertIgnore { city.data() }
+			CityTable.insertIgnore { x -> city.data(x) }
 		}
 	}
 }

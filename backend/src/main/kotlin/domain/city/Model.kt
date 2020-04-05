@@ -1,6 +1,6 @@
 package domain.city
 
-class CityModel(
+class City(
 	val id: Int,
 	val name: String,
 	val countryId: Int

@@ -1,10 +1,8 @@
 package routes
 
+import domain.country.Country_SERBIA
 import domain.doctor.DoctorTimeslots
-import domain.timeslot.NewTimeslot
-import domain.timeslot.TimeslotById
-import domain.timeslot.TimeslotStatusUpdater
-import domain.timeslot.TimeslotsCount
+import domain.timeslot.*
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
@@ -29,7 +27,7 @@ fun Route.timeslots() {
 		}
 
 		get("/available") {
-			call.respond(TimeslotsCount.availableTimeslots())
+			call.respond(TimeslotsNextSet.byCountry(Country_SERBIA))
 		}
 
 		put("{id}/reserve") {

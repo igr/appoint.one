@@ -6,7 +6,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IdTable
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.statements.InsertStatement
+import org.jetbrains.exposed.sql.statements.UpdateBuilder
 
 object DoctorsTable : IdTable<Int>(name = "doctors") {
 	override val id: Column<EntityID<Int>> = integer("id").entityId()
@@ -60,7 +60,7 @@ fun ResultRow.toDoctor() = Doctor(
 	userId = this[DoctorsTable.userId]
 )
 
-fun DoctorData.data(insert: InsertStatement<EntityID<Int>>) {
+fun DoctorData.data(insert: UpdateBuilder<*>) {
 	val obj = this
 	with(DoctorsTable) {
 		insert[name] = obj.name

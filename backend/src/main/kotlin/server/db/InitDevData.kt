@@ -12,7 +12,10 @@ import java.time.LocalDateTime
 fun createDevData() {
 	runBlocking {
 		Users.addUser(NewUser("a@a.com", "admin", UserRole.ADMIN))
-		val doctorId = Users.addDoctor(newSimpleDoctorUser("Pera"))
+		val doctorId = Users.addDoctor(newSimpleDoctorUser(
+			name = "Petar Petrović",
+			password = "doc",
+			email = "d@d.com"))
 
 		val nextTimeslot = LocalDateTime.now().plusDays(1).toDateTime()
 		DoctorTimeslots(doctorId).bindTimeslots(listOf(nextTimeslot))

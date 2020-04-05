@@ -2,10 +2,9 @@ package domain.timeslot
 
 import DateTime
 import domain.doctor.DoctorsTable
-import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.statements.InsertStatement
+import org.jetbrains.exposed.sql.statements.UpdateBuilder
 
 object TimeslotsTable : IntIdTable(name = "timeslots") {
 	val status = integer("status").index()
@@ -13,7 +12,7 @@ object TimeslotsTable : IntIdTable(name = "timeslots") {
 	val doctorId = integer("doctor_id").references(DoctorsTable.id)
 }
 
-fun NewTimeslot.data(insert: InsertStatement<EntityID<Int>>) {
+fun NewTimeslot.data(insert: UpdateBuilder<*>) {
 	val obj = this
 	with(TimeslotsTable) {
 		insert[status] = TimeslotStatus.NEW.value

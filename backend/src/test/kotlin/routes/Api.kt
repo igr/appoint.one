@@ -1,6 +1,6 @@
 package routes
 
-import domain.city.CityModel
+import domain.city.City
 import domain.country.Country
 import domain.doctor.Doctor
 import domain.timeslot.NewTimeslot
@@ -29,13 +29,13 @@ fun getDoctor(id: Int): Doctor {
 	}
 }
 
-fun getCities(): List<CityModel> {
+fun getCities(): List<City> {
 	return When {
 		get("/data/cities")
 	} Then {
 		statusCode(200)
 	} Extract {
-		`as`(CityModel::class.java.genericSuperclass)
+		`as`(City::class.java.genericSuperclass)
 	}
 }
 
