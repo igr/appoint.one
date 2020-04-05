@@ -40,26 +40,23 @@ data class DoctorData(
 	val modalitet2: String,
 	val phone: String,
 	val zoom: String,
-	val pic: Boolean,
 	val confirmed: Boolean,
 	val dateUpdated: LocalDateTime = LocalDateTime.now()
 )
 
 /**
- * Doctor + User.
+ * Doctor.
  */
 data class Doctor(
 	val id: Int,
 	val data: DoctorData,
-	val user: User
-)
-
-data class NewDoctorWithUser(
-	val data: DoctorData,
 	val userId: Int
-)
+) {
 
-data class NewDoctorAndUser(
-	val doctor: DoctorData,
-	val user: NewUser
-)
+	fun resetDate(): Doctor {
+		val dateTime = LocalDateTime.of(2020, 5, 11, 0, 0, 0)
+		return copy(data = data.copy(dateUpdated = dateTime));
+	}
+
+}
+

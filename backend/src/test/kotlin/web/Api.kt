@@ -43,23 +43,23 @@ fun getCountries(): MutableMap<Int, String> {
 	}
 }
 
-fun postDoctor(newDoctor: NewDoctorAndUser): Doctor {
-	return Given {
-		body(newDoctor)
-		contentType(ContentType.JSON)
-	} When {
-		post("/doctors")
-	} Then {
-		statusCode(201)
-	} Extract {
-		`as`(Doctor::class.java)
-	}
-}
+//fun postDoctor(newDoctor: NewDoctorAndUser): Doctor {
+//	return Given {
+//		body(newDoctor)
+//		contentType(ContentType.JSON)
+//	} When {
+//		post("/doctors")
+//	} Then {
+//		statusCode(201)
+//	} Extract {
+//		`as`(Doctor::class.java)
+//	}
+//}
 
 
 // timeslot
 
-fun postTimeslot(newDoctorTimeslot: NewDoctorTimeslot): List<Timeslot> {
+fun postTimeslot(newDoctorTimeslot: NewTimeslot): List<Timeslot> {
 	return Given {
 		body(newDoctorTimeslot)
 		contentType(ContentType.JSON)

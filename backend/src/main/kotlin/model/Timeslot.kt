@@ -18,10 +18,15 @@ data class Timeslot(
 	val id: Int,
 	val status: TimeslotStatus,
 	val datetime: DateTime,
+	val doctorId: Int
+)
+
+data class TimeslotAndDoctor(
+	val timeslot: Timeslot,
 	val doctor: Doctor
 )
 
-data class NewDoctorTimeslot(
-	val doctorId: Int,
-	val datetime: DateTime
+data class NewTimeslot(
+	val datetime: DateTime,
+	val doctorId: Int
 )

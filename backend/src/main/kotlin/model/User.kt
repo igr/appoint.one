@@ -27,3 +27,9 @@ data class NewUser(
 	val password: String,
 	val role: UserRole = UserRole.GUEST
 )
+
+data class NewDoctorUser(
+	val name: String,
+	val password: String,
+	val doctor: DoctorData
+)

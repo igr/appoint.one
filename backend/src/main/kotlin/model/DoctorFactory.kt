@@ -29,32 +29,15 @@ private fun newDoctorData(name: String): DoctorData {
 		modalitet2 = "",
 		phone = "641294217",
 		zoom = "Z-00-M",
-		pic = false,
 		confirmed = false,
 		dateUpdated = LocalDateTime.now()
 	)
 }
 
-fun newSimpleDoctor(name: String, userId: Int): NewDoctorWithUser {
-	return NewDoctorWithUser(
-		data = newDoctorData(name),
-		userId = userId
-	);
-}
-
-fun newSimpleDoctor(name: String): NewDoctorAndUser {
-	return NewDoctorAndUser(
+fun newSimpleDoctor(name: String): NewDoctorUser {
+	return NewDoctorUser(
 		doctor = newDoctorData(name),
-		user = NewUser(
-			name = name,
-			password = "pass",
-			role = UserRole.DOC
-		)
+		name = name,
+		password = "pass"
 	)
-}
-
-fun resetDate(doctor: Doctor?): Doctor? {
-	val dateTime = LocalDateTime.of(2020, 5, 11, 0, 0, 0)
-	val doctorCopy = doctor?.copy(data = doctor?.data.copy(dateUpdated = dateTime))
-	return doctorCopy;
 }

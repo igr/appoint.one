@@ -13,7 +13,6 @@ import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.route
-import model.NewUser
 
 fun Route.auth() {
 
@@ -22,13 +21,6 @@ fun Route.auth() {
 		post("/login") {
 			val credential = call.receive<UserPasswordCredential>()
 			val user = Auth.login(credential);
-			call.respond(user)
-		}
-
-		// todo prevent easy user creation
-		post {
-			val newUser = call.receive<NewUser>()
-			val user = Auth.register(newUser)
 			call.respond(user)
 		}
 	}

@@ -8,14 +8,14 @@ import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.*
 import model.Country_SERBIA
-import model.NewDoctorTimeslot
+import model.NewTimeslot
 
 fun Route.timeslots() {
 
 	route("/timeslots") {
 
 		post("/") {
-			val newDoctorTimeslots = call.receive<NewDoctorTimeslot>()
+			val newDoctorTimeslots = call.receive<NewTimeslot>()
 			val timeslots = Doctors
 				.with(newDoctorTimeslots.doctorId)
 				.bindTimeslots(listOf(newDoctorTimeslots.datetime))

@@ -1,19 +1,19 @@
 package domain
 
-import io.ktor.http.HttpStatusCode
-import model.TimeslotEntity
 import model.TimeslotStatus
+import org.jetbrains.exposed.sql.update
+import repo.TimeslotsTable
 import server.DatabaseFactory
-import server.StatusException
 
-@TargetIs("Single timeslot")
-class TimeslotUnit internal constructor(private val timeslotEntity: TimeslotEntity) {
+class TimeslotUnit internal constructor(private val timeslotId: Int) {
 
 	suspend fun reserve() = DatabaseFactory.dbtx {
-		if (timeslotEntity.status != TimeslotStatus.NEW.value) {
-			throw StatusException(status = HttpStatusCode.Conflict, message = "Invalid state.")
+		TimeslotsTable.update({
+			TimeslotsTable.id eq timeslotId
+			TimeslotsTable.status neq TimeslotStatus.NEW.value
+		}) {
+			it[status] = TimeslotStatus.RESERVED.value
 		}
-		timeslotEntity.status = TimeslotStatus.RESERVED.value
 	}
 
 }

@@ -1,29 +1,52 @@
 package domain
 
-import model.*
+import model.NewDoctorUser
+import model.NewUser
+import model.User
+import model.UserRole
 import org.jetbrains.exposed.sql.deleteAll
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
+import repo.DoctorsTable
+import repo.UsersTable
+import repo.data
+import repo.toUser
 import server.DatabaseFactory.dbtx
 
-@TargetIs("all users")
 object Users {
 
-	suspend fun registerUser(user: NewUser): User = dbtx {
-		// check if user already exist
-//		if (UserEntity.find { UsersRepo.email eq user.email }.any()) {
-//			throw UserAlreadyExists
-//		}
-		UserEntity.add(user).toUser()
+	suspend fun addNewUser(user: NewUser): Int = dbtx {
+		val userId = UsersTable.insert { user.data() } get (UsersTable.id)
+		userId.value
+	}
+
+	suspend fun addNewDoctorUser(userDoctor: NewDoctorUser): Int = dbtx {
+		val userId = UsersTable.insert {
+			NewUser(
+				name = userDoctor.name,
+				password = userDoctor.password,
+				role = UserRole.DOC
+			).data()
+		} get (UsersTable.id)
+
+		DoctorsTable.insert {
+			userDoctor.doctor.data()
+			it[id] = userId
+			it[DoctorsTable.userId] = userId.value
+		}
+
+		userId.value
 	}
 
 	suspend fun findUserByUsername(name: String): User? = dbtx {
-		UserEntity.find { UsersRepo.name eq name }.firstOrNull()?.toUser()
+		UsersTable.select { UsersTable.name eq name }.singleOrNull()?.toUser()
 	}
 
 	/**
 	 * Deletes all users.
 	 */
 	suspend fun deleteAllUsers() = dbtx {
-		UsersRepo.deleteAll()
+		UsersTable.deleteAll()
 	}
 
 }

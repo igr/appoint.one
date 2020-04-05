@@ -2,14 +2,14 @@ package server
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import model.CitiesRepo
-import model.DoctorsRepo
-import model.TimeslotsRepo
-import model.UsersRepo
+import model.CitiesTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
+import repo.DoctorsTable
+import repo.TimeslotsTable
+import repo.UsersTable
 import server.db.createDevData
 import server.db.loadInitialCitiesOfBosnia
 import server.db.loadInitialCitiesOfCroatia
@@ -21,10 +21,10 @@ object DatabaseFactory {
 		Database.connect(hikari())
 		transaction {
 			SchemaUtils.createMissingTablesAndColumns(
-				DoctorsRepo,
-				CitiesRepo,
-				TimeslotsRepo,
-				UsersRepo)
+				DoctorsTable,
+				CitiesTable,
+				TimeslotsTable,
+				UsersTable)
 
 			loadInitialCitiesOfSerbia()
 			loadInitialCitiesOfBosnia()

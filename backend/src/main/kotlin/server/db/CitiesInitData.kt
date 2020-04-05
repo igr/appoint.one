@@ -1,6 +1,6 @@
 package server.db
 
-import model.CitiesRepo
+import model.CitiesTable
 import model.Country_BOSNIA
 import model.Country_CROATIA
 import model.Country_SERBIA
@@ -14,7 +14,7 @@ fun loadInitialCitiesOfSerbia() {
 		"Valjevo", "Šabac", "Sombor", "Požarevac", "Pirot", "Zaječar", "Kikinda",
 		"Sremska Mitrovica", "Vršac", "Bor", "Prokuplje", "Loznica")
 		.forEachIndexed { index, cityName ->
-			CitiesRepo.insertIgnore {
+			CitiesTable.insertIgnore {
 				it[id] = index + 1
 				it[name] = cityName
 				it[country] = Country_SERBIA.id
@@ -25,7 +25,7 @@ fun loadInitialCitiesOfSerbia() {
 fun loadInitialCitiesOfBosnia() {
 	listOf("Sarajevo")
 		.forEachIndexed { index, cityName ->
-			CitiesRepo.insertIgnore {
+			CitiesTable.insertIgnore {
 				it[id] = index + 1001
 				it[name] = cityName
 				it[country] = Country_BOSNIA.id
@@ -36,7 +36,7 @@ fun loadInitialCitiesOfBosnia() {
 fun loadInitialCitiesOfCroatia() {
 	listOf("Zagreb")
 		.forEachIndexed { index, cityName ->
-			CitiesRepo.insertIgnore {
+			CitiesTable.insertIgnore {
 				it[id] = index + 2001
 				it[name] = cityName
 				it[country] = Country_CROATIA.id

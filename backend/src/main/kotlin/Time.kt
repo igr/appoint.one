@@ -1,7 +1,7 @@
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneId
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 data class DateTime(val year: Int, val month: Int, val day: Int, val hour: Int, val minute: Int) {
 
 	constructor(date: Int, time: Int) : this(date / 10_000, (date % 10_000) / 100, (date % 100), time / 100, time % 100)
@@ -15,4 +15,8 @@ data class DateTime(val year: Int, val month: Int, val day: Int, val hour: Int, 
 
 fun LocalDateTime.toDateTime(): DateTime {
 	return DateTime(this)
+}
+
+fun ofEpochMilliseconds(epochMillis: Long): LocalDateTime {
+	return Instant.ofEpochMilli(epochMillis).atZone(ZoneId.systemDefault()).toLocalDateTime()
 }

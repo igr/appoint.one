@@ -1,26 +1,26 @@
 package domain
 
-import model.*
-import org.jetbrains.exposed.sql.andWhere
-import org.jetbrains.exposed.sql.deleteAll
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.selectAll
+import model.Country
+import model.Timeslot
+import model.TimeslotStatus
+import org.jetbrains.exposed.sql.*
+import repo.TimeslotsTable
+import repo.toTimeslot
 import server.DatabaseFactory.dbtx
 import toDateTime
 import java.time.LocalDateTime
 
-@TargetIs("Set of all timeslots.")
 object Timeslots {
 
 	suspend fun with(timeslotId: Int): TimeslotUnit = dbtx {
-		TimeslotUnit(TimeslotEntity.findExisting(timeslotId))
+		TimeslotUnit(timeslotId)
 	}
 
 	/**
 	 * Deletes all time slots.
 	 */
 	suspend fun deleteAllTimeslots() = dbtx {
-		TimeslotsRepo.deleteAll();
+		TimeslotsTable.deleteAll();
 	}
 
 	/**
@@ -29,9 +29,9 @@ object Timeslots {
 	suspend fun countAvailableTimeslots() = dbtx {
 		val dateTime = LocalDateTime.now().toDateTime()
 
-		TimeslotsRepo.selectAll()
-			.andWhere { TimeslotsRepo.datetime greaterEq dateTime.value }
-			.andWhere { TimeslotsRepo.status eq TimeslotStatus.NEW.value }
+		TimeslotsTable.selectAll()
+			.andWhere { TimeslotsTable.datetime greaterEq dateTime.value }
+			.andWhere { TimeslotsTable.status eq TimeslotStatus.NEW.value }
 			.count()
 	}
 
@@ -40,11 +40,11 @@ object Timeslots {
 	}
 
 	suspend fun findById(id: Int): Timeslot? = dbtx {
-		TimeslotEntity.findById(id)?.toTimeslot()
+		TimeslotsTable.select { TimeslotsTable.id eq id }.singleOrNull()?.toTimeslot()
 	}
 
 	suspend fun deleteById(id: Int) = dbtx {
-		TimeslotsRepo.deleteWhere { TimeslotsRepo.id eq id }
+		TimeslotsTable.deleteWhere { TimeslotsTable.id eq id }
 	}
 
 }

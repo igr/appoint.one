@@ -1,12 +1,13 @@
 package routes
 
 import domain.Doctors
+import domain.Users
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.*
-import model.NewDoctorAndUser
+import model.NewDoctorUser
 
 fun Route.doctors() {
 
@@ -17,8 +18,8 @@ fun Route.doctors() {
 		}
 
 		post {
-			val newDoctorAndUser = call.receive<NewDoctorAndUser>()
-			call.respond(HttpStatusCode.Created, Doctors.addNewDoctor(newDoctorAndUser))
+			val newDoctorAndUser = call.receive<NewDoctorUser>()
+			call.respond(HttpStatusCode.Created, Users.addNewDoctorUser(newDoctorAndUser))
 		}
 
 		get("/{id}") {
