@@ -1,10 +1,7 @@
 package domain.user
 
 import auth.BCryptHasher
-import domain.doctor.Doctor
-import domain.doctor.DoctorById
-import domain.doctor.DoctorsTable
-import domain.doctor.data
+import domain.doctor.*
 import org.jetbrains.exposed.sql.insertAndGetId
 import server.DatabaseFactory.dbtx
 
@@ -19,7 +16,8 @@ object Users {
 		userId.value
 	}
 
-	suspend fun addDoctor(userDoctor: NewDoctorUser): Int = dbtx {
+	// todo - userId
+	suspend fun addDoctor(userDoctor: NewDoctorUser): DoctorId = dbtx {
 		val userId = UsersTable.insertAndGetId {
 			NewUser(
 				name = userDoctor.name,
@@ -33,7 +31,7 @@ object Users {
 			it[DoctorsTable.userId] = userId.value
 		}
 
-		userId.value
+		userId.toDoctorId()
 	}
 
 	suspend fun addAndGetDoctor(userDoctor: NewDoctorUser): Doctor = dbtx {

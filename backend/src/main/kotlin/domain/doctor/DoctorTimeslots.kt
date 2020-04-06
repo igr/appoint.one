@@ -9,11 +9,11 @@ import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.select
 import server.DatabaseFactory.dbtx
 
-class DoctorTimeslots(private val doctorId: Int) {
+class DoctorTimeslots(private val doctorId: DoctorId) {
 
 	suspend fun listTimeslots() = dbtx {
 		TimeslotsTable.select {
-			TimeslotsTable.doctorId eq doctorId
+			TimeslotsTable.doctorId eq doctorId.value
 		}
 			.sortedWith(compareBy { it[TimeslotsTable.datetime] })
 			.reversed()

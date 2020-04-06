@@ -26,14 +26,11 @@ class DoctorApi {
     url: 'doctors',
     method: 'post',
     data: {
+      name: doctor.email,
+      password: Math.random().toString(36).slice(-8),
       doctor: {
         ...doctor,
         sex: doctor.sex ? 'MALE' : 'FEMALE',
-      },
-      user: {
-        name: doctor.email,
-        password: Math.random().toString(36).slice(-8),
-        role: 'DOC',
       },
     },
   });

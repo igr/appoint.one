@@ -20,7 +20,7 @@ class DoctorTest : ServerTest() {
 		val userId = Users.addDoctor(newDoctor)
 
 		// then
-		val savedDoctor = DoctorByUserId(userId).existing()
+		val savedDoctor = DoctorByUserId(userId.value).existing()
 		assertThat(savedDoctor.data.lockUpdateDate()).isEqualTo(newDoctor.doctor.lockUpdateDate())
 
 		Unit
