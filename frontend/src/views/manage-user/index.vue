@@ -20,17 +20,17 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import UserApi from '@/api/UserApi';
 // eslint-disable-next-line no-unused-vars
-// import { Doctor } from '@/model/Doctor';
-// import DoctorApi from '@/api/DoctorApi';
-// import { User } from '@/model/User';
-// import UserApi from '@/api/UserApi';
+import { User } from '@/model/User';
 
 @Component({
   name: 'UserEditor',
 })
 export default class extends Vue {
-  // private gotUser: User;
+  private targetUser: User[] = [];
+
+  // post to 'admin/modifyUserData'
 
   async created() {
     this.fetchData();
@@ -38,6 +38,11 @@ export default class extends Vue {
 
   // eslint-disable-next-line no-empty-function
   private async fetchData() {
+    // `user/${userId}`
+    const { data } = await UserApi.getUser(+this.$route.params.id);
+    const d: User[] = data;
+    d.forEach((it) => this.targetUser.push(it));
+    console.log(data);
   }
 }
 </script>
