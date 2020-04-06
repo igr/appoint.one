@@ -1,9 +1,12 @@
 package domain.timeslot
 
 import DateTime
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonValue
 import domain.doctor.Doctor
+import com.fasterxml.jackson.annotation.JsonCreator.Mode.DELEGATING as m
 
-enum class TimeslotStatus(val value: Int) {
+enum class TimeslotStatus @JsonCreator(mode = m) constructor(@JsonValue val value: Int) {
 	NEW(0),
 	RESERVED(10),
 	CANCELED(20),

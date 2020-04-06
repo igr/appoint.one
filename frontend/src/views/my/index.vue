@@ -352,7 +352,7 @@ export default class extends Vue {
   private isCANCELED = isTimeslotCanceled;
 
   doneTimeslot(timeslot: Timeslot) {
-    this.$router.push(`/evaluation/${timeslotId}`);
+    this.$router.push(`/evaluation/${timeslot.id}`);
   }
 }
 </script>

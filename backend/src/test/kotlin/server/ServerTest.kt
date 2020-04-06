@@ -1,6 +1,8 @@
 package server
 
+import domain.city.CityTable
 import domain.doctor.DoctorsTable
+import domain.evaluation.EvaluationsTable
 import domain.timeslot.TimeslotsTable
 import domain.user.UsersTable
 import io.ktor.server.engine.ApplicationEngine
@@ -51,9 +53,11 @@ open class ServerTest {
     @BeforeEach
     fun before() = runBlocking {
         dbtx {
+	        EvaluationsTable.deleteAll()
 	        TimeslotsTable.deleteAll()
 	        DoctorsTable.deleteAll()
 	        UsersTable.deleteAll()
+	        CityTable.deleteAll()
         }
         Unit
     }

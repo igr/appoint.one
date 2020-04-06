@@ -23,7 +23,6 @@ enum class DoctorCertificate(val value: Int) {
 	}
 }
 
-
 data class DoctorData(
 	val name: String,
 	val email: String,

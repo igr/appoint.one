@@ -3,6 +3,8 @@ package domain
 import DateTime
 import domain.doctor.DoctorTimeslots
 import domain.doctor.newSimpleDoctorUser
+import domain.doctor.newSimpleEvaluationData
+import domain.timeslot.TimeslotStatusUpdater
 import domain.user.Users
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
@@ -48,6 +50,23 @@ class TimeslotTest : ServerTest() {
 		assertThat(timeslots.size).isEqualTo(3)
 		assertThat(timeslots).extracting("datetime.value")
 			.containsExactly(202001012030, 202001012000, 202001011930)
+
+		Unit
+	}
+
+	@Test
+	fun `add timeslot, reserve it and mark it done`() = runBlocking {
+		// given
+		val doctor1 = Users.addDoctor(newSimpleDoctorUser("Pera"))
+		val timeslot1 = DateTime(date = 20200101, time = 1930)
+		val timeslotId = DoctorTimeslots(doctor1).bindTimeslots(listOf(timeslot1))[0]
+		TimeslotStatusUpdater(timeslotId).reserveIfNew()
+
+		// when
+		val evaluationId = TimeslotStatusUpdater(timeslotId).markDone(newSimpleEvaluationData())
+
+		// then
+		assertThat(evaluationId).isNotNull
 
 		Unit
 	}

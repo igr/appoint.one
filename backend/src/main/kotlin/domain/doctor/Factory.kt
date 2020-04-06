@@ -1,5 +1,7 @@
 package domain.doctor
 
+import domain.evaluation.EvaluationData
+import domain.patient.PatientSex
 import domain.user.NewDoctorUser
 import java.time.LocalDateTime
 
@@ -29,5 +31,17 @@ fun newSimpleDoctorUser(name: String, password: String = "pass", email: String =
 		doctor = newDoctorData(name, email),
 		name = email,
 		password = password
+	)
+}
+
+fun newSimpleEvaluationData(): EvaluationData {
+	return EvaluationData(
+		sex = PatientSex.OTHER,
+		age = 22,
+		comment = "Comment",
+		forward = true,
+		help = "Help",
+		problem = "Problem",
+		success = false
 	)
 }

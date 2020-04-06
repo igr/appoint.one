@@ -5,6 +5,7 @@ import com.zaxxer.hikari.HikariDataSource
 import domain.city.CityTable
 import domain.city.storeAllCities
 import domain.doctor.DoctorsTable
+import domain.evaluation.EvaluationsTable
 import domain.timeslot.TimeslotsTable
 import domain.user.UsersTable
 import org.jetbrains.exposed.sql.Database
@@ -22,13 +23,16 @@ object DatabaseFactory {
 				DoctorsTable,
 				CityTable,
 				TimeslotsTable,
-				UsersTable)
+				UsersTable,
+				EvaluationsTable
+			)
 
 			storeAllCities()
 
-			if (isDev) {
-				createDevData()
-			}
+			// todo TEMPORARY DISABLED!
+			//if (isDev) {
+			createDevData()
+			//}
 		}
     }
 
