@@ -13,7 +13,7 @@ object UsersTable : IntIdTable(name = "users") {
 }
 
 fun ResultRow.toUser() = User(
-	id = this[UsersTable.id].value,
+	id = this[UsersTable.id].toUserId(),
 	name = this[UsersTable.name],
 	password = this[UsersTable.password],
 	role = UserRole.of(this[UsersTable.role]),

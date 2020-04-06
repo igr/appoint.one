@@ -1,9 +1,6 @@
 package routes
 
-import domain.doctor.DoctorById
-import domain.doctor.DoctorEnabler
-import domain.doctor.DoctorTimeslots
-import domain.doctor.DoctorsLists
+import domain.doctor.*
 import domain.user.NewDoctorUser
 import domain.user.Users
 import io.ktor.application.call
@@ -27,13 +24,13 @@ fun Route.doctors() {
 		}
 
 		get("/{id}") {
-			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
+			val id = call.parameters["id"]?.toDoctorId() ?: throw IllegalStateException("ID missing")
 			val doctor = DoctorById(id).get()
 			doctor?.let { call.respond(it) } ?: call.respond(HttpStatusCode.NotFound)
 		}
 
 		get("/{id}/timeslots") {
-			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
+			val id = call.parameters["id"]?.toDoctorId() ?: throw IllegalStateException("ID missing")
 			val timeslots = DoctorTimeslots(id).listTimeslots()
 			call.respond(timeslots)
 		}

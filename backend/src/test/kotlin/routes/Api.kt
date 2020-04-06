@@ -3,6 +3,7 @@ package routes
 import domain.city.City
 import domain.country.Country
 import domain.doctor.Doctor
+import domain.doctor.DoctorId
 import domain.timeslot.NewTimeslot
 import domain.timeslot.Timeslot
 import domain.user.NewDoctorUser
@@ -17,9 +18,9 @@ import io.restassured.module.kotlin.extensions.When
 
 // doctor
 
-fun getDoctor(id: Int): Doctor {
+fun getDoctor(id: DoctorId): Doctor {
 	return Given {
-		pathParam("id", id)
+		pathParam("id", id.value)
 	} When {
 		get("/doctors/{id}")
 	} Then {

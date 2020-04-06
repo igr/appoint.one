@@ -13,7 +13,7 @@ object CityTable : Table(name = "cities") {
 }
 
 fun ResultRow.toCity() = City(
-	id = this[CityTable.id],
+	id = this[CityTable.id].toCityId(),
 	name = this[CityTable.name],
 	countryId = this[CityTable.countryId]
 )
@@ -21,7 +21,7 @@ fun ResultRow.toCity() = City(
 fun City.data(insert: UpdateBuilder<*>) {
 	val obj = this
 	with(CityTable) {
-		insert[id] = obj.id
+		insert[id] = obj.id.value
 		insert[name] = obj.name
 		insert[countryId] = obj.countryId
 	}

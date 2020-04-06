@@ -1,9 +1,9 @@
 package domain.timeslot
 
 import domain.evaluation.EvaluationData
-import domain.evaluation.EvaluationId
 import domain.evaluation.EvaluationsTable
 import domain.evaluation.data
+import domain.evaluation.toEvaluationId
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.update
@@ -42,6 +42,6 @@ class TimeslotStatusUpdater(private val timeslotId: Int) {
 			it[status] = TimeslotStatus.DONE.value
 		}
 
-		EvaluationId(evolutionId.value)
+		evolutionId.toEvaluationId()
 	}
 }

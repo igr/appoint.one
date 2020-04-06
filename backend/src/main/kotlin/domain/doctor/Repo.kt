@@ -55,7 +55,7 @@ fun ResultRow.toDoctorData() = DoctorData(
 )
 
 fun ResultRow.toDoctor() = Doctor(
-	id = this[DoctorsTable.id].value,
+	id = this[DoctorsTable.id].toDoctorId(),
 	data = toDoctorData(),
 	userId = this[DoctorsTable.userId]
 )

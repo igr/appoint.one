@@ -1,6 +1,26 @@
 package domain.doctor
 
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonValue
+import domain.Id
+import org.jetbrains.exposed.dao.id.EntityID
 import java.time.LocalDateTime
+
+data class DoctorId @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(
+	@JsonValue override val value: Int
+) : Id()
+
+fun Int.toDoctorId(): DoctorId {
+	return DoctorId(this)
+}
+
+fun String.toDoctorId(): DoctorId {
+	return DoctorId(this.toInt())
+}
+
+fun EntityID<Int>.toDoctorId(): DoctorId {
+	return DoctorId(this.value);
+}
 
 enum class DoctorSex(val value: Boolean) {
 	MALE(true), FEMALE(false);
@@ -50,7 +70,7 @@ data class DoctorData(
 }
 
 data class Doctor(
-	val id: Int,
+	val id: DoctorId,
 	val data: DoctorData,
 	val userId: Int
 )
