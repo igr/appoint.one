@@ -22,6 +22,19 @@ Na stranici se prikazuju:
 
 ## Prošli termini
 
-+ Prošli termini se mogu označiti kao odrađeni, ukoliko su bili rezervisani
-+ Prošli termini se mogu označiti kao neodrađeni, ukoliko su bili rezervisani
++ Prošli termini se mogu označiti kao `odrađeni`, ukoliko su bili rezervisani
++ Prošli termini se mogu označiti kao `otkazani`, ukoliko su bili rezervisani
 + Prošli termini se mogu brisati ukoliko nisu bili rezervisani
+
+## Kompletiranje termina
+
+Pre nego što se termin označi kao `odrađeni`, doktor popunjava sledeći uputnik (evaluacija):
+
+
++ Pol korisnika M/Ž/Drugo
++ Uzrast korisnika (Broj godina)
++ Vrsta problema
++ Pružena intervencija
++ Da li je intervencija bila dovoljna?
++ Da li je korisnik upucen dalje?
++ Intervencija bila dovoljna / korisnik upucen dalje - komentar

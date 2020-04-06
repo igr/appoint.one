@@ -103,7 +103,6 @@ export default class extends Vue {
   readonly id!: number;
 
   async save() {
-    console.log(this.id);
     await EvaluationApi.postNewEvaluation(this.id, this.form);
     await this.$router.push('/my');
   }
