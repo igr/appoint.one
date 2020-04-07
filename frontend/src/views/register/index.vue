@@ -25,7 +25,7 @@
             :complete="step > 2"
             step="2"
           >
-            Podaci
+            Lično
           </v-stepper-step>
           <v-divider />
           <v-stepper-step
@@ -49,12 +49,32 @@
             <v-stepper-content step="1">
               <v-text-field
                 ref="nameRef"
+                prepend-icon="mdi-key"
                 label="Sigurnosni kod (dobijen iz udruženja)"
+                v-model="form.regCode"
                 required
               />
+              <v-row
+                justify="center"
+                class="mt-6"
+              >
+                <v-btn
+                  text
+                  to="/home"
+                >
+                  Odustani
+                </v-btn>
+                <v-btn
+                  v-if="showContinue"
+                  color="primary"
+                  @click="step = 2"
+                >
+                  Dalje
+                </v-btn>
+              </v-row>
             </v-stepper-content>
 
-            <!-- STEP 1 -->
+            <!-- STEP 2 -->
             <v-stepper-content step="2">
               <v-text-field
                 ref="nameRef"
@@ -71,6 +91,14 @@
                 type="email"
                 prepend-icon="mdi-email"
                 :rules="rules.email"
+                required
+              />
+              <v-text-field
+                ref="passRef"
+                v-model="form.password"
+                label="Lozinka"
+                type="password"
+                prepend-icon="mdi-textbox-password"
                 required
               />
               <v-radio-group
@@ -105,9 +133,9 @@
               >
                 <v-btn
                   text
-                  to="/home"
+                  @click="step = 1"
                 >
-                  Cancel
+                  Nazad
                 </v-btn>
                 <v-btn
                   v-if="showContinue"
@@ -116,7 +144,7 @@
                     $refs.nameRef.valid &&
                     $refs.emailRef.valid &&
                     $refs.yearRef.valid)"
-                  @click="step = 2"
+                  @click="step = 3"
                 >
                   Dalje
                 </v-btn>
@@ -216,7 +244,7 @@
                     (isOccupationDrugo ? $refs.professionDrugoRef.valid : true) &&
                     (isOccupationSpecial ? $refs.professionSpecialRef.valid : true) &&
                     (isModalitetDrugo ? $refs.modalitetDrugoRef.valid : true))"
-                  @click="step = 3"
+                  @click="step = step + 1"
                 >
                   Dalje
                 </v-btn>
@@ -248,7 +276,7 @@
               >
                 <v-btn
                   text
-                  @click="step = 2"
+                  @click="step = 3"
                 >
                   Nazad
                 </v-btn>
@@ -280,12 +308,13 @@
 
 
 <script lang="ts">
-
+// eslint-disable-next-line max-classes-per-file
 import { Component, Vue } from 'vue-property-decorator';
 import { NewDoctor } from '@/model/NewDoctor';
 import DoctorApi from '@/api/DoctorApi';
 import { modalitets, occupations } from '@/utils/data';
 import { isValidEmail, isValidPhoneNumber, isValidZoomID } from '@/utils/validate';
+import { DoctorData } from '@/model/DoctorData';
 
 @Component({
   name: 'Register',
@@ -297,7 +326,39 @@ export default class extends Vue {
 
   private showContinue = false;
 
-  private form: NewDoctor = {} as NewDoctor;
+  private form: NewDoctor = new class implements NewDoctor {
+    doctor: DoctorData = new class implements DoctorData {
+      certificate = -1;
+
+      education = 0;
+
+      email = '';
+
+      modalitet = -1;
+
+      modalitet2 = '';
+
+      name = '';
+
+      occupation = -1;
+
+      occupation2 = '';
+
+      occupationSpec = '';
+
+      phone = '';
+
+      sex = false;
+
+      year = 0;
+
+      zoom = '';
+    }();
+
+    password = '';
+
+    regCode = '';
+  }();
 
   private fmodalitet2 = '';
 
@@ -363,12 +424,12 @@ export default class extends Vue {
     ],
     phoneNumber: [
       (v: string) => !!v || 'Broj telefona obavezan',
-      (v: string) => isValidPhoneNumber(v) || 'Broj telefona mora biti validan: pocinje sa +381-Srbija, +385-Hrvatska ili +387-Bosna i sadrzi cifre i znakove: /, ,-',
+      (v: string) => isValidPhoneNumber(v) || 'Broj telefona mora biti validan: sadrži cifre i znakove: /, ,-',
       (v: string) => !!v && isValidPhoneNumber(v),
     ],
     zoomID: [
       (v: number) => !!v || 'Zoom ID obavezan',
-      (v: number) => isValidZoomID(v) || 'Broj telefona mora biti validan',
+      (v: number) => isValidZoomID(v) || 'Zoom ID mora biti validan',
       (v: number) => !!v && isValidZoomID(v),
     ],
 

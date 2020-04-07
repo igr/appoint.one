@@ -29,6 +29,7 @@ class DoctorApi {
       ...newDoctor,
       name: newDoctor.doctor.email,
       doctor: {
+        ...newDoctor.doctor,
         sex: newDoctor.doctor.sex ? 'MALE' : 'FEMALE',
       },
     },
