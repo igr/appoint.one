@@ -101,7 +101,6 @@ fun Application.module(testing: Boolean = false) {
 		users()
 		timeslots()
 		appointment()
-		data()
 		evaluations()
 	}
 

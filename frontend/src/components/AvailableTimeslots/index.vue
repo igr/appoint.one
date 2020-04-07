@@ -62,9 +62,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import TimeslotApi from '@/api/TimeslotApi';
 import AppCookies from '@/utils/cookies';
-// eslint-disable-next-line no-unused-vars
 import { TimeslotAndDoctor } from '@/model/Timeslot';
-// eslint-disable-next-line no-unused-vars
 import { DateTime } from '@/model/DateTime';
 import { isStatus } from '@/utils/http';
 import { AppModule } from '@/store/modules/app';
@@ -85,7 +83,7 @@ export default class AvailableTimeslots extends Vue {
     return toDateTimeString(datetime);
   }
 
-  occupationText(value: Number) {
+  occupationText(value: number) {
     return occupationOf(value);
   }
 

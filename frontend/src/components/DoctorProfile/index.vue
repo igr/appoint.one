@@ -8,7 +8,6 @@
         <v-card-text
           align="center"
         >
-          <div>psihoterapeut</div>
           <p class="display-2 text--primary">
             {{ doc.data.name }}
           </p>
@@ -78,7 +77,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-// eslint-disable-next-line no-unused-vars
 import { Doctor } from '@/model/Doctor';
 import { occupationOf } from '@/utils/data';
 
@@ -86,7 +84,7 @@ import { occupationOf } from '@/utils/data';
 export default class DoctorProfile extends Vue {
   @Prop() private doc!: Doctor;
 
-  public occupationText(value: Number) {
+  public occupationText(value: number): string {
     return occupationOf(value);
   }
 }

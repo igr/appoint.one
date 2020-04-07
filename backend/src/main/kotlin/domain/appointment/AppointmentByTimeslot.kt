@@ -11,6 +11,16 @@ import server.DatabaseFactory.dbtx
 
 class AppointmentByTimeslot(private val timeslotId: Int) {
 
+	suspend fun get(): Appointment? = dbtx {
+		(TimeslotsTable innerJoin DoctorsTable)
+			.select { TimeslotsTable.id eq timeslotId }
+			.limit(5)
+			.map {
+				Appointment(it.toTimeslot(), it.toDoctor())
+			}
+			.singleOrNull()
+	}
+
 	suspend fun getReserved(): Appointment? = dbtx {
 		(TimeslotsTable innerJoin DoctorsTable)
 			.select { TimeslotsTable.id eq timeslotId }

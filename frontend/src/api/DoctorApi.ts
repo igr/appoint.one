@@ -22,15 +22,15 @@ class DoctorApi {
     method: 'put',
   });
 
-  postNewDoctor = (doctor: NewDoctor) => http({
+  postNewDoctor = (newDoctor: NewDoctor) => http({
     url: 'doctors',
     method: 'post',
     data: {
-      name: doctor.email,
-      password: Math.random().toString(36).slice(-8),
+      ...newDoctor,
+      name: newDoctor.doctor.email,
       doctor: {
-        ...doctor,
-        sex: doctor.sex ? 'MALE' : 'FEMALE',
+        ...newDoctor.doctor,
+        sex: newDoctor.doctor.sex ? 'MALE' : 'FEMALE',
       },
     },
   });

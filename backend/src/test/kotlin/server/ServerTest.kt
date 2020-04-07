@@ -1,6 +1,5 @@
 package server
 
-import domain.city.CityTable
 import domain.doctor.DoctorsTable
 import domain.evaluation.EvaluationsTable
 import domain.timeslot.TimeslotsTable
@@ -57,7 +56,6 @@ open class ServerTest {
 	        TimeslotsTable.deleteAll()
 	        DoctorsTable.deleteAll()
 	        UsersTable.deleteAll()
-	        CityTable.deleteAll()
         }
         Unit
     }

@@ -53,5 +53,6 @@ data class NewUser(
 data class NewDoctorUser(
 	val name: String,
 	val password: String,
+	val regCode: String,
 	val doctor: DoctorData
 )

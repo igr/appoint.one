@@ -41,6 +41,10 @@ export const routes: RouteConfig[] = [
         component: () => import('@/views/register/index.vue'),
       },
       {
+        path: '/register-ok',
+        component: () => import('@/views/register-ok/index.vue'),
+      },
+      {
         path: 'inquire',
         component: () => import('@/views/inquire/index.vue'),
       },
@@ -52,6 +56,17 @@ export const routes: RouteConfig[] = [
       {
         path: '/my',
         component: () => import('@/views/my/index.vue'),
+        meta: {
+          permission: {
+            role: ['DOC'],
+            access: true,
+          },
+        },
+      },
+      {
+        path: '/my/appointment/:id',
+        props: true,
+        component: () => import('@/views/my-appointment/index.vue'),
         meta: {
           permission: {
             role: ['DOC'],

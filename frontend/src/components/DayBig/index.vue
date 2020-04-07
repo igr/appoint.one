@@ -1,7 +1,8 @@
 <template>
   <v-row justify="center">
     <v-col
-      cols="6"
+      cols="12"
+      class="col-md-6"
     >
       <v-card
         color="red"
@@ -33,7 +34,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-// eslint-disable-next-line no-unused-vars
 import { DateTime } from '@/model/DateTime';
 import { toDateString, toTimeString } from '@/utils/time';
 

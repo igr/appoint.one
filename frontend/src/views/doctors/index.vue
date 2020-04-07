@@ -26,7 +26,7 @@
           <template v-slot:item.data.confirmed="{ item }">
             <v-checkbox
               v-model="item.data.confirmed"
-              v-on:change="updateDoctor(item.id, item.data.confirmed)"
+              @change="updateDoctor(item.id, item.data.confirmed)"
             />
           </template>
         </v-data-table>
@@ -37,7 +37,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-// eslint-disable-next-line no-unused-vars
 import { Doctor } from '@/model/Doctor';
 import DoctorApi from '@/api/DoctorApi';
 

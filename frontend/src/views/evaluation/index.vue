@@ -87,7 +87,6 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-// eslint-disable-next-line no-unused-vars
 import { NewEvaluation } from '@/model/NewEvaluation';
 import EvaluationApi from '@/api/EvaluationApi';
 
