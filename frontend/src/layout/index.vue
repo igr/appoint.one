@@ -24,7 +24,7 @@
       <v-spacer />
       <v-btn
         icon
-        to="/login"
+        to="/my"
       >
         <v-icon>mdi-account-box</v-icon>
       </v-btn>
