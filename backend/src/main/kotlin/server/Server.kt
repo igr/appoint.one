@@ -98,6 +98,7 @@ fun Application.module(testing: Boolean = false) {
 		index()
 		auth()
 		doctors()
+		users()
 		timeslots()
 		appointment()
 		data()
