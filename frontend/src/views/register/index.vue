@@ -48,10 +48,11 @@
             <!-- STEP 1 -->
             <v-stepper-content step="1">
               <v-text-field
-                ref="nameRef"
+                ref="securityCodeRef"
                 v-model="form.regCode"
                 prepend-icon="mdi-key"
                 label="Sigurnosni kod (dobijen iz udruženja)"
+                :rules="rules.securityCode"
                 required
               />
               <v-row
@@ -68,6 +69,7 @@
                   v-if="showContinue"
                   color="primary"
                   @click="step = 2"
+                  :disabled="!($refs.securityCodeRef.valid)"
                 >
                   Dalje
                 </v-btn>
@@ -94,11 +96,12 @@
                 required
               />
               <v-text-field
-                ref="passRef"
+                ref="passwordRef"
                 v-model="form.password"
                 label="Lozinka"
                 type="password"
                 prepend-icon="mdi-textbox-password"
+                :rules="rules.password"
                 required
               />
               <v-radio-group
@@ -143,7 +146,8 @@
                   :disabled="!(
                     $refs.nameRef.valid &&
                     $refs.emailRef.valid &&
-                    $refs.yearRef.valid)"
+                    $refs.yearRef.valid &&
+                    $refs.passwordRef.valid)"
                   @click="step = 3"
                 >
                   Dalje
@@ -153,14 +157,6 @@
 
             <!-- STEP 3 -->
             <v-stepper-content step="3">
-              <v-text-field
-                ref="educationRef"
-                v-model="form.doctor.education"
-                label="Godina edukacije"
-                type="number"
-                :rules="rules.educationYear"
-                required
-              />
               <v-autocomplete
                 ref="professionRef"
                 v-model="form.doctor.occupation"
@@ -189,7 +185,9 @@
 
               <v-radio-group
                 v-model="form.doctor.certificate"
+                ref="certificateRef"
                 label="Sertifikat"
+                :rules="rules.certificate"
                 row
               >
                 <v-radio
@@ -205,6 +203,15 @@
                   :value="2"
                 />
               </v-radio-group>
+              <v-text-field
+                v-show="!hasCertificate"
+                ref="educationYearRef"
+                v-model="form.doctor.education"
+                label="Godina edukacije"
+                type="number"
+                :rules="rules.educationYear"
+                required
+              />
               <v-autocomplete
                 ref="modalitetRef"
                 v-model="form.doctor.modalitet"
@@ -238,12 +245,13 @@
                   v-if="showContinue"
                   color="primary"
                   :disabled="!(
-                    $refs.educationRef.valid &&
                     $refs.professionRef.valid &&
+                    $refs.certificateRef.valid &&
                     $refs.modalitetRef.valid &&
                     (isOccupationDrugo ? $refs.professionDrugoRef.valid : true) &&
                     (isOccupationSpecial ? $refs.professionSpecialRef.valid : true) &&
-                    (isModalitetDrugo ? $refs.modalitetDrugoRef.valid : true))"
+                    (isModalitetDrugo ? $refs.modalitetDrugoRef.valid : true) &&
+                    (!hasCertificate ? $refs.educationYearRef.valid : true))"
                   @click="step = step + 1"
                 >
                   Dalje
@@ -266,7 +274,6 @@
                 v-model="form.doctor.zoom"
                 prepend-icon="mdi-webcam"
                 label="ZOOM-ID"
-                :rules="rules.zoomID"
                 required
               />
 
@@ -284,9 +291,7 @@
                   v-if="showContinue"
                   color="primary"
                   type="submit"
-                  :disabled="!(
-                    $refs.phoneRef.valid &&
-                    $refs.zoomRef.valid)"
+                  :disabled="!($refs.phoneRef.valid)"
                   @click.prevent="handleLogin"
                 >
                   SUBMIT
@@ -306,7 +311,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { NewDoctor } from '@/model/NewDoctor';
 import DoctorApi from '@/api/DoctorApi';
 import { modalitets, occupations } from '@/utils/data';
-import { isValidEmail, isValidPhoneNumber, isValidZoomID } from '@/utils/validate';
+import { isValidEmail, isValidPhoneNumber } from '@/utils/validate';
 import { DoctorData } from '@/model/DoctorData';
 
 @Component({
@@ -327,6 +332,10 @@ export default class extends Vue {
 
   mounted() {
     this.showContinue = true;
+  }
+
+  get hasCertificate() {
+    return this.form.doctor.certificate !== 0;
   }
 
   get isOccupationDrugo() {
@@ -350,6 +359,9 @@ export default class extends Vue {
   }
 
   private rules = {
+    securityCode: [
+      (v: string) => !!v || 'Sigurnosni kod obavezan',
+    ],
     nameAndSurname: [
       (v: string) => !!v || 'Ime i prezime obavezni',
     ],
@@ -357,13 +369,12 @@ export default class extends Vue {
       (v: string) => !!v || 'E-mail obavezan',
       (v: string) => isValidEmail(v) || 'E-mail mora biti validan',
     ],
+    password: [
+      (v: string) => !!v || 'Lozinka obavezna',
+    ],
     year: [
       (v: number) => !!v || 'Godina rodjena obavezna',
       (v: number) => (v <= 2000 && v >= 1900) || 'Godina rodjena mora biti validna (1900 - 2000)',
-    ],
-    educationYear: [
-      (v: number) => !!v || 'Godine edukacije obavezne',
-      (v: number) => (v <= 20 && v >= 0) || 'Godine edukacije moraju biti validne (0 - 20)',
     ],
     profession: [
       (v: number) => !!v || 'Zanimanje obavezno',
@@ -374,6 +385,13 @@ export default class extends Vue {
     professionSpecial: [
       (v: number) => !!v || 'Vrsta specijalizacije obavezna',
     ],
+    certificate: [
+      (v: number) => (v >= 0 && v <= 3) || 'Polje obavezno',
+    ],
+    educationYear: [
+      (v: number) => !!v || 'Godine edukacije obavezne',
+      (v: number) => (v <= 20 && v >= 0) || 'Godine edukacije moraju biti validne (0 - 20)',
+    ],
     modalitet: [
       (v: number) => !!v || 'Modalitet obavezan',
     ],
@@ -383,15 +401,20 @@ export default class extends Vue {
     phoneNumber: [
       (v: string) => !!v || 'Broj telefona obavezan',
       (v: string) => isValidPhoneNumber(v) || 'Broj telefona mora biti validan: sadrži cifre i znakove: /, ,-',
+      (v: string) => !!v && isValidPhoneNumber(v),
     ],
     zoomID: [
       (v: number) => !!v || 'Zoom ID obavezan',
       (v: number) => isValidZoomID(v) || 'Zoom ID mora biti validan',
+      (v: number) => !!v && isValidZoomID(v),
     ],
 
   };
 
   private async handleLogin() {
+    if (!this.form.doctor.zoom) {
+      this.form.doctor.zoom = '';
+    }
     await DoctorApi.postNewDoctor(this.form);
     await this.$router.push('/register-ok');
   }
