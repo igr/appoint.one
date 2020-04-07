@@ -1,0 +1,28 @@
+<template>
+  <v-row
+    align="center"
+    justify="center"
+  >
+    <v-col
+      cols="12"
+      md="8"
+    >
+      Uspešno ste registrovani. Sačekajte potvrdu.<br>
+      <router-link to="/home">
+        Nazad
+      </router-link>
+    </v-col>
+  </v-row>
+</template>
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+@Component({
+  name: 'RegisterOK',
+})
+export default class extends Vue {
+}
+</script>
+
+<style lang="scss">
+</style>

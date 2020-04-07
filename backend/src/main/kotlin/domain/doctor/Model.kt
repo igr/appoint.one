@@ -36,13 +36,13 @@ enum class DoctorSex(val value: Boolean) {
 }
 
 enum class DoctorCertificate(val value: Int) {
-	NONE(1), NATIONAL(2), INTERNATIONAL(3);
+	NONE(0), NATIONAL(1), INTERNATIONAL(2);
 
 	companion object {
 		fun of(value: Int): DoctorCertificate = when (value) {
-			1 -> NONE
-			2 -> NATIONAL
-			3 -> INTERNATIONAL
+			0 -> NONE
+			1 -> NATIONAL
+			2 -> INTERNATIONAL
 			else -> throw Error("Invalid certificate")
 		}
 	}
@@ -52,16 +52,14 @@ data class DoctorData(
 	val name: String,
 	val email: String,
 	val sex: DoctorSex,
-//	val country: Country,
-//	val city: City,
 	val year: Int,
 	val education: Int,
 	val occupation: Int,
-	val occupation2: String,
-	val occupationSpec: String,
+	val occupation2: String = "",
+	val occupationSpec: String = "",
 	val certificate: DoctorCertificate,
 	val modalitet: Int,
-	val modalitet2: String,
+	val modalitet2: String = "",
 	val phone: String,
 	val zoom: String,
 	val confirmed: Boolean,

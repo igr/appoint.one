@@ -194,15 +194,15 @@
               >
                 <v-radio
                   label="Ne"
-                  :value="1"
+                  :value="0"
                 />
                 <v-radio
                   label="Da - Domaći"
-                  :value="2"
+                  :value="1"
                 />
                 <v-radio
                   label="Da - Inostrani"
-                  :value="3"
+                  :value="2"
                 />
               </v-radio-group>
               <v-autocomplete
@@ -296,19 +296,12 @@
           </v-form>
         </v-stepper-items>
       </v-stepper>
-      <v-alert
-        v-if="savedOk"
-        type="info"
-      >
-        Uspešno ste registrovani. Sačekajte potvrdu.
-      </v-alert>
     </v-col>
   </v-row>
 </template>
 
 
 <script lang="ts">
-// eslint-disable-next-line max-classes-per-file
 import { Component, Vue } from 'vue-property-decorator';
 import { NewDoctor } from '@/model/NewDoctor';
 import DoctorApi from '@/api/DoctorApi';
@@ -326,43 +319,11 @@ export default class extends Vue {
 
   private showContinue = false;
 
-  private form: NewDoctor = new class implements NewDoctor {
-    doctor: DoctorData = new class implements DoctorData {
-      certificate = -1;
-
-      education = 0;
-
-      email = '';
-
-      modalitet = -1;
-
-      modalitet2 = '';
-
-      name = '';
-
-      occupation = -1;
-
-      occupation2 = '';
-
-      occupationSpec = '';
-
-      phone = '';
-
-      sex = false;
-
-      year = 0;
-
-      zoom = '';
-    }();
-
-    password = '';
-
-    regCode = '';
-  }();
+  private form: NewDoctor = {
+    doctor: {} as DoctorData,
+  } as NewDoctor;
 
   private fmodalitet2 = '';
-
-  private savedOk = false;
 
   mounted() {
     this.showContinue = true;
@@ -437,7 +398,7 @@ export default class extends Vue {
 
   private async handleLogin() {
     await DoctorApi.postNewDoctor(this.form);
-    this.savedOk = true;
+    await this.$router.push('/register-ok');
   }
 }
 </script>

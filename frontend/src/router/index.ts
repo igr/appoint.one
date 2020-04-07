@@ -41,6 +41,10 @@ export const routes: RouteConfig[] = [
         component: () => import('@/views/register/index.vue'),
       },
       {
+        path: '/register-ok',
+        component: () => import('@/views/register-ok/index.vue'),
+      },
+      {
         path: 'inquire',
         component: () => import('@/views/inquire/index.vue'),
       },
