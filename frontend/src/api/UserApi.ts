@@ -1,5 +1,4 @@
 import http from '@/utils/http';
-import { User } from '@/model/User';
 
 class UserApi {
   login = (data: { name: string; password: string }) => http({
@@ -14,11 +13,11 @@ class UserApi {
   });
 
   modifyUserData = (userId: number, newPassword: string) => http({
-    url: 'admin/modifyUserData',
+    url: 'users/modifyUserData',
     method: 'post',
     data: {
       id: userId,
-      pass: newPassword,
+      password: newPassword,
     },
   });
 

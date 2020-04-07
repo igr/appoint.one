@@ -43,6 +43,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+// eslint-disable-next-line no-unused-vars
 import UserApi from '@/api/UserApi';
 // eslint-disable-next-line no-unused-vars
 import { User } from '@/model/User';
@@ -58,17 +59,17 @@ export default class extends Vue {
     token: '',
   }
 
-  private show1: boolean = false;
+  private show1 = false;
 
-  private newPassword: string = '';
+  private newPassword = '';
 
-  private snackbarColor: string = 'success'; // or error
+  private snackbarColor = 'success'; // or error
 
-  private showSnackbar: boolean = false;
+  private showSnackbar = false;
 
-  private snackbarText: string = '';
+  private snackbarText = '';
 
-  private snackbarTop: boolean = true;
+  private snackbarTop = true;
 
   private rules = {
     passwordRules: [
@@ -86,13 +87,12 @@ export default class extends Vue {
     this.targetUser = d;
   }
 
-  // TODO post to 'admin/modifyUserData'
   private async submitModifications() {
     const userId: number = +this.$route.params.id;
     const pass: string = this.newPassword;
     const { data } = await UserApi.modifyUserData(userId, pass);
-    const d = data;
-    console.log(d);
+    // TODO have the message work as it should
+    this.displaySnackbarInfo(data);
   }
 
   displaySnackbarInfo(success: boolean) {
