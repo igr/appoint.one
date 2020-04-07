@@ -3,6 +3,7 @@ package domain.user
 import auth.BCryptHasher
 import domain.doctor.*
 import org.jetbrains.exposed.sql.insertAndGetId
+import org.jetbrains.exposed.sql.update
 import server.DatabaseFactory.dbtx
 
 object Users {
@@ -14,6 +15,14 @@ object Users {
 			it[role] = user.role.value
 		}
 		userId.toUserId()
+	}
+
+	suspend fun changeUserPassword(user: changedUserPassword) = dbtx {
+		val userId = UsersTable.update({
+			UsersTable.id eq user.id
+		}) {
+			it[password] = user.password
+		}
 	}
 
 	suspend fun addDoctor(userDoctor: NewDoctorUser): DoctorId = dbtx {
