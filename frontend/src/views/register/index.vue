@@ -68,8 +68,8 @@
                 <v-btn
                   v-if="showContinue"
                   color="primary"
-                  @click="step = 2"
                   :disabled="!($refs.securityCodeRef.valid)"
+                  @click="step = 2"
                 >
                   Dalje
                 </v-btn>
@@ -184,8 +184,8 @@
               />
 
               <v-radio-group
-                v-model="form.doctor.certificate"
                 ref="certificateRef"
+                v-model="form.doctor.certificate"
                 label="Sertifikat"
                 :rules="rules.certificate"
                 row
@@ -374,7 +374,7 @@ export default class extends Vue {
     ],
     year: [
       (v: number) => !!v || 'Godina rodjena obavezna',
-      (v: number) => (v <= 2000 && v >= 1900) || 'Godina rodjena mora biti validna (1900 - 2000)',
+      (v: number) => (v <= 2002 && v >= 1900) || 'Godina rodjena mora biti validna (1900 - 2002)',
     ],
     profession: [
       (v: number) => !!v || 'Zanimanje obavezno',
