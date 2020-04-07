@@ -104,7 +104,6 @@ export default class extends Vue {
     email: [
       (v: string) => !!v || 'E-mail is required',
       (v: string) => isValidEmail(v) || 'E-mail must be valid',
-      (v: string) => !!v && isValidEmail(v),
     ],
     password: [
       (v: string) => !!v || 'Password is required',

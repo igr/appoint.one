@@ -49,9 +49,9 @@
             <v-stepper-content step="1">
               <v-text-field
                 ref="nameRef"
+                v-model="form.regCode"
                 prepend-icon="mdi-key"
                 label="Sigurnosni kod (dobijen iz udruženja)"
-                v-model="form.regCode"
                 required
               />
               <v-row
@@ -356,17 +356,14 @@ export default class extends Vue {
     email: [
       (v: string) => !!v || 'E-mail obavezan',
       (v: string) => isValidEmail(v) || 'E-mail mora biti validan',
-      (v: string) => !!v && isValidEmail(v),
     ],
     year: [
       (v: number) => !!v || 'Godina rodjena obavezna',
       (v: number) => (v <= 2000 && v >= 1900) || 'Godina rodjena mora biti validna (1900 - 2000)',
-      (v: number) => !!v && (v <= 2000 && v >= 1900),
     ],
     educationYear: [
       (v: number) => !!v || 'Godine edukacije obavezne',
       (v: number) => (v <= 20 && v >= 0) || 'Godine edukacije moraju biti validne (0 - 20)',
-      (v: number) => !!v && (v <= 20 && v >= 0),
     ],
     profession: [
       (v: number) => !!v || 'Zanimanje obavezno',
@@ -386,12 +383,10 @@ export default class extends Vue {
     phoneNumber: [
       (v: string) => !!v || 'Broj telefona obavezan',
       (v: string) => isValidPhoneNumber(v) || 'Broj telefona mora biti validan: sadrži cifre i znakove: /, ,-',
-      (v: string) => !!v && isValidPhoneNumber(v),
     ],
     zoomID: [
       (v: number) => !!v || 'Zoom ID obavezan',
       (v: number) => isValidZoomID(v) || 'Zoom ID mora biti validan',
-      (v: number) => !!v && isValidZoomID(v),
     ],
 
   };
