@@ -139,11 +139,10 @@
             bottom
             right
           >
-            <template v-slot:activator="{ on }">
+            <template>
               <v-btn
                 outlined
                 color="grey darken-2"
-                v-on="on"
               >
                 <span>{{ typeToLabel[type] }}</span>
                 <v-icon right>
@@ -231,22 +230,14 @@ export default class extends Vue {
 
   private time = '';
 
-  private removeTooltip = 'Obriši';
-
-  private cancelTooltip = 'Neodržan';
-
-  private doneTooltip = 'Održan';
-
   private rules = {
     date: [
       (v: string) => !!v || 'Datum obavezan',
       (v: string) => isValidDate(v) || 'Datum mora biti validan',
-      (v: string) => !!v && isValidDate(v),
     ],
     time: [
       (v: string) => !!v || 'Vreme obavezno',
       (v: string) => isValidTime(v) || 'Vreme mora biti validno',
-      (v: string) => !!v && isValidTime(v),
     ],
   };
 
