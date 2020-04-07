@@ -231,6 +231,12 @@ export default class extends Vue {
 
   private time = '';
 
+  private removeTooltip = 'Obriši';
+
+  private cancelTooltip = 'Neodržan';
+
+  private doneTooltip = 'Održan';
+
   private rules = {
     date: [
       (v: string) => !!v || 'Datum obavezan',
