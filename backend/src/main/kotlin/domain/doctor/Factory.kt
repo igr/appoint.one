@@ -10,7 +10,6 @@ private fun newDoctorData(name: String, email: String = "${name}@dot.com"): Doct
 		name = name,
 		email = "${name}@dot.com",
 		sex = DoctorSex.MALE,
-//		country = Country_SERBIA,
 		year = 1990,
 		education = 4,
 		occupation = 1,

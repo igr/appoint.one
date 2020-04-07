@@ -12,11 +12,10 @@ class UserApi {
     method: 'get',
   });
 
-  modifyUserData = (userId: number, newPassword: string) => http({
-    url: 'users/modifyUserData',
-    method: 'post',
+  updatePassword = (userId: number, newPassword: string) => http({
+    url: `users/${userId}/password`,
+    method: 'put',
     data: {
-      id: userId,
       password: newPassword,
     },
   });

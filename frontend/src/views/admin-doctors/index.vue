@@ -41,7 +41,7 @@ import { Doctor } from '@/model/Doctor';
 import DoctorApi from '@/api/DoctorApi';
 
 @Component({
-  name: 'ListOfDoctors',
+  name: 'AdminDoctors',
 })
 export default class extends Vue {
   private search = '';
@@ -54,7 +54,6 @@ export default class extends Vue {
       value: 'id',
     },
     { text: 'Ime', value: 'data.name' },
-    { text: 'Država', value: 'data.country.name' },
     { text: 'e-pošta', value: 'data.email' },
     { text: 'Telefon', value: 'data.phone' },
     { text: 'Zoom', value: 'data.zoom' },

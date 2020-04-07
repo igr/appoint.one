@@ -91,21 +91,21 @@ export const routes: RouteConfig[] = [
   {
     path: '/admin',
     component: Layout,
-    redirect: '/home-admin',
+    redirect: '/admin/home',
     children: [
       {
-        path: '/home-admin',
+        path: 'home',
         component: () => import('@/views/admin/index.vue'),
         name: 'Admin',
       },
       {
         path: 'doctors',
-        component: () => import('@/views/doctors/index.vue'),
+        component: () => import('@/views/admin-doctors/index.vue'),
       },
       {
         path: 'user/:id',
         props: true,
-        component: () => import('@/views/manage-user/index.vue'),
+        component: () => import('@/views/admin-user/index.vue'),
       },
     ],
   },

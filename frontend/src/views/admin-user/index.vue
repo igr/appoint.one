@@ -1,12 +1,15 @@
 <template>
   <v-row justify="center">
-    <v-col cols="12" md="6">
+    <v-col
+      cols="12"
+      md="6"
+    >
       <v-snackbar
         v-model="showSnackbar"
         :color="snackbarColor"
         :top="snackbarTop"
       >
-        {{snackbarText}}
+        {{ snackbarText }}
         <v-btn
           dark
           text
@@ -21,20 +24,22 @@
         :value="targetUser.name"
         outlined
         disabled
-      ></v-text-field>
+      />
       <v-text-field
+        ref="passwordRef"
+        v-model="newPassword"
         :type="show1 ? 'text' : 'password'"
         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
         label="Nova šifra"
-        ref="passwordRef"
         :rules="rules.passwordRules"
-        v-model="newPassword"
         outlined
         counter
         @click:append="show1 = !show1"
-      ></v-text-field>
-      <v-btn color="primary"
-        @click="submitModifications">
+      />
+      <v-btn
+        color="primary"
+        @click="submitModifications"
+      >
         Sačuvaj
       </v-btn>
     </v-col>
@@ -43,13 +48,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-// eslint-disable-next-line no-unused-vars
 import UserApi from '@/api/UserApi';
-// eslint-disable-next-line no-unused-vars
-import { User } from '@/model/User';
 
 @Component({
-  name: 'UserEditor',
+  name: 'AdminUser',
 })
 export default class extends Vue {
   private targetUser = {
@@ -57,7 +59,7 @@ export default class extends Vue {
     name: '',
     role: '',
     token: '',
-  }
+  };
 
   private show1 = false;
 
@@ -75,7 +77,7 @@ export default class extends Vue {
     passwordRules: [
       (value: string) => (value || '').length >= 5 || 'Min 5 karaktera',
     ],
-  }
+  };
 
   async created() {
     this.fetchData();
@@ -83,14 +85,13 @@ export default class extends Vue {
 
   private async fetchData() {
     const { data } = await UserApi.getUser(+this.$route.params.id);
-    const d: User = data;
-    this.targetUser = d;
+    this.targetUser = data;
   }
 
   private async submitModifications() {
     const userId: number = +this.$route.params.id;
     const pass: string = this.newPassword;
-    const { data } = await UserApi.modifyUserData(userId, pass);
+    const { data } = await UserApi.updatePassword(userId, pass);
     // TODO have the message work as it should
     this.displaySnackbarInfo(data);
   }
@@ -106,5 +107,4 @@ export default class extends Vue {
     }
   }
 }
-
 </script>

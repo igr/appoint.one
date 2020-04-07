@@ -50,8 +50,7 @@ data class NewUser(
 	val role: UserRole = UserRole.GUEST
 )
 
-data class changedUserPassword(
-	val id: Int,
+data class Password(
 	val password: String
 )
 
