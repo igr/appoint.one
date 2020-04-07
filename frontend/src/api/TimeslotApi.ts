@@ -31,7 +31,7 @@ class TimeslotApi {
     method: 'get',
   });
 
-  post = (doctorId: Number, datetime: DateTime) => http({
+  post = (doctorId: number, datetime: DateTime) => http({
     url: '/timeslots/',
     method: 'post',
     data: {

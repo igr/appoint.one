@@ -68,7 +68,7 @@ import { Component, Vue } from 'vue-property-decorator';
   name: 'Home',
 })
 export default class extends Vue {
-  private hover: boolean = false;
+  private hover = false;
 }
 </script>
 

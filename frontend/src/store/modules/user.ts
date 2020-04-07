@@ -10,11 +10,11 @@ import { Doctor } from '@/model/Doctor';
 import DoctorApi from '@/api/DoctorApi';
 
 export interface UserState {
-  id: number,
-  token: string
-  name: string
-  roles: string[]
-  doctor: Doctor
+  id: number;
+  token: string;
+  name: string;
+  roles: string[];
+  doctor: Doctor;
 }
 
 @Module({ dynamic: true, store, name: 'user' })
@@ -27,8 +27,7 @@ class UserModuleClass extends VuexModule implements UserState {
 
   public roles: string[] = [];
 
-  // @ts-ignore
-  public doctor: Doctor = {};
+  public doctor: Doctor = {} as Doctor;
 
   @Mutation
   private SET_TOKEN(token: string) {
@@ -59,7 +58,7 @@ class UserModuleClass extends VuexModule implements UserState {
   }
 
   @Action
-  public async Login(userInfo: { name: string, password: string}): Promise<number> {
+  public async Login(userInfo: { name: string; password: string }): Promise<number> {
     let { name } = userInfo;
     name = name.trim();
     const { password } = userInfo;

@@ -8,9 +8,7 @@ class EvaluationApi {
     data: {
       data: {
         ...data,
-        // @ts-ignore
         success: data.success === 1,
-        // @ts-ignore
         forward: data.forward === 1,
       },
       timeslotId,
