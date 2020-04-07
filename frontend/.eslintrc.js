@@ -5,7 +5,13 @@ module.exports = {
     node: true,
     es6: true,
   },
+  parserOptions: {
+    parser: '@typescript-eslint/parser',
+    ecmaVersion: 2020,
+  },
+  plugins: ['@typescript-eslint'],
   extends: [
+    'plugin:@typescript-eslint/recommended',
     'eslint:recommended',
     'plugin:vue/recommended',
     '@vue/airbnb',
@@ -21,6 +27,7 @@ module.exports = {
     'no-restricted-syntax': ['error', 'LabeledStatement', 'WithStatement'],
     'no-unused-expressions': ['error', { 'allowShortCircuit': true }],
     'import/extensions': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
   },
   settings: {
     'import/resolver': {
@@ -28,10 +35,6 @@ module.exports = {
         'extensions': ['.js', '.jsx', '.ts', '.tsx']
       }
     }
-  },
-  parserOptions: {
-    parser: '@typescript-eslint/parser',
-    ecmaVersion: 2020,
   },
   overrides: [
     {

@@ -19,17 +19,23 @@
             :complete="step > 1"
             step="1"
           >
-            Podaci
+            Kod
           </v-stepper-step>
-          <v-divider />
           <v-stepper-step
             :complete="step > 2"
             step="2"
           >
+            Podaci
+          </v-stepper-step>
+          <v-divider />
+          <v-stepper-step
+            :complete="step > 3"
+            step="3"
+          >
             Obrazovanje
           </v-stepper-step>
           <v-divider />
-          <v-stepper-step step="3">
+          <v-stepper-step step="4">
             Kontakt
           </v-stepper-step>
         </v-stepper-header>
@@ -43,7 +49,16 @@
             <v-stepper-content step="1">
               <v-text-field
                 ref="nameRef"
-                v-model="form.name"
+                label="Sigurnosni kod (dobijen iz udruženja)"
+                required
+              />
+            </v-stepper-content>
+
+            <!-- STEP 1 -->
+            <v-stepper-content step="2">
+              <v-text-field
+                ref="nameRef"
+                v-model="form.doctor.name"
                 label="Ime i prezime"
                 :rules="rules.nameAndSurname"
                 prepend-icon="mdi-human"
@@ -51,7 +66,7 @@
               />
               <v-text-field
                 ref="emailRef"
-                v-model="form.email"
+                v-model="form.doctor.email"
                 label="Email"
                 type="email"
                 prepend-icon="mdi-email"
@@ -59,7 +74,7 @@
                 required
               />
               <v-radio-group
-                v-model="form.sex"
+                v-model="form.doctor.sex"
                 :row="true"
                 mandatory
                 required
@@ -76,7 +91,7 @@
               </v-radio-group>
               <v-text-field
                 ref="yearRef"
-                v-model="form.year"
+                v-model="form.doctor.year"
                 label="Godina rođenja"
                 type="number"
                 prepend-icon="mdi-calendar"
@@ -97,9 +112,10 @@
                 <v-btn
                   v-if="showContinue"
                   color="primary"
-                  :disabled="!($refs.nameRef.valid &&
-                               $refs.emailRef.valid &&
-                               $refs.yearRef.valid)"
+                  :disabled="!(
+                    $refs.nameRef.valid &&
+                    $refs.emailRef.valid &&
+                    $refs.yearRef.valid)"
                   @click="step = 2"
                 >
                   Dalje
@@ -107,11 +123,11 @@
               </v-row>
             </v-stepper-content>
 
-            <!-- STEP 2 -->
-            <v-stepper-content step="2">
+            <!-- STEP 3 -->
+            <v-stepper-content step="3">
               <v-text-field
                 ref="educationRef"
-                v-model="form.education"
+                v-model="form.doctor.education"
                 label="Godina edukacije"
                 type="number"
                 :rules="rules.educationYear"
@@ -119,7 +135,7 @@
               />
               <v-autocomplete
                 ref="professionRef"
-                v-model="form.occupation"
+                v-model="form.doctor.occupation"
                 :items="occupationItems"
                 hide-no-data
                 hide-selected
@@ -129,7 +145,7 @@
               <v-text-field
                 v-show="isOccupationDrugo"
                 ref="professionDrugoRef"
-                v-model="form.occupation2"
+                v-model="form.doctor.occupation2"
                 label="Zanimanje (uneti ručno)"
                 :rules="rules.professionDrugo"
                 required
@@ -137,14 +153,14 @@
               <v-text-field
                 v-show="isOccupationSpecial"
                 ref="professionSpecialRef"
-                v-model="form.occupationSpec"
+                v-model="form.doctor.occupationSpec"
                 label="Vrsta specializacije"
                 :rules="rules.professionSpecial"
                 required
               />
 
               <v-radio-group
-                v-model="form.certificate"
+                v-model="form.doctor.certificate"
                 label="Sertifikat"
                 row
               >
@@ -163,7 +179,7 @@
               </v-radio-group>
               <v-autocomplete
                 ref="modalitetRef"
-                v-model="form.modalitet"
+                v-model="form.doctor.modalitet"
                 :items="modalitetItems"
                 hide-no-data
                 hide-selected
@@ -193,12 +209,13 @@
                 <v-btn
                   v-if="showContinue"
                   color="primary"
-                  :disabled="!($refs.educationRef.valid &&
-                               $refs.professionRef.valid &&
-                               $refs.modalitetRef.valid &&
-                               (isOccupationDrugo ? $refs.professionDrugoRef.valid : true) &&
-                               (isOccupationSpecial ? $refs.professionSpecialRef.valid : true) &&
-                               (isModalitetDrugo ? $refs.modalitetDrugoRef.valid : true))"
+                  :disabled="!(
+                    $refs.educationRef.valid &&
+                    $refs.professionRef.valid &&
+                    $refs.modalitetRef.valid &&
+                    (isOccupationDrugo ? $refs.professionDrugoRef.valid : true) &&
+                    (isOccupationSpecial ? $refs.professionSpecialRef.valid : true) &&
+                    (isModalitetDrugo ? $refs.modalitetDrugoRef.valid : true))"
                   @click="step = 3"
                 >
                   Dalje
@@ -206,11 +223,11 @@
               </v-row>
             </v-stepper-content>
 
-            <!-- STEP 3 -->
-            <v-stepper-content step="3">
+            <!-- STEP 4 -->
+            <v-stepper-content step="4">
               <v-text-field
                 ref="phoneRef"
-                v-model="form.phone"
+                v-model="form.doctor.phone"
                 label="Telefon"
                 prepend-icon="mdi-phone"
                 :rules="rules.phoneNumber"
@@ -218,7 +235,7 @@
               />
               <v-text-field
                 ref="zoomRef"
-                v-model="form.zoom"
+                v-model="form.doctor.zoom"
                 prepend-icon="mdi-webcam"
                 label="ZOOM-ID"
                 :rules="rules.zoomID"
@@ -239,8 +256,9 @@
                   v-if="showContinue"
                   color="primary"
                   type="submit"
-                  :disabled="!($refs.phoneRef.valid &&
-                               $refs.zoomRef.valid)"
+                  :disabled="!(
+                    $refs.phoneRef.valid &&
+                    $refs.zoomRef.valid)"
                   @click.prevent="handleLogin"
                 >
                   SUBMIT
@@ -273,15 +291,15 @@ import { isValidEmail, isValidPhoneNumber, isValidZoomID } from '@/utils/validat
   name: 'Register',
 })
 export default class extends Vue {
-  private step: number = 1;
+  private step = 1;
 
   private valid = false;
 
   private showContinue = false;
 
-  private form: NewDoctor = new NewDoctor();
+  private form: NewDoctor = {} as NewDoctor;
 
-  private fmodalitet2 : string = '';
+  private fmodalitet2 = '';
 
   private savedOk = false;
 
@@ -290,15 +308,15 @@ export default class extends Vue {
   }
 
   get isOccupationDrugo() {
-    return this.form.occupation === 999;
+    return this.form.doctor.occupation === 999;
   }
 
   get isOccupationSpecial() {
-    return this.form.occupation === 4 || this.form.occupation === 5;
+    return this.form.doctor.occupation === 4 || this.form.doctor.occupation === 5;
   }
 
   get isModalitetDrugo() {
-    return this.form.modalitet === 999;
+    return this.form.doctor.modalitet === 999;
   }
 
   get modalitetItems() {

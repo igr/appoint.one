@@ -1,6 +1,6 @@
 export interface DataPair {
-  value: number,
-  text: String,
+  value: number;
+  text: string;
 }
 
 export const occupations: DataPair[] = [
@@ -78,7 +78,7 @@ export const occupations: DataPair[] = [
   },
 ];
 
-export function occupationOf(value: Number): String {
+export function occupationOf(value: number): string {
   const lookup = occupations.find((it) => it.value === value);
   if (lookup === undefined) {
     throw new TypeError(`Invalid occupation ID ${value}`);
@@ -169,7 +169,7 @@ export const modalitets = [
   },
 ];
 
-export function modalitetOf(value: Number) {
+export function modalitetOf(value: number) {
   const lookup = modalitets.find((it) => it.value === value);
   if (lookup === undefined) {
     throw new TypeError(`Invalid occupation ID ${value}`);

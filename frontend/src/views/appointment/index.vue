@@ -25,9 +25,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-// eslint-disable-next-line no-unused-vars
 import { Timeslot } from '@/model/Timeslot';
-// eslint-disable-next-line no-unused-vars
 import { Doctor } from '@/model/Doctor';
 import DoctorProfile from '@/components/DoctorProfile/index.vue';
 import DayBig from '@/components/DayBig/index.vue';

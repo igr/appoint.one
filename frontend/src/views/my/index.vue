@@ -193,18 +193,15 @@ import {TimeslotStatus} from "@/model/Timeslot";
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { UserModule } from '@/store/modules/user';
-// eslint-disable-next-line no-unused-vars
 import { Doctor } from '@/model/Doctor';
 import DoctorApi from '@/api/DoctorApi';
 import {
   isTimeslotCanceled,
-  // eslint-disable-next-line no-unused-vars
   isTimeslotDone, isTimeslotNew, isTimeslotReserved, Timeslot, TimeslotStatus,
 } from '@/model/Timeslot';
 import TimeslotApi from '@/api/TimeslotApi';
 import { isInFuture, toDateTime, toDateTimeString } from '@/utils/time';
 import DoctorProfile from '@/components/DoctorProfile/index.vue';
-// eslint-disable-next-line no-unused-vars
 import { DateTime } from '@/model/DateTime';
 import { isValidDate, isValidTime } from '@/utils/validate';
 
@@ -262,7 +259,7 @@ export default class extends Vue {
       .filter((it) => !isInFuture(it.datetime));
   }
 
-  dateStr(datetime: DateTime): String {
+  dateStr(datetime: DateTime): string {
     return toDateTimeString(datetime);
   }
 

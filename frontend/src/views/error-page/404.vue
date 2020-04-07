@@ -32,7 +32,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-// eslint-disable-next-line no-unused-vars
 import { Route } from 'vue-router';
 
 @Component({

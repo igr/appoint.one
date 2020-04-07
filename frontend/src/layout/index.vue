@@ -9,7 +9,7 @@
       <div class="d-flex align-center">
         <router-link to="/">
           <v-btn
-            width="40"
+            large
           >
             <v-icon>
               mdi-home
