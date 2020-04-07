@@ -10,7 +10,7 @@
       <h1 class="heading">
         Evaluacija
       </h1>
-      <v-form>
+      <v-form v-model="valid">
         <v-card
           class="pa-6"
         >
@@ -37,16 +37,19 @@
             v-model="form.age"
             label="Uzrast korisnika (Broj godina)"
             type="number"
+            :rules="rules.age"
             required
           />
           <v-textarea
             v-model="form.problem"
             label="Vrsta problema"
+            :rules="rules.problem"
             required
           />
           <v-textarea
             v-model="form.help"
             label="Pružena intervencija"
+            :rules="rules.help"
             required
           />
           <v-combobox
@@ -54,6 +57,7 @@
             :items="[{ text:'DA', value: 1 }, { text:'NE', value: 0 }]"
             label="Da li je intervencija bila dovoljna?"
             outlined
+            :rules="rules.success"
             required
           />
           <v-combobox
@@ -61,17 +65,20 @@
             :items="[{ text:'DA', value: 1 }, { text:'NE', value: 0 }]"
             label="Da li je korisnik upućen dalje?"
             outlined
+            :rules="rules.forward"
             required
           />
           <v-textarea
             v-model="form.comment"
             label="Intervencija bila dovoljna / korisnik upućen dalje - komentar"
+            :rules="rules.comment"
             required
           />
           <v-btn
             type="submit"
             color="primary"
             x-large
+            :disabled="!valid"
             @click.stop="save"
           >
             SNIMI
@@ -100,6 +107,32 @@ export default class extends Vue {
 
   @Prop({ default: -1 })
   readonly id!: number;
+
+  private valid = false;
+
+  private rules = {
+    age: [
+      (v: number) => !!v || 'Godine obavezne',
+      (v: number) => (v > 0 && v < 200) || 'Godine moraju biti validne (1 - 200)',
+    ],
+    problem: [
+      (v: string) => !!v || 'Vrsta problema obavezna',
+    ],
+    help: [
+      (v: string) => !!v || 'Pruzena intervencija obavezna',
+    ],
+    success: [
+      (v: string) => !!v || 'Polje obavezno',
+    ],
+    forward: [
+      (v: string) => !!v || 'Polje obavezno',
+    ],
+    comment: [
+      (v: string) => !!v || 'Komentar obavezan',
+    ],
+
+  };
+
 
   async save() {
     await EvaluationApi.postNewEvaluation(this.id, this.form);
