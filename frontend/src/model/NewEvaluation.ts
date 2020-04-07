@@ -3,7 +3,7 @@ export interface NewEvaluation {
   age: number;
   problem: string;
   help: string;
-  success: boolean;
-  forward: boolean;
+  success: boolean | number;
+  forward: boolean | number;
   comment: string;
 }
