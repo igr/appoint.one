@@ -10,9 +10,9 @@ export interface AppState {
 
 @Module({ dynamic: true, store, name: 'app' })
 class AppModuleClass extends VuexModule implements AppState {
-  public alertMessage: string = '';
+  public alertMessage = '';
 
-  public infoMessage: string = '';
+  public infoMessage = '';
 
   @Mutation
   private SET_ALERT_MESSAGE(message: string) {

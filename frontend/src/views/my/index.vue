@@ -282,7 +282,6 @@ export default class extends Vue {
   async submit() {
     await TimeslotApi.post(this.doctor.id, toDateTime(this.date, this.time));
     this.cancel();
-    await this.$forceUpdate();
   }
 
   async created() {

@@ -1,6 +1,6 @@
 export default {
   msg: {
-    please_wait: 'Molimo, sačekajte',
+    pleaseWait: 'Molimo, sačekajte',
   },
   login: {
     title: 'Prijava na sistem',

@@ -92,7 +92,7 @@
         </v-btn>
       </div>
       <div v-else>
-        {{ $t('msg.please_wait') }}
+        {{ $t('msg.pleaseWait') }}
       </div>
     </v-col>
   </v-row>
