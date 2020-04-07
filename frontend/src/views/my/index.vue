@@ -1,41 +1,5 @@
-import {TimeslotStatus} from "@/model/Timeslot";
-import {TimeslotStatus} from "@/model/Timeslot";
 <template>
   <v-row justify="center">
-    <v-dialog
-      v-model="dialog2.show"
-      max-width="290"
-    >
-      <v-card>
-        <v-card-title class="headline">
-          Potvrdite
-        </v-card-title>
-
-        <v-card-text>
-          {{ dialog2.text }}
-        </v-card-text>
-
-        <v-card-actions>
-          <v-spacer />
-
-          <v-btn
-            color="green darken-1"
-            text
-            @click="dialog2.show = false"
-          >
-            NE
-          </v-btn>
-
-          <v-btn
-            color="green darken-1"
-            text
-            @click="dialogOk()"
-          >
-            DA
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
     <v-col
       cols="12"
       md="8"
@@ -107,9 +71,14 @@ import {TimeslotStatus} from "@/model/Timeslot";
       <v-row
         :v-if="isLoading"
         class="mt-12"
+        align="center"
+        justify="center"
       >
-        <v-col cols="6">
-          <h3>Budući termini</h3>
+        <v-col
+          cols="12"
+          md="6"
+        >
+          <h3>Prvi sledeći termini:</h3>
           <v-timeline dense>
             <v-slide-x-reverse-transition
               group
@@ -122,70 +91,102 @@ import {TimeslotStatus} from "@/model/Timeslot";
                 small
                 fill-dot
               >
-                {{ dateStr(item.datetime) }}
-                <v-btn
-                  v-if="isNEW(item)"
-                  fab
-                  x-small
-                  class="ml-6"
-                  @click.stop="removeTimeslot0(item)"
-                >
-                  <v-icon>mdi-minus</v-icon>
-                </v-btn>
-              </v-timeline-item>
-            </v-slide-x-reverse-transition>
-          </v-timeline>
-        </v-col>
-        <v-col cols="6">
-          <h3>Prošli termini</h3>
-          <v-timeline
-            dense
-            col="6"
-          >
-            <v-slide-x-reverse-transition
-              group
-              hide-on-leave
-            >
-              <v-timeline-item
-                v-for="item in past"
-                :key="item.id"
-                :color="colorOf(item)"
-                small
-                fill-dot
-              >
-                {{ dateStr(item.datetime) }}
-                <v-btn
-                  v-if="isNEW(item)"
-                  fab
-                  x-small
-                  class="ml-6"
-                  @click.stop="removeTimeslot0(item)"
-                >
-                  <v-icon>mdi-minus</v-icon>
-                </v-btn>
-                <v-btn
-                  v-if="isRESERVED(item)"
-                  fab
-                  x-small
-                  class="ml-6"
-                  @click.stop="cancelTimeslot0(item)"
-                >
-                  <v-icon>mdi-cancel</v-icon>
-                </v-btn>
-                <v-btn
-                  v-if="isRESERVED(item)"
-                  fab
-                  x-small
-                  class="ml-6"
-                  @click.stop="doneTimeslot(item)"
-                >
-                  <v-icon>mdi-check</v-icon>
-                </v-btn>
+                <div class="next">
+                  {{ dateStr(item.datetime) }}
+                </div>
               </v-timeline-item>
             </v-slide-x-reverse-transition>
           </v-timeline>
         </v-col>
       </v-row>
+      <!-- CALENDAR -->
+      <v-sheet height="64">
+        <v-toolbar
+          flat
+        >
+          <v-btn
+            outlined
+            class="mr-4"
+            color="grey darken-2"
+            @click="setToday"
+          >
+            Danas
+          </v-btn>
+          <v-btn
+            fab
+            text
+            small
+            color="grey darken-2"
+            @click="prev"
+          >
+            <v-icon small>
+              mdi-chevron-left
+            </v-icon>
+          </v-btn>
+          <v-btn
+            fab
+            text
+            small
+            color="grey darken-2"
+            @click="next"
+          >
+            <v-icon small>
+              mdi-chevron-right
+            </v-icon>
+          </v-btn>
+          <v-spacer />
+          <v-menu
+            bottom
+            right
+          >
+            <template v-slot:activator="{ on }">
+              <v-btn
+                outlined
+                color="grey darken-2"
+                v-on="on"
+              >
+                <span>{{ typeToLabel[type] }}</span>
+                <v-icon right>
+                  mdi-menu-down
+                </v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item @click="type = 'day'">
+                <v-list-item-title>Dan</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="type = 'week'">
+                <v-list-item-title>Nedelja</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="type = 'month'">
+                <v-list-item-title>Mesec</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="type = '4day'">
+                <v-list-item-title>4 dana</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-toolbar>
+      </v-sheet>
+      <v-sheet
+        height="600"
+        class="mb-12"
+      >
+        <v-calendar
+          ref="calendar"
+          v-model="focus"
+          color="primary"
+          locale="rs"
+          :events="events"
+          :event-name="eventName"
+          :event-color="getEventColor"
+          :first-interval="6"
+          :interval-count="24-6"
+          :now="today"
+          :type="type"
+          @click:event="showEvent"
+        />
+      </v-sheet>
     </v-col>
   </v-row>
 </template>
@@ -196,8 +197,7 @@ import { UserModule } from '@/store/modules/user';
 import { Doctor } from '@/model/Doctor';
 import DoctorApi from '@/api/DoctorApi';
 import {
-  isTimeslotCanceled,
-  isTimeslotDone, isTimeslotNew, isTimeslotReserved, Timeslot, TimeslotStatus,
+  isTimeslotCanceled, isTimeslotDone, isTimeslotReserved, Timeslot,
 } from '@/model/Timeslot';
 import TimeslotApi from '@/api/TimeslotApi';
 import { isInFuture, toDateTime, toDateTimeString } from '@/utils/time';
@@ -251,12 +251,8 @@ export default class extends Vue {
   get future(): Timeslot[] {
     return this.timeslots
       .filter((it) => isInFuture(it.datetime))
+      .slice(0, 4)
       .reverse();
-  }
-
-  get past(): Timeslot[] {
-    return this.timeslots
-      .filter((it) => !isInFuture(it.datetime));
   }
 
   dateStr(datetime: DateTime): string {
@@ -284,11 +280,9 @@ export default class extends Vue {
   }
 
   async submit() {
-    const res = await TimeslotApi.post(this.doctor.id, toDateTime(this.date, this.time));
-    const allTimeslots: Timeslot[] = res.data;
-
-    allTimeslots.forEach((ts) => this.timeslots.push(ts));
+    await TimeslotApi.post(this.doctor.id, toDateTime(this.date, this.time));
     this.cancel();
+    await this.$forceUpdate();
   }
 
   async created() {
@@ -302,56 +296,101 @@ export default class extends Vue {
     this.isLoading = false;
   }
 
-  dialogOk() {
-    const { action } = this.dialog2;
-    this.dialog2.show = false;
-    switch (action) {
-      case 1: this.removeTimeslot(this.dialog2.item); break;
-      case 2: this.cancelTimeslot(this.dialog2.item); break;
-      default: throw Error('BAD action');
-    }
-  }
-
-  async removeTimeslot0(timeslot: Timeslot) {
-    this.dialog2.item = timeslot;
-    this.dialog2.text = 'Da li želite da obrište termin?';
-    this.dialog2.action = 1;
-    this.dialog2.show = true;
-  }
-
-  async removeTimeslot(timeslot: Timeslot) {
-    await TimeslotApi.delete(timeslot.id);
-    const index = this.timeslots.indexOf(timeslot);
-    if (index > -1) {
-      this.timeslots.splice(index, 1);
-    }
-  }
-
-  async cancelTimeslot0(timeslot: Timeslot) {
-    this.dialog2.item = timeslot;
-    this.dialog2.text = 'Da li želite da označite termin kao OTKAZAN?';
-    this.dialog2.action = 2;
-    this.dialog2.show = true;
-  }
-
-  async cancelTimeslot(timeslot: Timeslot) {
-    await TimeslotApi.cancelTimeslot(timeslot.id);
-    // eslint-disable-next-line no-param-reassign
-    timeslot.status = TimeslotStatus.CANCELED;
-  }
-
-  private isNEW = isTimeslotNew;
-
   private isRESERVED = isTimeslotReserved;
 
   private isDONE = isTimeslotDone;
 
   private isCANCELED = isTimeslotCanceled;
 
-  doneTimeslot(timeslot: Timeslot) {
-    this.$router.push(`/evaluation/${timeslot.id}`);
+  private type = '4day';
+
+  private typeToLabel = {
+    month: 'Mesec',
+    week: 'Nedelja',
+    day: 'Dan',
+    '4day': '4 Dana',
+  };
+
+  private focus = '';
+
+  private today = this.formatJsDate(new Date());
+
+  setToday() {
+    this.focus = this.today;
+  }
+
+  get events(): any {
+    return this.timeslots.map((ts) => ({
+      name: '*',
+      start: this.formatDate(ts.datetime),
+      end: this.formatDatePlus30(ts.datetime),
+      color: 'red',
+      id: ts.id,
+      item: ts,
+    }));
+  }
+
+  getEventColor(event: any) {
+    if (this.isRESERVED(event.item)) {
+      return 'red';
+    }
+    if (this.isDONE(event.item)) {
+      return 'green';
+    }
+    if (this.isCANCELED(event.item)) {
+      return 'black';
+    }
+    return 'blue';
+  }
+
+  private get calendarInstance(): Vue & {
+    prev: () => void;
+    next: () => void;
+    getFormatter: (format: any) => any;
+    } {
+    return this.$refs.calendar as Vue & {
+      prev: () => void;
+      next: () => void;
+      getFormatter: (format: any) => any;
+    };
+  }
+
+  eventName(event: any) {
+    return `${event.start.hour}:${event.start.minute}`;
+  }
+
+  prev() {
+    this.calendarInstance.prev();
+  }
+
+  next() {
+    this.calendarInstance.next();
+  }
+
+  formatDate(dt: DateTime) {
+    return `${dt.year}-${dt.month}-${dt.day} ${dt.hour}:${dt.minute}`;
+  }
+
+  formatJsDate(a: Date) {
+    return `${a.getFullYear()}-${a.getMonth() + 1}-${a.getDate()} ${a.getHours()}:${a.getMinutes()}`;
+  }
+
+  formatDatePlus30(dt: DateTime) {
+    const date = new Date(dt.year, dt.month - 1, dt.day, dt.minute, dt.hour);
+    const a = new Date(date.getTime() + 30 * 60 * 1000);
+    return this.formatJsDate(a);
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  async showEvent({ nativeEvent, event }: any) {
+    await this.$router.push(`/my/appointment/${event.id}`);
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.next {
+  font-size: 2em;
+  font-weight: bold;
+}
+</style>

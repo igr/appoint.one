@@ -64,6 +64,17 @@ export const routes: RouteConfig[] = [
         },
       },
       {
+        path: '/my/appointment/:id',
+        props: true,
+        component: () => import('@/views/my-appointment/index.vue'),
+        meta: {
+          permission: {
+            role: ['DOC'],
+            access: true,
+          },
+        },
+      },
+      {
         path: '/evaluation/:id',
         props: true,
         component: () => import('@/views/evaluation/index.vue'),

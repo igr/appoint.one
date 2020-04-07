@@ -14,7 +14,7 @@ fun Route.appointment() {
 		get("/{id}") {
 			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
 
-			val appointment = AppointmentByTimeslot(id).getReserved()
+			val appointment = AppointmentByTimeslot(id).get()
 
 			appointment?.let { call.respond(it) } ?: call.respond(HttpStatusCode.NotFound)
 		}
