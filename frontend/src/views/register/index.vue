@@ -224,7 +224,7 @@
               <v-text-field
                 v-show="isModalitetDrugo"
                 ref="modalitetDrugoRef"
-                v-model="fmodalitet2"
+                v-model="form.doctor.modalitet2"
                 label="Modalitet (uneti ručno)"
                 :rules="rules.modalitetDrugo"
                 required
@@ -328,8 +328,6 @@ export default class extends Vue {
     doctor: {} as DoctorData,
   } as NewDoctor;
 
-  private fmodalitet2 = '';
-
   mounted() {
     this.showContinue = true;
   }
@@ -401,14 +399,7 @@ export default class extends Vue {
     phoneNumber: [
       (v: string) => !!v || 'Broj telefona obavezan',
       (v: string) => isValidPhoneNumber(v) || 'Broj telefona mora biti validan: sadrži cifre i znakove: /, ,-',
-      (v: string) => !!v && isValidPhoneNumber(v),
     ],
-    zoomID: [
-      (v: number) => !!v || 'Zoom ID obavezan',
-      (v: number) => isValidZoomID(v) || 'Zoom ID mora biti validan',
-      (v: number) => !!v && isValidZoomID(v),
-    ],
-
   };
 
   private async handleLogin() {

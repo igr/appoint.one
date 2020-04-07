@@ -1,11 +1,11 @@
 <template>
   <v-alert
     v-model="showMessage"
-    :type="type"
+    :type="info.type"
     :dismissible="true"
     :prominent="true"
   >
-    {{ message }}
+    {{ info.message }}
   </v-alert>
 </template>
 
@@ -16,7 +16,7 @@ import { AppModule } from '@/store/modules/app';
 @Component
 export default class Info extends Vue {
   public close() {
-    AppModule.clearInfoMessage();
+    AppModule.clearInfo();
   }
 
   get showMessage() {
@@ -30,11 +30,16 @@ export default class Info extends Vue {
   }
 
   get message() {
-    return AppModule.infoMessage;
+    console.log(AppModule.info);
+    return AppModule.info.message;
+  }
+
+  get info() {
+    return AppModule.info;
   }
 
   get type() {
-    return 'error';
+    return AppModule.info.type;
   }
 }
 </script>

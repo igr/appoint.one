@@ -12,62 +12,12 @@
           large
           class="col-12 mt-6 col-md-6"
           color="primary"
-          @click.stop="dialog = true"
+          to="/my/newtime"
         >
           <v-icon>mdi-plus</v-icon> Dodavanje termina
         </v-btn>
       </v-row>
-      <v-dialog
-        v-model="dialog"
-        max-width="300"
-      >
-        <v-card class="pa-6">
-          <v-card-title class="headline">
-            Novi termin
-          </v-card-title>
-          <v-card-text />
-
-          <v-form
-            ref="form"
-            v-model="valid"
-          >
-            <v-text-field
-              v-model="date"
-              label="Datum: YYYY/MM/DD"
-              prepend-icon="event"
-              :rules="rules.date"
-            />
-            <v-text-field
-              v-model="time"
-              label="Vreme: HH:MM"
-              prepend-icon="event"
-              :rules="rules.time"
-            />
-
-            <v-card-actions>
-              <v-spacer />
-              <v-btn
-                color="gray"
-                text
-                @click="cancel"
-              >
-                Odustani
-              </v-btn>
-              <v-btn
-                color="blue"
-                text
-                :disabled="!valid"
-                @click="submit"
-              >
-                Dodaj
-              </v-btn>
-            </v-card-actions>
-          </v-form>
-        </v-card>
-      </v-dialog>
-
       <v-divider class="ma-12" />
-
       <v-row
         :v-if="isLoading"
         class="mt-12"
@@ -198,11 +148,11 @@ import DoctorApi from '@/api/DoctorApi';
 import {
   isTimeslotCanceled, isTimeslotDone, isTimeslotReserved, Timeslot,
 } from '@/model/Timeslot';
-import TimeslotApi from '@/api/TimeslotApi';
-import { isInFuture, toDateTime, toDateTimeString } from '@/utils/time';
+import {
+  isInFuture, toDateTimeHumanString, toDateTimeString,
+} from '@/utils/time';
 import DoctorProfile from '@/components/DoctorProfile/index.vue';
 import { DateTime } from '@/model/DateTime';
-import { isValidDate, isValidTime } from '@/utils/validate';
 
 @Component({
   name: 'My',
@@ -220,26 +170,7 @@ export default class extends Vue {
 
   private isLoading = true;
 
-  private valid = false;
-
   private timeslots: Timeslot[] = [];
-
-  private dialog = false;
-
-  private date = '';
-
-  private time = '';
-
-  private rules = {
-    date: [
-      (v: string) => !!v || 'Datum obavezan',
-      (v: string) => isValidDate(v) || 'Datum mora biti validan',
-    ],
-    time: [
-      (v: string) => !!v || 'Vreme obavezno',
-      (v: string) => isValidTime(v) || 'Vreme mora biti validno',
-    ],
-  };
 
   get doctor(): Doctor {
     return UserModule.doctor;
@@ -253,7 +184,7 @@ export default class extends Vue {
   }
 
   dateStr(datetime: DateTime): string {
-    return toDateTimeString(datetime);
+    return toDateTimeHumanString(datetime);
   }
 
   colorOf(item: Timeslot): string {
@@ -267,18 +198,6 @@ export default class extends Vue {
       return 'black';
     }
     return 'blue';
-  }
-
-  cancel() {
-    // this.$refs.form.reset();
-    (this.$refs.form as Vue & { reset: () => void }).reset();
-    this.dialog = false;
-    this.dialog2.show = false;
-  }
-
-  async submit() {
-    await TimeslotApi.post(this.doctor.id, toDateTime(this.date, this.time));
-    this.cancel();
   }
 
   async created() {
@@ -309,16 +228,16 @@ export default class extends Vue {
 
   private focus = '';
 
-  private today = this.formatJsDate(new Date());
+  private today = new Date().toISOString().slice(0, 10);
 
   setToday() {
     this.focus = this.today;
   }
 
-  get events(): any {
+  get events() {
     return this.timeslots.map((ts) => ({
       name: '*',
-      start: this.formatDate(ts.datetime),
+      start: toDateTimeString(ts.datetime),
       end: this.formatDatePlus30(ts.datetime),
       color: 'red',
       id: ts.id,
@@ -363,18 +282,10 @@ export default class extends Vue {
     this.calendarInstance.next();
   }
 
-  formatDate(dt: DateTime) {
-    return `${dt.year}-${dt.month}-${dt.day} ${dt.hour}:${dt.minute}`;
-  }
-
-  formatJsDate(a: Date) {
-    return `${a.getFullYear()}-${a.getMonth() + 1}-${a.getDate()} ${a.getHours()}:${a.getMinutes()}`;
-  }
-
   formatDatePlus30(dt: DateTime) {
-    const date = new Date(dt.year, dt.month - 1, dt.day, dt.minute, dt.hour);
+    const date = new Date(dt.year, dt.month - 1, dt.day, dt.hour, dt.minute);
     const a = new Date(date.getTime() + 30 * 60 * 1000);
-    return this.formatJsDate(a);
+    return a.toISOString().slice(0, 10);
   }
 
   // eslint-disable-next-line no-unused-vars

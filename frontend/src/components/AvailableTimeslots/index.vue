@@ -66,7 +66,7 @@ import { TimeslotAndDoctor } from '@/model/Timeslot';
 import { DateTime } from '@/model/DateTime';
 import { isStatus } from '@/utils/http';
 import { AppModule } from '@/store/modules/app';
-import { toDateTimeString } from '@/utils/time';
+import { toDateTimeHumanString } from '@/utils/time';
 import { occupationOf } from '@/utils/data';
 
 @Component
@@ -80,7 +80,7 @@ export default class AvailableTimeslots extends Vue {
   }
 
   toDateString(datetime: DateTime) {
-    return toDateTimeString(datetime);
+    return toDateTimeHumanString(datetime);
   }
 
   occupationText(value: number) {
@@ -109,7 +109,7 @@ export default class AvailableTimeslots extends Vue {
       await this.$router.push(`/appointment/${timeslotId}`);
     } catch (err) {
       if (isStatus(err.response, 409)) {
-        AppModule.setInfoMessage('Ne može da se rezerviše.');
+        AppModule.setInfo({ message: 'Ne može da se rezerviše.', type: 'error' });
       }
     }
   }

@@ -5,14 +5,20 @@ import store from '@/store';
 
 export interface AppState {
   alertMessage: string;
-  infoMessage: string;
+  info: {
+    message: string;
+    type: string;
+  };
 }
 
 @Module({ dynamic: true, store, name: 'app' })
 class AppModuleClass extends VuexModule implements AppState {
   public alertMessage = '';
 
-  public infoMessage = '';
+  public info = {
+    message: '',
+    type: 'error',
+  };
 
   @Mutation
   private SET_ALERT_MESSAGE(message: string) {
@@ -25,14 +31,15 @@ class AppModuleClass extends VuexModule implements AppState {
   }
 
   @Mutation
-  private SET_INFO_MESSAGE(message: string) {
-    this.infoMessage = message;
+  private SET_INFO(arg: { message: string; type: string }) {
+    this.info.message = arg.message;
+    this.info.type = arg.type;
   }
 
   @Action
-  public setInfoMessage(message: string) {
-    this.SET_INFO_MESSAGE(message);
-    setTimeout(() => this.SET_INFO_MESSAGE(''), 3000);
+  public setInfo(arg: { message: string; type: string }) {
+    this.SET_INFO(arg);
+    setTimeout(() => this.clearInfo(), 3000);
   }
 
   @Action
@@ -41,8 +48,8 @@ class AppModuleClass extends VuexModule implements AppState {
   }
 
   @Action
-  public clearInfoMessage() {
-    this.SET_INFO_MESSAGE('');
+  public clearInfo() {
+    this.SET_INFO({ message: '', type: '' });
   }
 }
 

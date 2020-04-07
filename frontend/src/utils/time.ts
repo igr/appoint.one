@@ -1,15 +1,15 @@
 import { DateTime } from '@/model/DateTime';
 
 export const toDateTime = (dateString: string, timeString: string): DateTime => {
-  const dateParts = dateString.split('/');
+  const dateParts = dateString.split('-');
   const timeParts = timeString.split(':');
 
   return {
-    year: Number(dateParts[0]),
-    month: Number(dateParts[1]),
-    day: Number(dateParts[2]),
-    hour: Number(timeParts[0]),
-    minute: Number(timeParts[1]),
+    year: +dateParts[0],
+    month: +dateParts[1],
+    day: +dateParts[2],
+    hour: +timeParts[0],
+    minute: +timeParts[1],
   } as DateTime;
 };
 
@@ -48,9 +48,19 @@ export const toTimeString = (datetime: DateTime): string => {
   return `${h}:${m}`;
 };
 
-export const toDateTimeString = (datetime: DateTime): string => {
+export const toDateTimeHumanString = (datetime: DateTime): string => {
   const date = toDateString(datetime);
   const time = toTimeString(datetime);
 
   return `${date} ${time}`;
 };
+
+export const toDateTimeString = (dt: DateTime): string => `${dt.year}-${dt.month}-${dt.day} ${dt.hour}:${dt.minute}`;
+
+export const toDateTimeFromDate = (date: Date): DateTime => ({
+  year: date.getFullYear(),
+  month: date.getMonth() + 1,
+  day: date.getDate(),
+  hour: date.getHours(),
+  minute: date.getMinutes(),
+} as DateTime);

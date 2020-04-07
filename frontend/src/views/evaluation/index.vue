@@ -75,6 +75,13 @@
             required
           />
           <v-btn
+            x-large
+            to="/my"
+            class="mr-6"
+          >
+            NAZAD
+          </v-btn>
+          <v-btn
             type="submit"
             color="primary"
             x-large
@@ -85,9 +92,6 @@
           </v-btn>
         </v-card>
       </v-form>
-      <router-link to="/my">
-        NAZAD
-      </router-link>
     </v-col>
   </v-row>
 </template>
