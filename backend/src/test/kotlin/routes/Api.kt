@@ -1,7 +1,5 @@
 package routes
 
-import domain.city.City
-import domain.country.Country
 import domain.doctor.Doctor
 import domain.doctor.DoctorId
 import domain.timeslot.NewTimeslot
@@ -27,26 +25,6 @@ fun getDoctor(id: DoctorId): Doctor {
 		statusCode(200)
 	} Extract {
 		`as`(Doctor::class.java)
-	}
-}
-
-fun getCities(): List<City> {
-	return When {
-		get("/data/cities")
-	} Then {
-		statusCode(200)
-	} Extract {
-		`as`(City::class.java.genericSuperclass)
-	}
-}
-
-fun getCountries(): MutableMap<Int, String> {
-	return When {
-		get("/data/countries")
-	} Then {
-		statusCode(200)
-	} Extract {
-		`as`(Country::class.java.genericSuperclass)
 	}
 }
 

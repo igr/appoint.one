@@ -1,7 +1,6 @@
 package domain
 
 import DateTime
-import domain.country.Country_SERBIA
 import domain.doctor.DoctorTimeslots
 import domain.doctor.newSimpleDoctorUser
 import domain.timeslot.TimeslotsNextSet
@@ -25,7 +24,7 @@ class TimeslotsNextSetTest : ServerTest() {
 		DoctorTimeslots(doctor1).bindTimeslots(listOf(futureTimeslot, expiredTimeslot))
 
 		// when
-		val timeslots = TimeslotsNextSet.byCountry(Country_SERBIA)
+		val timeslots = TimeslotsNextSet.get()
 
 		// then
 		assertThat(timeslots.size).isEqualTo(1)

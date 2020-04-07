@@ -1,7 +1,6 @@
 package domain.timeslot
 
 import DateTime
-import domain.country.Country
 import domain.doctor.DoctorsTable
 import domain.doctor.toDoctor
 import org.jetbrains.exposed.sql.andWhere
@@ -13,14 +12,14 @@ import server.DatabaseFactory.dbtx
  */
 object TimeslotsNextSet {
 
-	suspend fun byCountry(country: Country): List<TimeslotAndDoctor> = dbtx {
+	suspend fun get(limit: Int = 5): List<TimeslotAndDoctor> = dbtx {
 		val dateTimeInt = DateTime.now().value
 
 		(TimeslotsTable innerJoin DoctorsTable)
 			.select { TimeslotsTable.status eq TimeslotStatus.NEW.value }
 			.andWhere { TimeslotsTable.datetime greaterEq dateTimeInt }
 			.orderBy(TimeslotsTable.datetime)
-			.limit(5)
+			.limit(limit)
 			.map {
 				TimeslotAndDoctor(it.toTimeslot(), it.toDoctor())
 			}

@@ -30,7 +30,8 @@ fun newSimpleDoctorUser(name: String, password: String = "pass", email: String =
 	return NewDoctorUser(
 		doctor = newDoctorData(name, email),
 		name = email,
-		password = password
+		password = password,
+		regCode = "A1"
 	)
 }
 

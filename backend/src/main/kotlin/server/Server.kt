@@ -100,7 +100,6 @@ fun Application.module(testing: Boolean = false) {
 		doctors()
 		timeslots()
 		appointment()
-		data()
 		evaluations()
 	}
 

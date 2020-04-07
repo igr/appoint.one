@@ -3,6 +3,7 @@ package domain.doctor
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
 import domain.Id
+import domain.user.UserId
 import org.jetbrains.exposed.dao.id.EntityID
 import java.time.LocalDateTime
 
@@ -20,6 +21,10 @@ fun String.toDoctorId(): DoctorId {
 
 fun EntityID<Int>.toDoctorId(): DoctorId {
 	return DoctorId(this.value);
+}
+
+fun UserId.toDoctorId(): DoctorId {
+	return this.value.toDoctorId()
 }
 
 enum class DoctorSex(val value: Boolean) {

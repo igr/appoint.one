@@ -1,6 +1,5 @@
 package routes
 
-import domain.country.Country_SERBIA
 import domain.doctor.DoctorTimeslots
 import domain.timeslot.*
 import io.ktor.application.call
@@ -27,7 +26,7 @@ fun Route.timeslots() {
 		}
 
 		get("/available") {
-			call.respond(TimeslotsNextSet.byCountry(Country_SERBIA))
+			call.respond(TimeslotsNextSet.get())
 		}
 
 		put("{id}/reserve") {

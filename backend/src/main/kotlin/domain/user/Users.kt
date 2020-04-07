@@ -7,37 +7,38 @@ import server.DatabaseFactory.dbtx
 
 object Users {
 
-	suspend fun addUser(user: NewUser): Int = dbtx {
+	suspend fun addUser(user: NewUser): UserId = dbtx {
 		val userId = UsersTable.insertAndGetId {
 			it[name] = user.name
 			it[password] = BCryptHasher.hashPassword(user.password)
 			it[role] = user.role.value
 		}
-		userId.value
+		userId.toUserId()
 	}
 
-	// todo - userId
 	suspend fun addDoctor(userDoctor: NewDoctorUser): DoctorId = dbtx {
-		val userId = UsersTable.insertAndGetId {
+		userDoctor.assertValidDoctorRegCode()
+
+		val uid = UsersTable.insertAndGetId {
 			NewUser(
 				name = userDoctor.name,
 				password = userDoctor.password,
 				role = UserRole.DOC
 			).data(it)
 		}
+
 		DoctorsTable.insertAndGetId {
 			userDoctor.doctor.data(it)
-			it[id] = userId
-			it[DoctorsTable.userId] = userId.value
+			it[id] = uid
+			it[userId] = uid.value
 		}
-
-		userId.toDoctorId()
+			.toDoctorId()
 	}
 
 	suspend fun addAndGetDoctor(userDoctor: NewDoctorUser): Doctor = dbtx {
-		val newDoctorId = addDoctor(userDoctor)
+		val doctorId = addDoctor(userDoctor)
 
-		DoctorById(newDoctorId).existing()
+		DoctorById(doctorId).existing()
 	}
 
 }

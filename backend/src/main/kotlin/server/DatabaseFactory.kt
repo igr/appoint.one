@@ -2,8 +2,6 @@ package server
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import domain.city.CityTable
-import domain.city.storeAllCities
 import domain.doctor.DoctorsTable
 import domain.evaluation.EvaluationsTable
 import domain.timeslot.TimeslotsTable
@@ -21,13 +19,10 @@ object DatabaseFactory {
 		transaction {
 			SchemaUtils.createMissingTablesAndColumns(
 				DoctorsTable,
-				CityTable,
 				TimeslotsTable,
 				UsersTable,
 				EvaluationsTable
 			)
-
-			storeAllCities()
 
 			// todo TEMPORARY DISABLED!
 			//if (isDev) {
