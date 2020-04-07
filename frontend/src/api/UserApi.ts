@@ -7,6 +7,20 @@ class UserApi {
     data,
   });
 
+  getUser = (userId: number) => http({
+    url: `users/${userId}`,
+    method: 'get',
+  });
+
+  modifyUserData = (userId: number, newPassword: string) => http({
+    url: 'users/modifyUserData',
+    method: 'post',
+    data: {
+      id: userId,
+      password: newPassword,
+    },
+  });
+
   async logout() {
     return '';
   }

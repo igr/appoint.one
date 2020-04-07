@@ -102,6 +102,11 @@ export const routes: RouteConfig[] = [
         path: 'doctors',
         component: () => import('@/views/doctors/index.vue'),
       },
+      {
+        path: 'user/:id',
+        props: true,
+        component: () => import('@/views/manage-user/index.vue'),
+      },
     ],
   },
   { path: '*', redirect: '/404' },
