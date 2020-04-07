@@ -8,8 +8,7 @@
         IZBOR TERMINA
       </h1>
       <NumberOfTimeslots />
-      <v-divider class="ma-12" />
-      <ChooseLocation />
+      <v-divider class="ma-6" />
       <AvailableTimeslots />
     </v-col>
   </v-row>
@@ -19,14 +18,12 @@
 import { Component, Vue } from 'vue-property-decorator';
 import AvailableTimeslots from '@/components/AvailableTimeslots/index.vue';
 import NumberOfTimeslots from '@/components/NumberOfTimeslots/index.vue';
-import ChooseLocation from '@/components/ChooseLocation/index.vue';
 
 @Component({
   name: 'Inquiry',
   components: {
     AvailableTimeslots,
     NumberOfTimeslots,
-    ChooseLocation,
   },
 })
 export default class extends Vue {

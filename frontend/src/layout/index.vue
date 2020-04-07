@@ -18,6 +18,10 @@
         </router-link>
       </div>
       <v-spacer />
+      <v-toolbar-title>
+        pomoć psihoterapeuta
+      </v-toolbar-title>
+      <v-spacer />
       <v-btn
         icon
         to="/login"
@@ -29,7 +33,7 @@
       <info />
       <v-container
         fluid
-        fill-height
+        class="fill-height"
       >
         <router-view :key="key" />
       </v-container>

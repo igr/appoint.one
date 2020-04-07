@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import { UserState } from '@/store/modules/user';
-import { GeoCacheState } from '@/store/modules/geo-cache';
 import { DoctorState } from '@/store/modules/doctor';
 
 Vue.use(Vuex);
@@ -9,7 +8,6 @@ Vue.use(Vuex);
 export interface RootState {
   // errorLog: ErrorLogState;
   user: UserState;
-  geoCache: GeoCacheState;
   doctorState: DoctorState;
 }
 

@@ -1,36 +1,38 @@
 <template>
-  <v-row justify="center">
+  <v-row
+    align="center"
+    justify="center"
+  >
+    <div class="col-12 text-center">
+      <h3>
+        BROJ ZA MEDICINSKE RADNIKE
+      </h3>
+      <v-btn
+        x-large
+        color="success"
+        dark
+      >
+        <v-icon
+          class="mr-3"
+        >
+          mdi-phone
+        </v-icon>
+        065-555-333
+      </v-btn>
+    </div>
+    <div class="col-12 text-center align-center">
+      <h3>
+        Korisni tekstovi
+      </h3>
+      <v-sheet
+        :tile="true"
+        class="col-12 md-6"
+      >
+        <a href="#">teskt</a>
+      </v-sheet>
+    </div>
     <v-col
       cols="12"
-      md="4"
-    >
-      <!-- link1 -->
-      <v-hover>
-        <template v-slot="{ hover }">
-          <v-card
-            :elevation="hover ? 24 : 6"
-            class="mb-12 mx-auto"
-            max-width="400px"
-            to="/my"
-          >
-            <v-img
-              class="pa-6"
-              style="background-color: #38393e"
-              src="@/assets/images/menu-doctor.png"
-            />
-            <v-card-title>
-              Vi ste psihoterapeut?
-            </v-card-title>
-            <v-card-text>
-              Prijavite se
-            </v-card-text>
-          </v-card>
-        </template>
-      </v-hover>
-    </v-col>
-    <v-col
-      cols="12"
-      md="4"
     >
       <!-- link2 -->
       <v-hover>
@@ -41,11 +43,11 @@
             max-width="400px"
             to="/inquire"
           >
-            <v-img
-              class="align-center"
-              style="background-color: #38393e"
+            <img
+              style="background-color: #38393e; width: 100%"
+              class="pa-4"
               src="@/assets/images/menu-user.png"
-            />
+            >
             <v-card-title>
               Tražite razgovor?
             </v-card-title>
