@@ -85,6 +85,7 @@ import { UserModule } from '@/store/modules/user';
 import { AppModule } from '@/store/modules/app';
 // eslint-disable-next-line no-unused-vars
 import { Route } from 'vue-router';
+import { isValidEmail } from '@/utils/validate';
 
 @Component({
   name: 'Login',
@@ -103,8 +104,8 @@ export default class extends Vue {
   private rules = {
     email: [
       (v: string) => !!v || 'E-mail is required',
-      (v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-      (v: string) => !!v && /.+@.+\..+/.test(v),
+      (v: string) => isValidEmail(v) || 'E-mail must be valid',
+      (v: string) => !!v && isValidEmail(v),
     ],
     password: [
       (v: string) => !!v || 'Password is required',

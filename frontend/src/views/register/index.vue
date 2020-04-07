@@ -97,6 +97,9 @@
                 <v-btn
                   v-if="showContinue"
                   color="primary"
+                  :disabled="!($refs.nameRef.valid &&
+                               $refs.emailRef.valid &&
+                               $refs.yearRef.valid)"
                   @click="step = 2"
                 >
                   Dalje
@@ -107,34 +110,36 @@
             <!-- STEP 2 -->
             <v-stepper-content step="2">
               <v-text-field
-                ref="eduYearRef"
+                ref="educationRef"
                 v-model="form.education"
                 label="Godina edukacije"
                 type="number"
-                :rules="rules.eduYear"
+                :rules="rules.educationYear"
                 required
               />
               <v-autocomplete
+                ref="professionRef"
                 v-model="form.occupation"
                 :items="occupationItems"
                 hide-no-data
                 hide-selected
+                :rules="rules.profession"
                 label="Zanimanje"
               />
               <v-text-field
-                v-if="isOccupationDrugo"
-                ref="professionRef"
+                v-show="isOccupationDrugo"
+                ref="professionDrugoRef"
                 v-model="form.occupation2"
                 label="Zanimanje (uneti ručno)"
-                :rules="rules.profession"
+                :rules="rules.professionDrugo"
                 required
               />
               <v-text-field
-                v-if="isOccupationSpecial"
-                ref="professionRef"
+                v-show="isOccupationSpecial"
+                ref="professionSpecialRef"
                 v-model="form.occupationSpec"
                 label="Vrsta specializacije"
-                :rules="rules.profession"
+                :rules="rules.professionSpecial"
                 required
               />
 
@@ -157,18 +162,20 @@
                 />
               </v-radio-group>
               <v-autocomplete
+                ref="modalitetRef"
                 v-model="form.modalitet"
                 :items="modalitetItems"
                 hide-no-data
                 hide-selected
+                :rules="rules.modalitet"
                 label="Modalitet"
               />
               <v-text-field
-                v-if="isModalitetDrugo"
-                ref="professionRef"
+                v-show="isModalitetDrugo"
+                ref="modalitetDrugoRef"
                 v-model="fmodalitet2"
                 label="Modalitet (uneti ručno)"
-                :rules="rules.profession"
+                :rules="rules.modalitetDrugo"
                 required
               />
 
@@ -182,9 +189,16 @@
                 >
                   Nazad
                 </v-btn>
+
                 <v-btn
                   v-if="showContinue"
                   color="primary"
+                  :disabled="!($refs.educationRef.valid &&
+                               $refs.professionRef.valid &&
+                               $refs.modalitetRef.valid &&
+                               (isOccupationDrugo ? $refs.professionDrugoRef.valid : true) &&
+                               (isOccupationSpecial ? $refs.professionSpecialRef.valid : true) &&
+                               (isModalitetDrugo ? $refs.modalitetDrugoRef.valid : true))"
                   @click="step = 3"
                 >
                   Dalje
@@ -195,6 +209,7 @@
             <!-- STEP 3 -->
             <v-stepper-content step="3">
               <v-text-field
+                ref="phoneRef"
                 v-model="form.phone"
                 label="Telefon"
                 prepend-icon="mdi-phone"
@@ -202,9 +217,11 @@
                 required
               />
               <v-text-field
+                ref="zoomRef"
                 v-model="form.zoom"
                 prepend-icon="mdi-webcam"
                 label="ZOOM-ID"
+                :rules="rules.zoomID"
                 required
               />
 
@@ -219,9 +236,11 @@
                   Nazad
                 </v-btn>
                 <v-btn
+                  v-if="showContinue"
                   color="primary"
                   type="submit"
-                  :disabled="!valid"
+                  :disabled="!($refs.phoneRef.valid &&
+                               $refs.zoomRef.valid)"
                   @click.prevent="handleLogin"
                 >
                   SUBMIT
@@ -240,11 +259,15 @@
     </v-col>
   </v-row>
 </template>
+
+
 <script lang="ts">
+
 import { Component, Vue } from 'vue-property-decorator';
 import { NewDoctor } from '@/model/NewDoctor';
 import DoctorApi from '@/api/DoctorApi';
 import { modalitets, occupations } from '@/utils/data';
+import { isValidEmail, isValidPhoneNumber, isValidZoomID } from '@/utils/validate';
 
 @Component({
   name: 'Register',
@@ -292,26 +315,43 @@ export default class extends Vue {
     ],
     email: [
       (v: string) => !!v || 'E-mail obavezan',
-      (v: string) => /.+@.+\..+/.test(v) || 'E-mail mora biti validan',
-      (v: string) => !!v && /.+@.+\..+/.test(v),
+      (v: string) => isValidEmail(v) || 'E-mail mora biti validan',
+      (v: string) => !!v && isValidEmail(v),
     ],
     year: [
       (v: number) => !!v || 'Godina rodjena obavezna',
       (v: number) => (v <= 2000 && v >= 1900) || 'Godina rodjena mora biti validna (1900 - 2000)',
       (v: number) => !!v && (v <= 2000 && v >= 1900),
     ],
-    profession: [
-      (v: number) => !!v || 'Zanimanje obavezno',
-    ],
-    eduYear: [
+    educationYear: [
       (v: number) => !!v || 'Godine edukacije obavezne',
       (v: number) => (v <= 20 && v >= 0) || 'Godine edukacije moraju biti validne (0 - 20)',
       (v: number) => !!v && (v <= 20 && v >= 0),
     ],
+    profession: [
+      (v: number) => !!v || 'Zanimanje obavezno',
+    ],
+    professionDrugo: [
+      (v: number) => !!v || 'Drugo zanimanje obavezno',
+    ],
+    professionSpecial: [
+      (v: number) => !!v || 'Vrsta specijalizacije obavezna',
+    ],
+    modalitet: [
+      (v: number) => !!v || 'Modalitet obavezan',
+    ],
+    modalitetDrugo: [
+      (v: number) => !!v || 'Modalitet obavezan',
+    ],
     phoneNumber: [
-      (v: number) => !!v || 'Broj telefona obavezan',
-      (v: number) => v >= 0 || 'Broj telefona mora biti validan',
-      (v: number) => !!v && v >= 0,
+      (v: string) => !!v || 'Broj telefona obavezan',
+      (v: string) => isValidPhoneNumber(v) || 'Broj telefona mora biti validan: pocinje sa +381-Srbija, +385-Hrvatska ili +387-Bosna i sadrzi cifre i znakove: /, ,-',
+      (v: string) => !!v && isValidPhoneNumber(v),
+    ],
+    zoomID: [
+      (v: number) => !!v || 'Zoom ID obavezan',
+      (v: number) => isValidZoomID(v) || 'Broj telefona mora biti validan',
+      (v: number) => !!v && isValidZoomID(v),
     ],
 
   };
