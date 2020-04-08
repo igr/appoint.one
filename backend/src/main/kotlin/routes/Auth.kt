@@ -23,10 +23,8 @@ fun Route.auth() {
 			val user = Auth.login(credential)
 			call.respond(user)
 		}
-	}
 
-	authenticate {
-		route("user") {
+		authenticate {
 			get {
 				val (_, name, _, _, token) = call.user!!
 				val user = UserByUsername(name).get()?.copy(token = token) ?: throw UserNotFound

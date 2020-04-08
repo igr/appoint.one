@@ -7,10 +7,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.mitchellbosecke.pebble.loader.ClasspathLoader
-import io.ktor.application.Application
-import io.ktor.application.ApplicationStarted
-import io.ktor.application.ApplicationStopped
-import io.ktor.application.install
+import io.ktor.application.*
 import io.ktor.auth.Authentication
 import io.ktor.auth.jwt.jwt
 import io.ktor.features.*
@@ -18,6 +15,8 @@ import io.ktor.http.content.resources
 import io.ktor.http.content.static
 import io.ktor.jackson.jackson
 import io.ktor.pebble.Pebble
+import io.ktor.routing.HttpMethodRouteSelector
+import io.ktor.routing.Route
 import io.ktor.routing.Routing
 import io.ktor.server.engine.commandLineEnvironment
 import io.ktor.server.engine.embeddedServer
@@ -46,7 +45,9 @@ fun Application.module(testing: Boolean = false) {
 
 	install(DefaultHeaders)
 
-	install(Compression)
+	install(Compression) {
+		gzip()
+	}
 
 //	install(CORS) {
 //		anyHost()
@@ -123,6 +124,19 @@ fun Application.module(testing: Boolean = false) {
 			serverLogger.info("Server is up in PRODUCTION")
 		}
 	}
+
+	// log routes
+	val root = feature(Routing)
+	val allRoutes = allRoutes(root)
+	val allRoutesWithMethod = allRoutes.filter { it.selector is HttpMethodRouteSelector }.sortedBy { it.toString() }
+	allRoutesWithMethod.forEach {
+		serverLogger.info("route: $it")
+	}
+
+}
+
+fun allRoutes(root: Route): List<Route> {
+	return listOf(root) + root.children.flatMap { allRoutes(it) }
 }
 
 val serverLogger: Logger = LoggerFactory.getLogger("Server")

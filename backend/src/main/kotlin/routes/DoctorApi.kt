@@ -4,6 +4,7 @@ import domain.doctor.*
 import domain.user.NewDoctorUser
 import domain.user.Users
 import io.ktor.application.call
+import io.ktor.auth.authenticate
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
@@ -15,12 +16,6 @@ fun Route.doctors() {
 
 		get {
 			call.respond(DoctorsLists.allDoctorsOrdered())
-		}
-
-		post {
-			val newDoctorAndUser = call.receive<NewDoctorUser>()
-			val doctor = Users.addAndGetDoctor(newDoctorAndUser)
-			call.respond(HttpStatusCode.Created, doctor)
 		}
 
 		get("/{id}") {
@@ -35,16 +30,24 @@ fun Route.doctors() {
 			call.respond(timeslots)
 		}
 
-		put("/{id}/enable") {
-			val doctorId = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-			DoctorEnabler(doctorId).confirmDoctor()
-			call.respond(HttpStatusCode.NoContent)
-		}
+		authenticate {
+			post {
+				val newDoctorAndUser = call.receive<NewDoctorUser>()
+				val doctor = Users.addAndGetDoctor(newDoctorAndUser)
+				call.respond(HttpStatusCode.Created, doctor)
+			}
 
-		put("/{id}/disable") {
-			val doctorId = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-			DoctorEnabler(doctorId).unconfirmDoctor()
-			call.respond(HttpStatusCode.NoContent)
+			put("/{id}/enable") {
+				val doctorId = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
+				DoctorEnabler(doctorId).confirmDoctor()
+				call.respond(HttpStatusCode.NoContent)
+			}
+
+			put("/{id}/disable") {
+				val doctorId = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
+				DoctorEnabler(doctorId).unconfirmDoctor()
+				call.respond(HttpStatusCode.NoContent)
+			}
 		}
 	}
 
