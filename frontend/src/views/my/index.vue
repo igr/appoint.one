@@ -149,7 +149,7 @@ import {
   isTimeslotCanceled, isTimeslotDone, isTimeslotReserved, Timeslot,
 } from '@/model/Timeslot';
 import {
-  isInFuture, toDateTimeHumanString, toDateTimeString,
+  isInFuture, toDateTimeHumanString, toDateTimeString, toTimeString,
 } from '@/utils/time';
 import DoctorProfile from '@/components/DoctorProfile/index.vue';
 import { DateTime } from '@/model/DateTime';
@@ -271,7 +271,7 @@ export default class extends Vue {
   }
 
   eventName(event: any) {
-    return `${event.start.hour}:${event.start.minute}`;
+    return toTimeString(event.input.item.datetime);
   }
 
   prev() {
