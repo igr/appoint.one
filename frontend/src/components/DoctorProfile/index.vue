@@ -29,7 +29,6 @@
           </div>
         </v-card-text>
         <v-card-actions class="justify-center">
-
           <v-tooltip top>
             <template v-slot:activator="{ on }">
               <v-btn

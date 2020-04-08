@@ -8,12 +8,26 @@
         ZAKAZANI TERMIN #{{ id }}
       </h1>
       <div v-if="!isLoading">
-        <day-big :datetime="timeslot.datetime" />
+        <day-big :datetime="timeslot && timeslot.datetime" />
 
         <doctor-profile :doc="doctor" />
         <p class="text-center text-uppercase mt-6">
           Sačuvajte link do ove stranice i podatke.<br>
           U naznačeno vreme pozovite doktora.<br>
+        </p>
+        <p class="text-center">
+          Dodajte u Google kalendar
+        </p>
+        <p class="text-center">
+          <v-btn
+            fab
+            dark
+            color="orange"
+            :href="calendarUrl"
+            target="_blank"
+          >
+            <v-icon>mdi-calendar-month</v-icon>
+          </v-btn>
         </p>
       </div>
       <div v-else>
@@ -30,6 +44,8 @@ import { Doctor } from '@/model/Doctor';
 import DoctorProfile from '@/components/DoctorProfile/index.vue';
 import DayBig from '@/components/DayBig/index.vue';
 import AppoitmentApi from '@/api/AppoitmentApi';
+import { DateTime } from '@/model/DateTime';
+import { occupationOf } from '@/utils/data';
 
 @Component({
   name: 'Appointment',
@@ -48,6 +64,17 @@ export default class extends Vue {
 
   private isLoading = true;
 
+  get calendarUrl() {
+    if (!this.doctor || !this.timeslot) return null;
+    const data = {
+      title: this.encode('Termin kod psihoterapeuta'),
+      details: this.encode(`${this.doctor.data.name} - ${occupationOf(this.doctor.data.occupation)} e-mail: ${this.doctor.data.email} Tel. +381${this.doctor.data.phone}`),
+      location: this.encode(`http://podrskapsihoterapeuta.com/appointment/${this.id}`),
+      dates: this.formatDateTime(this.timeslot.datetime),
+    };
+    return `https://www.google.com/calendar/render?action=TEMPLATE&text=${data.title}&details=${data.details}&location=${data.location}&dates=${data.dates}`;
+  }
+
   async created() {
     this.isLoading = true;
     await this.fetchData();
@@ -58,6 +85,19 @@ export default class extends Vue {
     this.doctor = data.doctor;
     this.timeslot = data.timeslot;
     this.isLoading = false;
+  }
+
+  private formatDateTime(d: DateTime) {
+    const start = new Date(d.year, d.month - 1, d.day, d.hour, d.minute);
+    const end = new Date(start);
+    end.setMinutes(start.getMinutes() + 30);
+    const startFmt = start.toISOString().replace(/-|:|\.\d\d\d/g, '');
+    const endFmt = end.toISOString().replace(/-|:|\.\d\d\d/g, '');
+    return `${startFmt}/${endFmt}`;
+  }
+
+  private encode(txt: string): string {
+    return encodeURIComponent(txt).replace(/%20/g, '+');
   }
 }
 </script>
