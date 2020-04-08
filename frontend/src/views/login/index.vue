@@ -22,8 +22,10 @@
         </v-toolbar>
         <v-card-text>
           <v-form
+            id="login-form"
             ref="form"
             v-model="valid"
+            @submit.prevent="valid && handleLogin()"
           >
             <v-text-field
               v-model="name"
@@ -51,10 +53,11 @@
             {{ $t('login.register') }}
           </v-btn>
           <v-btn
+            type="submit"
             name="submit"
+            form="login-form"
             :disabled="!valid"
             color="primary"
-            @click="handleLogin"
           >
             {{ $t('login.submit') }}
           </v-btn>
