@@ -30,7 +30,6 @@ export default class Info extends Vue {
   }
 
   get message() {
-    console.log(AppModule.info);
     return AppModule.info.message;
   }
 

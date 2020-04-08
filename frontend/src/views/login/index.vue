@@ -131,7 +131,6 @@ export default class extends Vue {
 
     if (success !== 200) {
       AppModule.setInfo({ message: `Logovanje nije uspelo: ${success}`, type: 'error' });
-      AppModule.setInfo({ message: `Logovanje nije uspelo: ${success}`, type: 'error' });
       this.loading = false;
       return;
     }
