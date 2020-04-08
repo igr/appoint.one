@@ -4,20 +4,35 @@
       cols="12"
       md="6"
     >
-      <v-snackbar
-        v-model="showSnackbar"
-        :color="snackbarColor"
-        :top="snackbarTop"
+      <v-dialog
+        v-model="showDialog"
+        width="500"
       >
-        {{ snackbarText }}
-        <v-btn
-          dark
-          text
-          @click="showSnackbar = false"
-        >
-          OK
-        </v-btn>
-      </v-snackbar>
+        <v-card>
+          <v-card-title
+            class="headline grey lighten-2"
+            primary-title
+          >
+            Promena šifre
+          </v-card-title>
+          <v-card-text>
+            {{this.infoMsg}}
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="primary"
+              text
+              @click="showDialog = false"
+            >
+              OK
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+
       <v-text-field
         append-icon="lock"
         label="e-mail"
@@ -39,6 +54,7 @@
       <v-btn
         color="primary"
         @click="submitModifications"
+        :disabled="newPassword.length < 5"
       >
         Sačuvaj
       </v-btn>
@@ -63,15 +79,11 @@ export default class extends Vue {
 
   private show1 = false;
 
+  private showDialog = false;
+
   private newPassword = '';
 
-  private snackbarColor = 'success'; // or error
-
-  private showSnackbar = false;
-
-  private snackbarText = '';
-
-  private snackbarTop = true;
+  private infoMsg = '';
 
   private rules = {
     passwordRules: [
@@ -91,19 +103,17 @@ export default class extends Vue {
   private async submitModifications() {
     const userId: number = +this.$route.params.id;
     const pass: string = this.newPassword;
-    const { data } = await UserApi.updatePassword(userId, pass);
-    // TODO have the message work as it should
-    this.displaySnackbarInfo(data);
+    await UserApi.updatePassword(userId, pass);
+    this.displaySnackbarInfo(true);
   }
 
   displaySnackbarInfo(success: boolean) {
-    if (success) {
-      this.showSnackbar = true;
-      this.snackbarText = 'Sačuvano';
-      this.snackbarColor = 'success';
+    this.showDialog = true;
+    this.newPassword = '';
+    if (success === true) {
+      this.infoMsg = 'Sačuvano';
     } else {
-      this.snackbarText = 'Došlo je do greške';
-      this.snackbarColor = 'error';
+      this.infoMsg = 'Došlo je do greške!';
     }
   }
 }
