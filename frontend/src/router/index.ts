@@ -102,6 +102,12 @@ export const routes: RouteConfig[] = [
     path: '/admin',
     component: Layout,
     redirect: '/admin/home',
+    meta: {
+      permission: {
+        role: ['ADMIN'],
+        access: true,
+      },
+    },
     children: [
       {
         path: 'home',
@@ -133,8 +139,18 @@ function _hasAccessToRoute(route: Route) {
   // by default, everything is public
   let access = true;
 
-  if (route.meta.permission) {
-    const { permission } = route.meta;
+  // collect meta from the parents
+  let meta: any = {};
+  route.matched.forEach((r) => {
+    meta = {
+      ...meta,
+      ...r.meta,
+    };
+  });
+
+  // detect
+  if (meta.permission) {
+    const { permission } = meta;
     const roleMatched = UserModule.hasAccess(permission.role);
     access = !permission.access;
     if (roleMatched) {

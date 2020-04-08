@@ -76,8 +76,10 @@ class UserModuleClass extends VuexModule implements UserState {
       this.SET_NAME(data.name);
       this.SET_ID(data.id);
 
-      const doc = await DoctorApi.getDoctor(data.id);
-      this.SET_DOCTOR(doc.data);
+      if (this.isDoctor) {
+        const doc = await DoctorApi.getDoctor(data.id);
+        this.SET_DOCTOR(doc.data);
+      }
       return 200;
     } catch (error) {
       return error.response.status;
@@ -109,6 +111,14 @@ class UserModuleClass extends VuexModule implements UserState {
 
   get hasAccess(): (permissionRoles: string[]) => boolean {
     return (permissionRoles: string[]) => this.roles.some((role) => permissionRoles.includes(role));
+  }
+
+  get isDoctor() {
+    return this.hasAccess(['DOC']);
+  }
+
+  get isAdmin() {
+    return this.hasAccess(['ADMIN']);
   }
 }
 

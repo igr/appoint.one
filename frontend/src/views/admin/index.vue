@@ -7,11 +7,25 @@
       cols="12"
       md="8"
     >
-      <router-link
+      <h1>Administracija</h1>
+      <v-btn
+        x-large
+        color="red"
+        style="color: white;"
+        class="ma-2"
         to="/admin/doctors"
       >
         All doctors
-      </router-link>
+      </v-btn>
+      <v-btn
+        x-large
+        color="red"
+        style="color: white;"
+        class="ma-2"
+        to="/logout"
+      >
+        Logout
+      </v-btn>
     </v-col>
   </v-row>
 </template>

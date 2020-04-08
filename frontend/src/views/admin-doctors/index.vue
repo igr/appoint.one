@@ -56,7 +56,6 @@ export default class extends Vue {
     { text: 'Ime', value: 'data.name' },
     { text: 'e-pošta', value: 'data.email' },
     { text: 'Telefon', value: 'data.phone' },
-    { text: 'Zoom', value: 'data.zoom' },
     { text: 'Potvrđen', value: 'data.confirmed' },
   ];
 
