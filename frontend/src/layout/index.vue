@@ -23,11 +23,41 @@
       </v-toolbar-title>
       <v-spacer />
       <v-btn
-        icon
-        to="/my"
+        v-if="!isLoggedIn"
+        to="login"
       >
-        <v-icon>mdi-account-box</v-icon>
+        <v-icon>mdi-account</v-icon>
+        Prijava
       </v-btn>
+      <v-menu
+        v-if="isLoggedIn"
+        offset-y
+      >
+        <template v-slot:activator="{ on }">
+          <v-btn
+            icon
+            v-on="on"
+          >
+            <v-avatar color="indigo">
+              <v-icon>mdi-account-circle</v-icon>
+            </v-avatar>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item to="/my">
+            <v-list-item-title>
+              <v-icon>mdi-cog</v-icon>
+              Profil
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="logout()">
+            <v-list-item-title>
+              <v-icon>mdi-logout-variant</v-icon>
+              Odjava
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
     <v-content>
       <info />
@@ -44,6 +74,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import Info from '@/components/Info/index.vue';
+import { UserModule } from '@/store/modules/user';
 
 @Component({
   name: 'Layout',
@@ -54,6 +85,15 @@ import Info from '@/components/Info/index.vue';
 export default class extends Vue {
   get key() {
     return this.$route.path;
+  }
+
+  get isLoggedIn() {
+    return UserModule.isUserLoggedIn;
+  }
+
+  logout() {
+    UserModule.LogOut();
+    this.$router.push('/');
   }
 }
 </script>
