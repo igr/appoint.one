@@ -49,7 +49,7 @@ class AppModuleClass extends VuexModule implements AppState {
 
   @Action
   public clearInfo() {
-    this.SET_INFO({ message: '', type: '' });
+    this.SET_INFO({ message: '', type: 'error' });
   }
 }
 

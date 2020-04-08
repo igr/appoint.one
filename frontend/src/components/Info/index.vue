@@ -20,7 +20,7 @@ export default class Info extends Vue {
   }
 
   get showMessage() {
-    return this.message !== '';
+    return this.info.message !== '';
   }
 
   set showMessage(val: boolean) {
@@ -29,16 +29,8 @@ export default class Info extends Vue {
     }
   }
 
-  get message() {
-    return AppModule.info.message;
-  }
-
   get info() {
     return AppModule.info;
-  }
-
-  get type() {
-    return AppModule.info.type;
   }
 }
 </script>
