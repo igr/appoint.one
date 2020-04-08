@@ -20,6 +20,10 @@ data class DateTime(val year: Int, val month: Int, val day: Int, val hour: Int, 
 			return Instant.ofEpochMilli(epochMillis).atZone(ZoneId.systemDefault()).toLocalDateTime()
 		}
 	}
+
+	fun toLocalDateTime(): LocalDateTime {
+		return LocalDateTime.of(year, month, day, hour, minute, 0)
+	}
 }
 
 fun LocalDateTime.toDateTime(): DateTime {
