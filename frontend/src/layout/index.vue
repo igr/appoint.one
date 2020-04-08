@@ -6,20 +6,17 @@
       dark
       :fixed="true"
     >
-      <div class="d-flex align-center">
-        <router-link to="/">
-          <v-btn
-            large
-          >
-            <v-icon>
-              mdi-home
-            </v-icon>
-          </v-btn>
-        </router-link>
-      </div>
+      <v-btn
+        icon
+        to="/"
+      >
+        <v-icon>
+          mdi-home
+        </v-icon>
+      </v-btn>
       <v-spacer />
       <v-toolbar-title>
-        pomoć psihoterapeuta
+        podrška psihoterapeuta
       </v-toolbar-title>
       <v-spacer />
       <v-btn
