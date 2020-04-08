@@ -4,7 +4,10 @@
       cols="12"
       md="8"
     >
-      <doctor-profile :doc="doctor" />
+      <doctor-profile
+        :doc="doctor"
+        :short-occupation="false"
+      />
 
       <v-row justify="center">
         <v-btn
@@ -89,10 +92,11 @@
             bottom
             right
           >
-            <template>
+            <template v-slot:activator="{ on }">
               <v-btn
                 outlined
                 color="grey darken-2"
+                v-on="on"
               >
                 <span>{{ typeToLabel[type] }}</span>
                 <v-icon right>

@@ -86,6 +86,11 @@ export function occupationOf(value: number): string {
   return lookup.text;
 }
 
+export function publicOccupationOf(): string {
+  return 'Psihoterapeut';
+}
+
+
 export const modalitets = [
   {
     value: 1,

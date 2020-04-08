@@ -120,11 +120,13 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Doctor } from '@/model/Doctor';
-import { occupationOf } from '@/utils/data';
+import { occupationOf, publicOccupationOf } from '@/utils/data';
 
 @Component
 export default class DoctorProfile extends Vue {
   @Prop() private doc!: Doctor;
+
+  @Prop({ type: Boolean, default: true }) private shortOccupation!: boolean;
 
   private emailTooltip = 'Pošalji mail';
 
@@ -137,7 +139,7 @@ export default class DoctorProfile extends Vue {
   private zoomTooltip = 'Zoom';
 
   public occupationText(value: number): string {
-    return occupationOf(value);
+    return this.shortOccupation ? publicOccupationOf() : occupationOf(value);
   }
 }
 </script>

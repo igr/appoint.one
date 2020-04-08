@@ -1,5 +1,8 @@
 <template>
-  <v-row justify="center">
+  <v-row
+    justify="center"
+    align="center"
+  >
     <v-col
       cols="12"
       md="8"
@@ -10,10 +13,27 @@
       <div v-if="!isLoading">
         <day-big :datetime="timeslot.datetime" />
 
+        <v-row justify="center">
+          <v-btn
+            dark
+            x-large
+            class="ma-6"
+            @click="downloadIcs"
+          >
+            <v-icon
+              dark
+              class="mr-2"
+            >
+              mdi-calendar
+            </v-icon>
+            dodaj u kalendar
+          </v-btn>
+        </v-row>
+
         <doctor-profile :doc="doctor" />
         <p class="text-center text-uppercase mt-6">
           Sačuvajte link do ove stranice i podatke.<br>
-          U naznačeno vreme pozovite doktora.<br>
+          U naznačeno vreme pozovite psihoterapeuta.<br>
         </p>
       </div>
       <div v-else>
@@ -58,6 +78,10 @@ export default class extends Vue {
     this.doctor = data.doctor;
     this.timeslot = data.timeslot;
     this.isLoading = false;
+  }
+
+  async downloadIcs() {
+    await AppoitmentApi.downloadIcal(this.id);
   }
 }
 </script>

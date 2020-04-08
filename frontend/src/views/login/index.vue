@@ -138,8 +138,17 @@ export default class extends Vue {
       return;
     }
 
+    if (!this.redirect) {
+      if (UserModule.isDoctor) {
+        this.redirect = '/my';
+      }
+      if (UserModule.isAdmin) {
+        this.redirect = '/admin';
+      }
+    }
+
     await this.$router.push({
-      path: this.redirect || '/',
+      path: this.redirect,
     });
   }
 
