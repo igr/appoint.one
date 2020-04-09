@@ -29,7 +29,7 @@
           >
             <v-text-field
               v-model="name"
-              label="E-pošta"
+              label="E-mail"
               prepend-icon="person"
               :rules="rules.email"
               autocomplete="email"
@@ -105,11 +105,11 @@ export default class extends Vue {
 
   private rules = {
     email: [
-      (v: string) => !!v || 'E-mail is required',
-      (v: string) => isValidEmail(v) || 'E-mail must be valid',
+      (v: string) => !!v || 'E-mail je obavezan',
+      (v: string) => isValidEmail(v) || 'E-mail mora biti validan',
     ],
     password: [
-      (v: string) => !!v || 'Password is required',
+      (v: string) => !!v || 'Lozinka je obavezna',
     ],
   };
 

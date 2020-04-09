@@ -75,7 +75,8 @@ export default class extends Vue {
 
   private rules = {
     passwordRules: [
-      (value: string) => (value || '').length >= 5 || 'Min 5 karaktera',
+      (v: string) => !!v || 'Lozinka je obavezna',
+      (v: string) => (v && v.length >= 5) || 'Lozinka mora imati najmanje 5 karaktera',
     ],
   };
 
