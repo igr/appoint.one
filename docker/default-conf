@@ -6,7 +6,10 @@ server {
   location = /api {
     return 302 /api/;
   }
-  location /api/ {
+  location ^~ /api/ {
     proxy_pass  http://localhost:8080/;
+  }
+  location / {
+    try_files $uri $uri/ /index.html;
   }
 }

@@ -11,6 +11,7 @@
         x-large
         color="success"
         dark
+        href="tel://+38165555333"
       >
         <v-icon
           class="mr-3"
@@ -40,7 +41,7 @@
           color="blue"
           to="/doc/2"
         >
-          Pshihoterapeuti su vam na raspolaganju
+          Pshihoterapeuti su vam na raspolaganju!
         </v-btn>
       </v-sheet>
     </div>

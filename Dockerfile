@@ -17,8 +17,7 @@ FROM nginx:stable-alpine as production-stage
 RUN apk add openjdk8
 #COPY --from=builder /app/backend/build/distributions ./server
 #RUN tar -xvf /server/appoint1-shadow.tar
-COPY --from=builder /app/backend/ ./server
-COPY --from=builder /app/backend/.gradle ./server
+COPY --from=builder /app/backend/build/libs ./server
 COPY --from=build-stage /dist /usr/share/nginx/html
 COPY ./docker/default-conf /etc/nginx/conf.d/default-conf
 EXPOSE 80

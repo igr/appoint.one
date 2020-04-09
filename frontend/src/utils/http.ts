@@ -7,7 +7,6 @@ const http = axios.create({
   timeout: 5000,
   // withCredentials: true // send cookies when cross-domain requests
   headers: {
-    // Authorization: `Bearer ${UserModule ? UserModule.token : ''}`,
     'Content-Type': 'application/json',
   },
   validateStatus: (status) => status < 400,
