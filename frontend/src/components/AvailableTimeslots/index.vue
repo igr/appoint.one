@@ -51,8 +51,12 @@
           :disabled="!isSelected"
           @click="submit"
         >
-          <h5 v-if="isSelected"> Potvrdi termin </h5>
-          <h5 v-if="!isSelected"> Izaberi termin </h5>
+          <h5 v-if="isSelected">
+            Potvrdi termin
+          </h5>
+          <h5 v-if="!isSelected">
+            Izaberi termin
+          </h5>
         </v-btn>
       </v-row>
 
@@ -69,7 +73,7 @@
           </v-card-text>
 
           <v-card-actions>
-            <v-spacer></v-spacer>
+            <v-spacer />
             <v-btn
               color="green darken-1"
               text
@@ -80,7 +84,6 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-
     </v-col>
   </v-row>
 </template>
@@ -88,7 +91,6 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import TimeslotApi from '@/api/TimeslotApi';
-import AppCookies from '@/utils/cookies';
 import { TimeslotAndDoctor } from '@/model/Timeslot';
 import { DateTime } from '@/model/DateTime';
 import { isStatus } from '@/utils/http';
@@ -121,9 +123,7 @@ export default class AvailableTimeslots extends Vue {
   }
 
   private async fetchData() {
-    const country = AppCookies.getCountry() || '1';
-    const city = AppCookies.getCity() || '1';
-    const { data } = await TimeslotApi.listNextTimeslots(country, city);
+    const { data } = await TimeslotApi.listNextTimeslots();
     this.timeslotAndDoctorsList = data;
   }
 
@@ -142,7 +142,7 @@ export default class AvailableTimeslots extends Vue {
       }
     } catch (err) {
       if (isStatus(err.response, 409)) {
-        AppModule.setInfo({ message: 'Ne može da se rezerviše.', type: 'error' });
+        AppModule.setInfo({ message: 'Rezervacija nije uspela.', type: 'error' });
       }
     }
   }

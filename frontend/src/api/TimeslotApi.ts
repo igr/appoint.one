@@ -7,13 +7,9 @@ class TimeslotApi {
     method: 'get',
   });
 
-  listNextTimeslots = (country: string, city: string) => http({
+  listNextTimeslots = () => http({
     url: '/timeslots/available',
     method: 'get',
-    params: {
-      country,
-      city,
-    },
   });
 
   reserveTimeslot = (timeslotId: number) => http({

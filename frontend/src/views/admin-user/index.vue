@@ -16,11 +16,11 @@
             Promena šifre
           </v-card-title>
           <v-card-text>
-            {{this.infoMsg}}
+            {{ infoMsg }}
           </v-card-text>
-          <v-divider></v-divider>
+          <v-divider />
           <v-card-actions>
-            <v-spacer></v-spacer>
+            <v-spacer />
             <v-btn
               color="primary"
               text
@@ -31,7 +31,6 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-
 
       <v-text-field
         append-icon="lock"
@@ -52,9 +51,9 @@
         @click:append="show1 = !show1"
       />
       <v-btn
+        :disabled="newPassword.length < 5"
         color="primary"
         @click="submitModifications"
-        :disabled="newPassword.length < 5"
       >
         Sačuvaj
       </v-btn>
@@ -111,7 +110,7 @@ export default class extends Vue {
   displaySnackbarInfo(success: boolean) {
     this.showDialog = true;
     this.newPassword = '';
-    if (success === true) {
+    if (success) {
       this.infoMsg = 'Sačuvano';
     } else {
       this.infoMsg = 'Došlo je do greške!';
