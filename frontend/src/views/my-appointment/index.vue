@@ -46,7 +46,7 @@
         TERMIN #{{ id }}
       </h1>
       <div v-if="!isLoading">
-        <day-big :datetime="timeslot.datetime" />
+        <day-big :datetime="timeslot && timeslot.datetime" />
         <h2 style="text-align: center">
           status: <span class="yellow">{{ status }}</span>
         </h2>

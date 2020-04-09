@@ -46,6 +46,12 @@
               >
                 <div class="next">
                   {{ dateStr(item.datetime) }}
+                  <v-btn
+                    icon
+                    @click="showEvent({event: item})"
+                  >
+                    <v-icon>mdi-pencil</v-icon>
+                  </v-btn>
                 </div>
               </v-timeline-item>
             </v-slide-x-reverse-transition>
@@ -149,14 +155,13 @@ import { Component, Vue } from 'vue-property-decorator';
 import { UserModule } from '@/store/modules/user';
 import { Doctor } from '@/model/Doctor';
 import DoctorApi from '@/api/DoctorApi';
-import {
-  isTimeslotCanceled, isTimeslotDone, isTimeslotReserved, Timeslot,
-} from '@/model/Timeslot';
+import { Timeslot, TimeslotStatus } from '@/model/Timeslot';
 import {
   isInFuture, toDateTimeHumanString, toDateTimeString, toTimeString,
 } from '@/utils/time';
 import DoctorProfile from '@/components/DoctorProfile/index.vue';
 import { DateTime } from '@/model/DateTime';
+import { CalendarEventParsed, CalendarEvent } from 'vuetify';
 
 @Component({
   name: 'My',
@@ -165,12 +170,12 @@ import { DateTime } from '@/model/DateTime';
   },
 })
 export default class extends Vue {
-  private dialog2 = {
-    show: false,
-    text: '',
-    action: -1,
-    item: {} as Timeslot,
-  };
+  $refs!: {
+    calendar: Vue & {
+      prev: () => void;
+      next: () => void;
+    };
+  }
 
   private isLoading = true;
 
@@ -192,16 +197,7 @@ export default class extends Vue {
   }
 
   colorOf(item: Timeslot): string {
-    if (this.isRESERVED(item)) {
-      return 'red';
-    }
-    if (this.isDONE(item)) {
-      return 'green';
-    }
-    if (this.isCANCELED(item)) {
-      return 'black';
-    }
-    return 'blue';
+    return this.timeslotStatusColor[item.status];
   }
 
   async created() {
@@ -215,12 +211,6 @@ export default class extends Vue {
     this.isLoading = false;
   }
 
-  private isRESERVED = isTimeslotReserved;
-
-  private isDONE = isTimeslotDone;
-
-  private isCANCELED = isTimeslotCanceled;
-
   private type = '4day';
 
   private typeToLabel = {
@@ -228,6 +218,13 @@ export default class extends Vue {
     week: 'Nedelja',
     day: 'Dan',
     '4day': '4 Dana',
+  };
+
+  private timeslotStatusColor = {
+    [TimeslotStatus.NEW]: 'blue',
+    [TimeslotStatus.RESERVED]: 'red',
+    [TimeslotStatus.CANCELED]: 'black',
+    [TimeslotStatus.DONE]: 'green',
   };
 
   private focus = '';
@@ -240,61 +237,41 @@ export default class extends Vue {
 
   get events() {
     return this.timeslots.map((ts) => ({
-      name: '*',
+      name: TimeslotStatus[ts.status],
       start: toDateTimeString(ts.datetime),
       end: this.formatDatePlus30(ts.datetime),
-      color: 'red',
+      color: this.timeslotStatusColor[TimeslotStatus.RESERVED],
       id: ts.id,
       item: ts,
     }));
   }
 
-  getEventColor(event: any) {
-    if (this.isRESERVED(event.item)) {
-      return 'red';
-    }
-    if (this.isDONE(event.item)) {
-      return 'green';
-    }
-    if (this.isCANCELED(event.item)) {
-      return 'black';
-    }
-    return 'blue';
+  getEventColor({ item }: { item: Timeslot }) {
+    return this.timeslotStatusColor[item.status];
   }
 
-  private get calendarInstance(): Vue & {
-    prev: () => void;
-    next: () => void;
-    getFormatter: (format: any) => any;
-    } {
-    return this.$refs.calendar as Vue & {
-      prev: () => void;
-      next: () => void;
-      getFormatter: (format: any) => any;
-    };
-  }
-
-  eventName(event: any) {
-    return toTimeString(event.input.item.datetime);
+  eventName({ index, start }: CalendarEventParsed) {
+    const event = this.events[index];
+    return `${toTimeString(start)} ${event.name}`;
   }
 
   prev() {
-    this.calendarInstance.prev();
+    this.$refs.calendar.prev();
   }
 
   next() {
-    this.calendarInstance.next();
+    this.$refs.calendar.next();
   }
 
   formatDatePlus30(dt: DateTime) {
-    const date = new Date(dt.year, dt.month - 1, dt.day, dt.hour, dt.minute);
-    const a = new Date(date.getTime() + 30 * 60 * 1000);
-    return a.toISOString().slice(0, 10);
+    const start = new Date(dt.year, dt.month - 1, dt.day, dt.hour, dt.minute);
+    const end = new Date(start);
+    end.setMinutes(start.getMinutes() + 30);
+    return end.toISOString().slice(0, 10);
   }
 
-  // eslint-disable-next-line no-unused-vars
-  async showEvent({ nativeEvent, event }: any) {
-    await this.$router.push(`/my/appointment/${event.id}`);
+  showEvent({ event }: { event: CalendarEvent}) {
+    this.$router.push(`/my/appointment/${event.id}`);
   }
 }
 </script>

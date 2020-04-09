@@ -40,7 +40,7 @@ import { Route } from 'vue-router';
 export default class extends Vue {
   private message = '404 Page Not Found';
 
-  public beforeRouteEnter(to: Route, from: Route, next: any): void {
+  public beforeRouteEnter(to: Route, from: Route, next: () => void): void {
     next();
   }
 }

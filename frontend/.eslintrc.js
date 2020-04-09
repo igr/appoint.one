@@ -28,6 +28,7 @@ module.exports = {
     'no-unused-expressions': ['error', { 'allowShortCircuit': true }],
     'import/extensions': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/no-explicit-any': 'off'
   },
   settings: {
     'import/resolver': {
