@@ -44,9 +44,10 @@ fun postDoctor(newDoctor: NewDoctorUser): Doctor {
 
 // timeslot
 
-fun postTimeslot(newDoctorTimeslot: NewTimeslot): List<Timeslot> {
+fun postTimeslot(token: String, newDoctorTimeslot: NewTimeslot): List<Timeslot> {
 	return Given {
 		body(newDoctorTimeslot)
+		header("Authorization:", "Bearer: $token")
 		contentType(ContentType.JSON)
 	} When {
 		post("/timeslots")
@@ -90,7 +91,7 @@ fun userGet(token: String): User {
 		header("Authorization", "Bearer $token")
 		contentType(ContentType.JSON)
 	} When {
-		get("/user")
+		get("/users")
 	} Then {
 		statusCode(200)
 	} Extract {

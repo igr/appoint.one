@@ -53,7 +53,7 @@ class AuthTest : ServerTest() {
 		Given {
 			contentType(ContentType.JSON)
 		} When {
-			get("/user")
+			get("/users")
 		} Then {
 			statusCode(401)
 		}

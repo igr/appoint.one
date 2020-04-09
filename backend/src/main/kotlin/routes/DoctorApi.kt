@@ -30,13 +30,13 @@ fun Route.doctors() {
 			call.respond(timeslots)
 		}
 
-		authenticate {
-			post {
-				val newDoctorAndUser = call.receive<NewDoctorUser>()
-				val doctor = Users.addAndGetDoctor(newDoctorAndUser)
-				call.respond(HttpStatusCode.Created, doctor)
-			}
+		post {
+			val newDoctorAndUser = call.receive<NewDoctorUser>()
+			val doctor = Users.addAndGetDoctor(newDoctorAndUser)
+			call.respond(HttpStatusCode.Created, doctor)
+		}
 
+		authenticate {
 			put("/{id}/enable") {
 				val doctorId = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
 				DoctorEnabler(doctorId).confirmDoctor()

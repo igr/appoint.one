@@ -28,8 +28,6 @@ fun Route.timeslots() {
 			timeslot?.let { call.respond(it) } ?: call.respond(HttpStatusCode.NotFound)
 		}
 
-		// security issue
-
 		put("{id}/reserve") {
 			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
 			call.respond(HttpStatusCode.NoContent, TimeslotStatusUpdater(id).reserveIfNew())
