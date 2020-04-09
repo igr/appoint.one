@@ -14,13 +14,13 @@ module.exports = {
     proxy: {
       // change /api/login => /api/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
-      ['^/api']: {
-        target: 'http://localhost:8080',
+      '^/api': {
+        target: 'http://localhost:80',
         changeOrigin: true, // needed for virtual hosted sites
         ws: true, // proxy websockets
-        pathRewrite: {
+        /* pathRewrite: {
           '/api': '/',
-        },
+        }, */
       },
     },
   },

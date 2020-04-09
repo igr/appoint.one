@@ -3,7 +3,7 @@ import Router, { Route, RouteConfig } from 'vue-router';
 
 /* Layout */
 import Layout from '@/layout/index.vue';
-import { UserModule } from '@/store/modules/user';
+import { UserModule } from '@/store';
 
 Vue.use(Router);
 
@@ -159,6 +159,7 @@ function _hasAccessToRoute(route: Route) {
     const { permission } = meta;
     const roleMatched = UserModule.hasAccess(permission.role);
     access = !permission.access;
+    console.log(roleMatched, access);
     if (roleMatched) {
       if (typeof permission.access === 'boolean') {
         access = permission.access;

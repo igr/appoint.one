@@ -1,11 +1,10 @@
 import {
-  VuexModule, Module, Action, Mutation, getModule,
+  VuexModule, Module, Action, Mutation,
 } from 'vuex-module-decorators';
 import { Vue } from 'vue-property-decorator';
 import UserApi from '@/api/UserApi';
-import AppCookies from '@/utils/cookies';
+// import AppCookies from '@/utils/cookies';
 import { resetRouter } from '@/router';
-import store from '@/store';
 import { Doctor } from '@/model/Doctor';
 import DoctorApi from '@/api/DoctorApi';
 
@@ -17,9 +16,10 @@ export interface UserState {
   doctor: Doctor;
 }
 
-@Module({ dynamic: true, store, name: 'user' })
-class UserModuleClass extends VuexModule implements UserState {
-  public token = AppCookies.getToken() || '';
+@Module({ name: 'user' })
+export class UserModuleClass extends VuexModule implements UserState {
+  // public token = AppCookies.getToken() || '';
+  public token = '';
 
   public id = 0;
 
@@ -70,7 +70,7 @@ class UserModuleClass extends VuexModule implements UserState {
         return 404;
       }
 
-      AppCookies.setToken(data.token);
+      // AppCookies.setToken(data.token);
       this.SET_TOKEN(data.token);
       this.SET_ROLES([data.role]);
       this.SET_NAME(data.name);
@@ -88,7 +88,7 @@ class UserModuleClass extends VuexModule implements UserState {
 
   @Action
   public ResetToken() {
-    AppCookies.removeToken();
+    // AppCookies.removeToken();
     this.SET_TOKEN('');
     this.SET_ID(0);
     this.SET_NAME('');
@@ -110,6 +110,7 @@ class UserModuleClass extends VuexModule implements UserState {
   }
 
   get hasAccess(): (permissionRoles: string[]) => boolean {
+    console.log('hasAccess', this.id, this.token, this.roles);
     return (permissionRoles: string[]) => this.roles.some((role) => permissionRoles.includes(role));
   }
 
@@ -121,5 +122,3 @@ class UserModuleClass extends VuexModule implements UserState {
     return this.hasAccess(['ADMIN']);
   }
 }
-
-export const UserModule = getModule(UserModuleClass);

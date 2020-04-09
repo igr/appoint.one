@@ -94,7 +94,7 @@ import TimeslotApi from '@/api/TimeslotApi';
 import { TimeslotAndDoctor } from '@/model/Timeslot';
 import { DateTime } from '@/model/DateTime';
 import { isStatus } from '@/utils/http';
-import { AppModule } from '@/store/modules/app';
+import { AppModule } from '@/store';
 import { toDateTimeHumanString } from '@/utils/time';
 import { publicOccupationOf } from '@/utils/data';
 

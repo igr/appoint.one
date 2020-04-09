@@ -84,8 +84,7 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { UserModule } from '@/store/modules/user';
-import { AppModule } from '@/store/modules/app';
+import { UserModule, AppModule } from '@/store';
 import { Route } from 'vue-router';
 import { isValidEmail } from '@/utils/validate';
 

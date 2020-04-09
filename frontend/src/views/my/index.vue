@@ -152,7 +152,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { UserModule } from '@/store/modules/user';
+import { UserModule } from '@/store';
 import { Doctor } from '@/model/Doctor';
 import DoctorApi from '@/api/DoctorApi';
 import { Timeslot, TimeslotStatus } from '@/model/Timeslot';

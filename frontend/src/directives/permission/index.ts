@@ -1,5 +1,5 @@
 import { DirectiveOptions } from 'vue';
-import { UserModule } from '@/store/modules/user';
+import { UserModule } from '@/store';
 
 export const permission: DirectiveOptions = {
   inserted(el, binding) {

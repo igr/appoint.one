@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { AppModule } from '@/store/modules/app';
+import { AppModule } from '@/store';
 
 @Component
 export default class Alert extends Vue {

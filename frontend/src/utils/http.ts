@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { AppModule } from '@/store/modules/app';
-import { UserModule } from '@/store/modules/user';
+import { AppModule, UserModule } from '@/store';
 
 const http = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
