@@ -33,6 +33,12 @@ export const routes: RouteConfig[] = [
         name: 'Home',
       },
       {
+        path: '/doc/:name',
+        props: true,
+        component: () => import('@/views/doc/index.vue'),
+      },
+
+      {
         path: '/login',
         component: () => import('@/views/login/index.vue'),
       },

@@ -28,7 +28,13 @@
         :tile="true"
         class="col-12 md-6"
       >
-        <a href="#">teskt</a>
+        <v-btn
+          text
+          color="blue"
+          to="/doc/1"
+        >
+          Kako sačuvati mentalno zdravlje?
+        </v-btn>
       </v-sheet>
     </div>
     <v-col

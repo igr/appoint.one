@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { AppModule } from '@/store/modules/app';
 import { UserModule } from '@/store/modules/user';
 
@@ -59,3 +59,15 @@ export function isError5xx(response: AxiosResponse): boolean {
   const hundreds = Math.floor(response.data.status / 100);
   return (hundreds === 5);
 }
+
+
+const http2 = axios.create({
+  baseURL: '/',
+  timeout: 3000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  validateStatus: (status) => status < 400,
+});
+
+export const httpLocal = http2;

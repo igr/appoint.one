@@ -15,6 +15,7 @@
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-i18n": "^8.16.0",
+    "vue-markdown": "^2.2.4",
     "vue-property-decorator": "^8.4.1",
     "vue-router": "^3.1.6",
     "vuetify": "^2.2.19",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@types/jest": "^25.1.4",
     "@types/js-cookie": "^2.2.5",
+    "@types/vue-markdown": "^2.2.1",
     "@typescript-eslint/eslint-plugin": "^2.25.0",
     "@typescript-eslint/parser": "^2.25.0",
     "@vue/cli-plugin-babel": "~4.2.3",

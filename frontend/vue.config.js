@@ -1,6 +1,13 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const path = require('path');
+
 module.exports = {
   productionSourceMap: false,
   devServer: {
+    contentBase: [
+      path.join(process.cwd(), './public'),
+      path.join(process.cwd(), './docs'),
+    ],
     port: 3000,
     open: true,
     progress: false,

@@ -80,7 +80,7 @@ export default class extends Vue {
   };
 
   async created() {
-    this.fetchData();
+    await this.fetchData();
   }
 
   private async fetchData() {
