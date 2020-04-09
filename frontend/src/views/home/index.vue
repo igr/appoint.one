@@ -25,7 +25,6 @@
         Korisni tekstovi
       </h3>
       <v-sheet
-        :tile="true"
         class="col-12 md-6"
       >
         <v-btn
@@ -34,6 +33,14 @@
           to="/doc/1"
         >
           Kako sačuvati mentalno zdravlje?
+        </v-btn>
+        <br>
+        <v-btn
+          text
+          color="blue"
+          to="/doc/2"
+        >
+          Pshihoterapeuti su vam na raspolaganju
         </v-btn>
       </v-sheet>
     </div>

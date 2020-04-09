@@ -39,6 +39,6 @@ export default class extends Vue {
 
 <style scoped>
 #doc {
-  font-size: 1.5em;
+  font-size: 1.3em;
 }
 </style>

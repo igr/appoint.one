@@ -17,16 +17,33 @@
           <v-btn
             dark
             x-large
-            class="ma-6"
+            class="ma-2 col-10 col-md-4"
             @click="downloadIcs"
           >
             <v-icon
               dark
               class="mr-2"
             >
-              mdi-calendar
+              mdi-calendar-month
             </v-icon>
             dodaj u kalendar
+          </v-btn>
+        </v-row>
+        <v-row justify="center">
+          <v-btn
+            dark
+            x-large
+            :href="calendarUrl"
+            class="ma-2 col-10 col-md-4"
+            target="_blank"
+          >
+            <v-icon
+              dark
+              class="mr-2"
+            >
+              mdi-google
+            </v-icon>
+            GUGL kalendar
           </v-btn>
         </v-row>
 
@@ -34,20 +51,6 @@
         <p class="text-center text-uppercase mt-6">
           Sačuvajte link do ove stranice i podatke.<br>
           U naznačeno vreme pozovite psihoterapeuta.<br>
-        </p>
-        <p class="text-center">
-          Dodajte u Google kalendar
-        </p>
-        <p class="text-center">
-          <v-btn
-            fab
-            dark
-            color="orange"
-            :href="calendarUrl"
-            target="_blank"
-          >
-            <v-icon>mdi-calendar-month</v-icon>
-          </v-btn>
         </p>
       </div>
       <div v-else>
