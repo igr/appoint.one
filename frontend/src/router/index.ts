@@ -159,7 +159,6 @@ function _hasAccessToRoute(route: Route) {
     const { permission } = meta;
     const roleMatched = UserModule.hasAccess(permission.role);
     access = !permission.access;
-    console.log(roleMatched, access);
     if (roleMatched) {
       if (typeof permission.access === 'boolean') {
         access = permission.access;

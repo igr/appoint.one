@@ -110,7 +110,6 @@ export class UserModuleClass extends VuexModule implements UserState {
   }
 
   get hasAccess(): (permissionRoles: string[]) => boolean {
-    console.log('hasAccess', this.id, this.token, this.roles);
     return (permissionRoles: string[]) => this.roles.some((role) => permissionRoles.includes(role));
   }
 
