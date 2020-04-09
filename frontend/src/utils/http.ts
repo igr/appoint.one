@@ -7,7 +7,7 @@ const http = axios.create({
   timeout: 5000,
   // withCredentials: true // send cookies when cross-domain requests
   headers: {
-    Authorization: `Bearer ${UserModule ? UserModule.token : ''}`,
+    // Authorization: `Bearer ${UserModule ? UserModule.token : ''}`,
     'Content-Type': 'application/json',
   },
   validateStatus: (status) => status < 400,
@@ -15,7 +15,11 @@ const http = axios.create({
 
 // Request interceptors
 http.interceptors.request.use(
-  (config) => config,
+  (config) => {
+    // eslint-disable-next-line no-param-reassign
+    config.headers.common.Authorization = `Bearer ${UserModule ? UserModule.token : ''}`;
+    return config;
+  },
   (error) => {
     // console.error('>> Error:', error);
     Promise.reject(error);
