@@ -51,9 +51,36 @@
           :disabled="!isSelected"
           @click="submit"
         >
-          Izaberi i potvrdi termin
+          <h5 v-if="isSelected"> Potvrdi termin </h5>
+          <h5 v-if="!isSelected"> Izaberi termin </h5>
         </v-btn>
       </v-row>
+
+      <v-dialog
+        v-model="showDialog"
+        max-width="290"
+      >
+        <v-card>
+          <v-card-title>
+            Izabrani termin je zauzet.
+          </v-card-title>
+          <v-card-text>
+            Učitajte stranicu ponovo kako biste dobili najsvežije podatke.
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="green darken-1"
+              text
+              @click="showDialog = false"
+            >
+              OK
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
     </v-col>
   </v-row>
 </template>
@@ -74,6 +101,8 @@ export default class AvailableTimeslots extends Vue {
   private timeslotAndDoctorsList: Array<TimeslotAndDoctor> = [];
 
   private selected = -1;
+
+  private showDialog = false;
 
   get isSelected() {
     return this.selected !== undefined && this.selected > -1;
@@ -105,8 +134,12 @@ export default class AvailableTimeslots extends Vue {
     const timeslotId = this.timeslotAndDoctorsList[this.selected].timeslot.id;
 
     try {
-      await TimeslotApi.reserveTimeslot(timeslotId);
-      await this.$router.push(`/appointment/${timeslotId}`);
+      const res = await TimeslotApi.reserveTimeslot(timeslotId);
+      if (res.data === 0) {
+        this.showDialog = true;
+      } else {
+        await this.$router.push(`/appointment/${timeslotId}`);
+      }
     } catch (err) {
       if (isStatus(err.response, 409)) {
         AppModule.setInfo({ message: 'Ne može da se rezerviše.', type: 'error' });

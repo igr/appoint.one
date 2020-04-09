@@ -30,7 +30,7 @@ fun Route.timeslots() {
 
 		put("{id}/reserve") {
 			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-			call.respond(HttpStatusCode.NoContent, TimeslotStatusUpdater(id).reserveIfNew())
+			call.respond(TimeslotStatusUpdater(id).reserveIfNew())
 		}
 
 		authenticate {
