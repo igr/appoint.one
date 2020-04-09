@@ -116,23 +116,23 @@ export default class extends Vue {
 
   private rules = {
     age: [
-      (v: number) => !!v || 'Godine obavezne',
+      (v: number) => !!v || 'Godine su obavezne',
       (v: number) => (v > 0 && v < 200) || 'Godine moraju biti validne (1 - 200)',
     ],
     problem: [
-      (v: string) => !!v || 'Vrsta problema obavezna',
+      (v: string) => !!v || 'Vrsta problema je obavezna',
     ],
     help: [
-      (v: string) => !!v || 'Pruzena intervencija obavezna',
+      (v: string) => !!v || 'Pruzena intervencija je obavezna',
     ],
     success: [
-      (v: string) => !!v || 'Polje obavezno',
+      (v: string) => !!v || 'Polje je obavezno',
     ],
     forward: [
-      (v: string) => !!v || 'Polje obavezno',
+      (v: string) => !!v || 'Polje je obavezno',
     ],
     comment: [
-      (v: string) => !!v || 'Komentar obavezan',
+      (v: string) => !!v || 'Komentar je obavezan',
     ],
 
   };
