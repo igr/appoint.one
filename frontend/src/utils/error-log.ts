@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { ErrorLogModule } from '@/store/modules/error-log';
+import { ErrorLogModule } from '@/store';
 
 const errorLogEnabled = true;
 

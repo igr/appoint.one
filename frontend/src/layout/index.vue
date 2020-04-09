@@ -71,7 +71,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import Info from '@/components/Info/index.vue';
-import { UserModule } from '@/store/modules/user';
+import { UserModule } from '@/store';
 
 @Component({
   name: 'Layout',

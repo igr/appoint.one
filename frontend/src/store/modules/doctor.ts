@@ -1,16 +1,15 @@
 import {
-  VuexModule, Module, Action, Mutation, getModule,
+  VuexModule, Module, Action, Mutation,
 } from 'vuex-module-decorators';
-import store from '@/store';
 import DoctorApi from '@/api/DoctorApi';
-import { UserModule } from '@/store/modules/user';
+import { UserModule } from '@/store';
 
 export interface DoctorState {
-  name: string,
+  name: string;
 }
 
-@Module({ dynamic: true, store, name: 'user' })
-class DoctorClass extends VuexModule implements DoctorState {
+@Module({ name: 'doctor' })
+export class DoctorModuleClass extends VuexModule implements DoctorState {
   public name = '';
 
   @Mutation
@@ -25,5 +24,3 @@ class DoctorClass extends VuexModule implements DoctorState {
     this.SET_NAME(data.name);
   }
 }
-
-export const DoctorModule = getModule(DoctorClass);

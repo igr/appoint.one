@@ -1,7 +1,6 @@
 import {
-  VuexModule, Module, Mutation, Action, getModule,
+  VuexModule, Module, Mutation, Action,
 } from 'vuex-module-decorators';
-import store from '@/store';
 
 export interface AppState {
   alertMessage: string;
@@ -11,8 +10,8 @@ export interface AppState {
   };
 }
 
-@Module({ dynamic: true, store, name: 'app' })
-class AppModuleClass extends VuexModule implements AppState {
+@Module({ name: 'app' })
+export class AppModuleClass extends VuexModule implements AppState {
   public alertMessage = '';
 
   public info = {
@@ -52,5 +51,3 @@ class AppModuleClass extends VuexModule implements AppState {
     this.SET_INFO({ message: '', type: 'error' });
   }
 }
-
-export const AppModule = getModule(AppModuleClass);

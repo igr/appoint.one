@@ -48,10 +48,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Doctor } from '@/model/Doctor';
-import { UserModule } from '@/store/modules/user';
+import { AppModule, UserModule } from '@/store';
 import { toDateTime } from '@/utils/time';
 import TimeslotApi from '@/api/TimeslotApi';
-import { AppModule } from '@/store/modules/app';
 
 @Component({
   name: 'Appointment',
