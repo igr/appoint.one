@@ -17,7 +17,7 @@ fun Int.toTimeslotId(): TimeslotId {
 	return TimeslotId(this)
 }
 
-fun String.toTimeslotIt(): TimeslotId {
+fun String.toTimeslotId(): TimeslotId {
 	return TimeslotId(this.toInt())
 }
 

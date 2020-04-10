@@ -1,7 +1,8 @@
 package routes
 
+import auth.user
 import domain.evaluation.NewEvaluation
-import domain.timeslot.TimeslotByIdStatus
+import domain.timeslot.TimeslotById
 import io.ktor.application.call
 import io.ktor.auth.authenticate
 import io.ktor.request.receive
@@ -15,10 +16,11 @@ fun Route.evaluations() {
 	route("/evaluations") {
 		authenticate {
 			post {
-//				call.user
 				val newEvaluation = call.receive<NewEvaluation>()
 
-				val evaluation = TimeslotByIdStatus(newEvaluation.timeslotId).markDone(newEvaluation.data)
+				val evaluation = TimeslotById(newEvaluation.timeslotId)
+					.assertOwnership(call.user?.id)
+					.markDone(newEvaluation.data)
 
 				call.respond(evaluation)
 			}

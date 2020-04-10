@@ -2,6 +2,7 @@ package routes
 
 import cal.ICS
 import domain.appointment.AppointmentByTimeslot
+import domain.timeslot.toTimeslotId
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.response.header
@@ -15,7 +16,7 @@ fun Route.appointment() {
 
 	route("/appointments") {
 		get("/{id}") {
-			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
+			val id = call.parameters["id"]?.toTimeslotId() ?: throw IllegalStateException("ID missing")
 
 			val appointment = AppointmentByTimeslot(id).get()
 
@@ -23,7 +24,7 @@ fun Route.appointment() {
 		}
 
 		get("/{id}/ical") {
-			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
+			val id = call.parameters["id"]?.toTimeslotId() ?: throw IllegalStateException("ID missing")
 
 			val appointment = AppointmentByTimeslot(id).get()
 

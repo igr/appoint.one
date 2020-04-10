@@ -14,7 +14,7 @@ object TimeslotsTable : IntIdTable(name = "timeslots") {
 	val datetime = long("datetime").index()
 
 	// ref
-	val doctorId = integer("doctor_id").references(DoctorsTable.id)
+	val doctorIdRef = integer("doctor_id").references(DoctorsTable.id)
 
 	// meta
 	val updated = datetime("updated").clientDefault { LocalDateTime.now() }
@@ -25,7 +25,7 @@ fun NewTimeslot.data(insert: UpdateBuilder<*>) {
 	with(TimeslotsTable) {
 		insert[status] = TimeslotStatus.NEW.value
 		insert[datetime] = obj.datetime.value
-		insert[doctorId] = obj.doctorId.value
+		insert[doctorIdRef] = obj.doctorId.value
 		insert[updated] = LocalDateTime.now()
 	}
 }
@@ -34,5 +34,5 @@ fun ResultRow.toTimeslot() = Timeslot(
 	id = this[TimeslotsTable.id].value.toTimeslotId(),
 	datetime = DateTime(this[TimeslotsTable.datetime]),
 	status = TimeslotStatus.of(this[TimeslotsTable.status]),
-	doctorId = this[TimeslotsTable.doctorId].toDoctorId()
+	doctorId = this[TimeslotsTable.doctorIdRef].toDoctorId()
 )

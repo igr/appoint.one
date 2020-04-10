@@ -24,14 +24,14 @@ fun Route.doctors() {
 		}
 
 		get("/{id}") {
-			val id = call.parameters["id"]?.toDoctorId() ?: throw IllegalStateException("ID missing")
-			val doctor = DoctorById(id).get()
+			val doctorId = call.parameters["id"]?.toDoctorId() ?: throw IllegalStateException("ID missing")
+			val doctor = DoctorById(doctorId).get()
 			doctor?.let { call.respond(it) } ?: call.respond(HttpStatusCode.NotFound)
 		}
 
 		get("/{id}/timeslots") {
-			val id = call.parameters["id"]?.toDoctorId() ?: throw IllegalStateException("ID missing")
-			val timeslots = DoctorTimeslots(id).listTimeslots()
+			val doctorId = call.parameters["id"]?.toDoctorId() ?: throw IllegalStateException("ID missing")
+			val timeslots = DoctorTimeslots(doctorId).listTimeslots()
 			call.respond(timeslots)
 		}
 

@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 
 object TimeslotsCount {
 
-	suspend fun availableTimeslots() = dbtx {
+	suspend fun countAvailableTimeslots() = dbtx {
 		val dateTime = LocalDateTime.now().toDateTime()
 
 		TimeslotsTable.selectAll()

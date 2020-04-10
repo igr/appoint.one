@@ -1,5 +1,6 @@
 package routes
 
+import auth.user
 import domain.doctor.DoctorTimeslots
 import domain.timeslot.*
 import io.ktor.application.call
@@ -14,23 +15,23 @@ fun Route.timeslots() {
 	route("/timeslots") {
 
 		get("/count") {
-			call.respond(TimeslotsCount.availableTimeslots())
+			call.respond(TimeslotsCount.countAvailableTimeslots())
 		}
 
 		get("/available") {
-			call.respond(TimeslotsNextSet.get())
+			call.respond(TimeslotsNextSet(5).get())
 		}
 
 		get("/{id}") {
-			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
+			val id = call.parameters["id"]?.toTimeslotId() ?: throw IllegalStateException("ID missing")
 			val timeslot = TimeslotById(id).get()
 
 			timeslot?.let { call.respond(it) } ?: call.respond(HttpStatusCode.NotFound)
 		}
 
 		put("{id}/reserve") {
-			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-			call.respond(TimeslotByIdStatus(id.toTimeslotId()).reserveIfNew())
+			val id = call.parameters["id"]?.toTimeslotId() ?: throw IllegalStateException("ID missing")
+			call.respond(TimeslotById(id).reserveIfNew())
 		}
 
 		authenticate {
@@ -44,13 +45,19 @@ fun Route.timeslots() {
 			}
 
 			put("{id}/cancel") {
-				val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-				call.respond(HttpStatusCode.NoContent, TimeslotByIdStatus(id.toTimeslotId()).cancelIfReserved())
+				val id = call.parameters["id"]?.toTimeslotId() ?: throw IllegalStateException("ID missing")
+				val count = TimeslotById(id)
+					.assertOwnership(call.user?.id)
+					.cancelIfReserved()
+
+				call.respond(HttpStatusCode.NoContent, count)
 			}
 
 			delete("/{id}") {
-				val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-				TimeslotById(id).delete()
+				val id = call.parameters["id"]?.toTimeslotId() ?: throw IllegalStateException("ID missing")
+				TimeslotById(id)
+					.assertOwnership(call.user?.id)
+					.delete()
 
 				call.respond(HttpStatusCode.Accepted)
 			}

@@ -1,6 +1,6 @@
 package domain
 
-import domain.doctor.DoctorByUserId
+import domain.doctor.DoctorById
 import domain.doctor.DoctorsLists
 import domain.doctor.newSimpleDoctorUser
 import domain.user.Users
@@ -17,10 +17,10 @@ class DoctorTest : ServerTest() {
 		val newDoctor = newSimpleDoctorUser("Pera")
 
 		// when
-		val userId = Users.addDoctor(newDoctor)
+		val doctorId = Users.addDoctor(newDoctor)
 
 		// then
-		val savedDoctor = DoctorByUserId(userId.value).existing()
+		val savedDoctor = DoctorById(doctorId).existing()
 		assertThat(savedDoctor.data).isEqualTo(newDoctor.doctor)
 
 		Unit

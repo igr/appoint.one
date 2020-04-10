@@ -10,7 +10,7 @@ class DoctorTimeslots(private val doctorId: DoctorId) {
 
 	suspend fun listTimeslots() = dbtx {
 		TimeslotsTable.select {
-			TimeslotsTable.doctorId eq doctorId.value
+			TimeslotsTable.doctorIdRef eq doctorId.value
 		}
 			.sortedWith(compareBy { it[TimeslotsTable.datetime] })
 			.reversed()

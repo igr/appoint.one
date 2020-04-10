@@ -28,7 +28,7 @@ object DoctorsTable : IdTable<Int>(name = "doctors") {
 	val zoom = varchar("zoom", 32)
 
 	// ref
-	val userId = integer("user_id").references(UsersTable.id)
+	val userIdRef = integer("user_id").references(UsersTable.id)
 
 	// meta
 	val updated = datetime("updated").clientDefault { LocalDateTime.now() }
@@ -53,7 +53,7 @@ fun ResultRow.toDoctorData() = DoctorData(
 fun ResultRow.toDoctor() = Doctor(
 	id = this[DoctorsTable.id].toDoctorId(),
 	data = toDoctorData(),
-	userId = this[DoctorsTable.userId]
+	userId = this[DoctorsTable.userIdRef]
 )
 
 fun DoctorData.data(insert: UpdateBuilder<*>) {

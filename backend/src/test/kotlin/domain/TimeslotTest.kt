@@ -4,7 +4,7 @@ import DateTime
 import domain.doctor.DoctorTimeslots
 import domain.doctor.newSimpleDoctorUser
 import domain.doctor.newSimpleEvaluationData
-import domain.timeslot.TimeslotByIdStatus
+import domain.timeslot.TimeslotById
 import domain.user.Users
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
@@ -60,10 +60,10 @@ class TimeslotTest : ServerTest() {
 		val doctor1 = Users.addDoctor(newSimpleDoctorUser("Pera"))
 		val timeslot1 = DateTime(date = 20200101, time = 1930)
 		val timeslotId = DoctorTimeslots(doctor1).bindTimeslots(listOf(timeslot1))[0]
-		TimeslotByIdStatus(timeslotId).reserveIfNew()
+		TimeslotById(timeslotId).reserveIfNew()
 
 		// when
-		val evaluationId = TimeslotByIdStatus(timeslotId).markDone(newSimpleEvaluationData())
+		val evaluationId = TimeslotById(timeslotId).markDone(newSimpleEvaluationData())
 
 		// then
 		assertThat(evaluationId).isNotNull

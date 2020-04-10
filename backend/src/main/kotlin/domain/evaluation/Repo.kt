@@ -16,7 +16,7 @@ object EvaluationsTable : IntIdTable(name = "evaluations") {
 	val comment = varchar("comment", 1024)
 
 	// ref
-	val timeslotId = integer("timeslot_id").references(TimeslotsTable.id)
+	val timeslotIdRef = integer("timeslot_id").references(TimeslotsTable.id)
 
 	// meta
 	val updated = datetime("updated").clientDefault { LocalDateTime.now() }

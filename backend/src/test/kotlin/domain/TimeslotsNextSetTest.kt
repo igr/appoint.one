@@ -24,7 +24,7 @@ class TimeslotsNextSetTest : ServerTest() {
 		DoctorTimeslots(doctor1).bindTimeslots(listOf(futureTimeslot, expiredTimeslot))
 
 		// when
-		val timeslots = TimeslotsNextSet.get()
+		val timeslots = TimeslotsNextSet(5).get()
 
 		// then
 		assertThat(timeslots.size).isEqualTo(1)

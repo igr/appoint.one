@@ -10,9 +10,9 @@ import server.DatabaseFactory.dbtx
 /**
  * Finds next available timeslots.
  */
-object TimeslotsNextSet {
+class TimeslotsNextSet(private val limit: Int = 5) {
 
-	suspend fun get(limit: Int = 5): List<TimeslotAndDoctor> = dbtx {
+	suspend fun get(): List<TimeslotAndDoctor> = dbtx {
 		val dateTimeInt = DateTime.now().value
 
 		(TimeslotsTable innerJoin DoctorsTable)

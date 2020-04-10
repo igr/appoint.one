@@ -15,7 +15,7 @@ object Users {
 		}
 		userId.toUserId()
 	}
-	
+
 	suspend fun addDoctor(userDoctor: NewDoctorUser): DoctorId = dbtx {
 		userDoctor.assertValidDoctorRegCode()
 
@@ -30,7 +30,7 @@ object Users {
 		DoctorsTable.insertAndGetId {
 			userDoctor.doctor.data(it)
 			it[id] = uid
-			it[userId] = uid.value
+			it[userIdRef] = uid.value
 		}
 			.toDoctorId()
 	}
