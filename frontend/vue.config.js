@@ -6,7 +6,6 @@ module.exports = {
   devServer: {
     contentBase: [
       path.join(process.cwd(), './public'),
-      path.join(process.cwd(), './docs'),
     ],
     port: 3000,
     open: true,
