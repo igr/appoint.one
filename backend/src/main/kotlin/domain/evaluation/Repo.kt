@@ -1,7 +1,10 @@
 package domain.evaluation
 
+import domain.patient.PatientSex
 import domain.timeslot.TimeslotsTable
+import domain.timeslot.toTimeslotId
 import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.`java-time`.datetime
 import org.jetbrains.exposed.sql.statements.UpdateBuilder
 import java.time.LocalDateTime
@@ -35,3 +38,19 @@ fun EvaluationData.data(insert: UpdateBuilder<*>) {
 		insert[updated] = LocalDateTime.now()
 	}
 }
+
+fun ResultRow.toEvaluationData() = EvaluationData(
+	sex = PatientSex.of(this[EvaluationsTable.sex]),
+	age = this[EvaluationsTable.age],
+	comment = this[EvaluationsTable.comment],
+	forward = this[EvaluationsTable.forward],
+	success = this[EvaluationsTable.success],
+	help = this[EvaluationsTable.help],
+	problem = this[EvaluationsTable.problem]
+)
+
+fun ResultRow.toEvaluation() = Evaluation(
+	id = this[EvaluationsTable.id].toEvaluationId(),
+	data = this.toEvaluationData(),
+	timeslotId = this[EvaluationsTable.timeslotIdRef].toTimeslotId()
+)

@@ -5,7 +5,7 @@ services:
 
 before_install:
   - cd backend
-  - docker-compose -f docker/docker-compose.yml up -d
+  - ./run-infra.sh
 
 script: ./gradlew build
 

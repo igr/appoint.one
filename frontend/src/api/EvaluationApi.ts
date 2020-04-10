@@ -2,6 +2,11 @@ import http from '@/utils/http';
 import { NewEvaluation } from '@/model/NewEvaluation';
 
 class EvaluationApi {
+  getAll = () => http({
+    url: 'evaluations',
+    method: 'get',
+  });
+
   postNewEvaluation = (timeslotId: number, data: NewEvaluation) => http({
     url: 'evaluations',
     method: 'post',
