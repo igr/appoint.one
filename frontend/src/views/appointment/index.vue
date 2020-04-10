@@ -92,7 +92,7 @@ export default class extends Vue {
     const data = {
       title: this.encode('Termin kod psihoterapeuta'),
       details: this.encode(`${this.doctor.data.name} - ${publicOccupationOf()} e-mail: ${this.doctor.data.email} Tel. +381${this.doctor.data.phone}`),
-      location: this.encode(`http://podrskapsihoterapeuta.com/appointment/${this.id}`),
+      location: this.encode(`https://podrskapsihoterapeuta.com/appointment/${this.id}`),
       dates: this.formatDateTime(this.timeslot.datetime),
     };
     return `https://www.google.com/calendar/render?action=TEMPLATE&text=${data.title}&details=${data.details}&location=${data.location}&dates=${data.dates}`;

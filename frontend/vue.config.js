@@ -31,6 +31,7 @@ module.exports = {
       .plugin('html')
       .tap((args) => {
         args[0].title = 'Podrška psihoterapeuta';
+        args[0].description = 'Besplatna psihoterapeutska pomoć';
         return args;
       });
   },

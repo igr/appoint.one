@@ -3,6 +3,7 @@
     align="center"
     justify="center"
   >
+    <!--
     <div class="col-12 text-center">
       <h3>
         BROJ ZA MEDICINSKE RADNIKE
@@ -21,6 +22,7 @@
         065-555-333
       </v-btn>
     </div>
+    -->
     <div class="col-12 text-center align-center">
       <h3>
         Korisni tekstovi
