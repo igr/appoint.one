@@ -26,13 +26,13 @@ import VueMarkdown from 'vue-markdown';
 })
 export default class extends Vue {
   @Prop({ default: '' })
-  readonly name!: string;
+  readonly id!: number;
 
   private data = ''
 
   async created() {
-    const content = await DocApi.get(`${this.name}.md`);
-    this.data = content.data;
+    const content = await DocApi.get(this.id);
+    this.data = content.data.content;
   }
 }
 </script>

@@ -33,7 +33,7 @@ export const routes: RouteConfig[] = [
         name: 'Home',
       },
       {
-        path: '/doc/:name',
+        path: '/doc/:id',
         props: true,
         component: () => import('@/views/doc/index.vue'),
       },

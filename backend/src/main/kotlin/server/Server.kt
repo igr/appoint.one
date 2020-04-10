@@ -104,6 +104,7 @@ fun Application.module(testing: Boolean = false) {
 		timeslots()
 		appointment()
 		evaluations()
+		docs()
 	}
 
 	with(environment.monitor) {

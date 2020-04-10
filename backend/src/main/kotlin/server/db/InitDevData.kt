@@ -14,7 +14,7 @@ fun createDevData() {
 		Users.addUser(NewUser("a@a.com", "admin", UserRole.ADMIN))
 		val doctorId = Users.addDoctor(newSimpleDoctorUser(
 			name = "Petar Petrović",
-			password = "doc",
+			password = "docs",
 			email = "d@d.com"))
 
 		val nextTimeslot = LocalDateTime.now().plusDays(1).toDateTime()

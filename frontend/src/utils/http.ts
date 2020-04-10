@@ -62,14 +62,13 @@ export function isError5xx(response: AxiosResponse): boolean {
   return (hundreds === 5);
 }
 
-
-const http2 = axios.create({
-  baseURL: '/',
-  timeout: 3000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  validateStatus: (status) => status < 400,
-});
-
-export const httpLocal = http2;
+// const http2 = axios.create({
+//   baseURL: '/',
+//   timeout: 3000,
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+//   validateStatus: (status) => status < 400,
+// });
+//
+// export const httpLocal = http2;

@@ -1,8 +1,8 @@
-import { httpLocal } from '@/utils/http';
+import http from '@/utils/http';
 
 class DocApi {
-  get = (name: string) => httpLocal({
-    url: `/docs/${name}`,
+  get = (id: number) => http({
+    url: `/docs/${id}`,
     method: 'get',
   });
 }
