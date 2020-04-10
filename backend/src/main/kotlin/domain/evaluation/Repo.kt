@@ -2,7 +2,9 @@ package domain.evaluation
 
 import domain.timeslot.TimeslotsTable
 import org.jetbrains.exposed.dao.id.IntIdTable
+import org.jetbrains.exposed.sql.`java-time`.datetime
 import org.jetbrains.exposed.sql.statements.UpdateBuilder
+import java.time.LocalDateTime
 
 object EvaluationsTable : IntIdTable(name = "evaluations") {
 	val sex = integer("sex")
@@ -13,8 +15,11 @@ object EvaluationsTable : IntIdTable(name = "evaluations") {
 	val forward = bool("forward")
 	val comment = varchar("comment", 1024)
 
+	// ref
 	val timeslotId = integer("timeslot_id").references(TimeslotsTable.id)
 
+	// meta
+	val updated = datetime("updated").clientDefault { LocalDateTime.now() }
 }
 
 fun EvaluationData.data(insert: UpdateBuilder<*>) {
@@ -27,5 +32,6 @@ fun EvaluationData.data(insert: UpdateBuilder<*>) {
 		insert[success] = obj.success
 		insert[forward] = obj.forward
 		insert[comment] = obj.comment
+		insert[updated] = LocalDateTime.now()
 	}
 }

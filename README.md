@@ -6,5 +6,6 @@ Schedule an appointment.
 
 ## Patrons
 
-+ Igor Spasić
++ Igor
++ Nikola
 + Zuehlke d.o.o.

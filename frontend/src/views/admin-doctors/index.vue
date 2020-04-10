@@ -22,14 +22,7 @@
           :items-per-page="15"
           :search="search"
           class="elevation-1"
-        >
-          <template v-slot:item.data.confirmed="{ item }">
-            <v-checkbox
-              v-model="item.data.confirmed"
-              @change="updateDoctor(item.id, item.data.confirmed)"
-            />
-          </template>
-        </v-data-table>
+        />
       </v-card>
     </v-col>
   </v-row>
@@ -56,16 +49,7 @@ export default class extends Vue {
     { text: 'Ime', value: 'data.name' },
     { text: 'e-pošta', value: 'data.email' },
     { text: 'Telefon', value: 'data.phone' },
-    { text: 'Potvrđen', value: 'data.confirmed' },
   ];
-
-  updateDoctor(id: number, confirmed: boolean) {
-    if (confirmed) {
-      DoctorApi.confirmDoctor(id);
-    } else {
-      DoctorApi.deConfirmDoctor(id);
-    }
-  }
 
   private doctors: Doctor[] = [];
 

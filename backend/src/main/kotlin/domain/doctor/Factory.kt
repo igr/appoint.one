@@ -3,7 +3,6 @@ package domain.doctor
 import domain.evaluation.EvaluationData
 import domain.patient.PatientSex
 import domain.user.NewDoctorUser
-import java.time.LocalDateTime
 
 private fun newDoctorData(name: String, email: String = "${name}@dot.com"): DoctorData {
 	return DoctorData(
@@ -19,9 +18,7 @@ private fun newDoctorData(name: String, email: String = "${name}@dot.com"): Doct
 		modalitet = 2,
 		modalitet2 = "",
 		phone = "641294217",
-		zoom = "Z-00-M",
-		confirmed = false,
-		dateUpdated = LocalDateTime.now()
+		zoom = "Z-00-M"
 	)
 }
 

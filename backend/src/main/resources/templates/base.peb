@@ -1,15 +1,15 @@
 <html>
 <head>
-	<title>{% block title %}My Website{% endblock %}</title>
+	<title>{% block title %}Oblac{% endblock %}</title>
 	<link rel="stylesheet" href="/assets/css/main.css">
 </head>
 <body>
-	<div id="content">
+	<main id="content">
 		{% block content %}{% endblock %}
-	</div>
+	</main>
 	<div id="footer">
 		{% block footer %}
-			Copyright 2020
+			<a href="https://oblac.rs">x</a>
 		{% endblock %}
 	</div>
 </body>

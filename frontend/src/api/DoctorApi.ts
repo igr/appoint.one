@@ -12,16 +12,6 @@ class DoctorApi {
     method: 'get',
   });
 
-  confirmDoctor = (docId: number) => http({
-    url: `doctors/${docId}/enable`,
-    method: 'put',
-  });
-
-  deConfirmDoctor = (docId: number) => http({
-    url: `doctors/${docId}/disable`,
-    method: 'put',
-  });
-
   postNewDoctor = (newDoctor: NewDoctor) => http({
     url: 'doctors',
     method: 'post',

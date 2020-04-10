@@ -1,12 +1,13 @@
 package domain.doctor
 
-import DateTime
 import domain.user.UsersTable
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IdTable
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.`java-time`.datetime
 import org.jetbrains.exposed.sql.statements.UpdateBuilder
+import java.time.LocalDateTime
 
 object DoctorsTable : IdTable<Int>(name = "doctors") {
 	override val id: Column<EntityID<Int>> = integer("id").entityId()
@@ -15,9 +16,6 @@ object DoctorsTable : IdTable<Int>(name = "doctors") {
 	val name = varchar("name", 255)
 	val email = varchar("email", 255)
 	val sex = bool("sex")
-	//val country = integer("country")
-
-	//	val city = integer("city")
 	val year = integer("year")
 	val education = integer("education")
 	val occupation = integer("occupation")
@@ -26,20 +24,20 @@ object DoctorsTable : IdTable<Int>(name = "doctors") {
 	val certificate = integer("certificate")
 	val modalitet = integer("modalitet")
 	val modalitet2 = varchar("modalitet2", 255)
-
 	val phone = varchar("phone", 32)
 	val zoom = varchar("zoom", 32)
-	val confirmed = bool("confirmed")
-	val dateUpdated = long("dateUpdated").clientDefault { System.currentTimeMillis() }
 
+	// ref
 	val userId = integer("user_id").references(UsersTable.id)
+
+	// meta
+	val updated = datetime("updated").clientDefault { LocalDateTime.now() }
 }
 
 fun ResultRow.toDoctorData() = DoctorData(
 	name = this[DoctorsTable.name],
 	email = this[DoctorsTable.email],
 	sex = DoctorSex.of(this[DoctorsTable.sex]),
-//		country = Country.of(country),
 	year = this[DoctorsTable.year],
 	education = this[DoctorsTable.education],
 	occupation = this[DoctorsTable.occupation],
@@ -49,9 +47,7 @@ fun ResultRow.toDoctorData() = DoctorData(
 	modalitet = this[DoctorsTable.modalitet],
 	modalitet2 = this[DoctorsTable.modalitet2],
 	phone = this[DoctorsTable.phone],
-	zoom = this[DoctorsTable.zoom],
-	confirmed = this[DoctorsTable.confirmed],
-	dateUpdated = DateTime.ofEpochMilliseconds(this[DoctorsTable.dateUpdated])
+	zoom = this[DoctorsTable.zoom]
 )
 
 fun ResultRow.toDoctor() = Doctor(
@@ -76,7 +72,6 @@ fun DoctorData.data(insert: UpdateBuilder<*>) {
 		insert[modalitet2] = obj.modalitet2
 		insert[phone] = obj.phone
 		insert[zoom] = obj.zoom
-		insert[confirmed] = false
-		insert[dateUpdated] = System.currentTimeMillis()
+		insert[updated] = LocalDateTime.now()
 	}
 }

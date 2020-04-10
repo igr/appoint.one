@@ -52,11 +52,12 @@ dependencies {
     implementation "io.ktor:ktor-auth-jwt:${versions.ktor}"
     implementation "io.ktor:ktor-pebble:${versions.ktor}"
 
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.2")
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.2"
     implementation "org.mindrot:jbcrypt:0.4"
 
     implementation "org.jetbrains.exposed:exposed-core:${versions.exposed}"
     implementation "org.jetbrains.exposed:exposed-jdbc:${versions.exposed}"
+    implementation "org.jetbrains.exposed:exposed-java-time:${versions.exposed}"
     implementation "com.zaxxer:HikariCP:3.4.2"
     runtimeOnly "org.postgresql:postgresql:42.2.10"
 

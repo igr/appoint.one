@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonValue
 import domain.Id
 import domain.user.UserId
 import org.jetbrains.exposed.dao.id.EntityID
-import java.time.LocalDateTime
 
 data class DoctorId @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(
 	@JsonValue override val value: Int
@@ -61,16 +60,8 @@ data class DoctorData(
 	val modalitet: Int,
 	val modalitet2: String = "",
 	val phone: String,
-	val zoom: String,
-	val confirmed: Boolean,
-	val dateUpdated: LocalDateTime = LocalDateTime.now()
-) {
-
-	fun lockUpdateDate(): DoctorData {
-		val dateTime = LocalDateTime.of(2020, 5, 11, 1, 7, 3)
-		return copy(dateUpdated = dateTime)
-	}
-}
+	val zoom: String
+)
 
 data class Doctor(
 	val id: DoctorId,

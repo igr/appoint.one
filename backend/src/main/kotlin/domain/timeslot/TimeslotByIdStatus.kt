@@ -9,7 +9,7 @@ import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.update
 import server.DatabaseFactory.dbtx
 
-class TimeslotStatusUpdater(private val timeslotId: Int) {
+class TimeslotByIdStatus(private val timeslotId: Int) {
 
 	suspend fun reserveIfNew() = dbtx {
 		TimeslotsTable.update({
@@ -31,13 +31,12 @@ class TimeslotStatusUpdater(private val timeslotId: Int) {
 
 	suspend fun markDone(evaluationData: EvaluationData) = dbtx {
 		val evolutionId = EvaluationsTable.insertAndGetId {
-			it[timeslotId] = this@TimeslotStatusUpdater.timeslotId
+			it[timeslotId] = this@TimeslotByIdStatus.timeslotId
 			evaluationData.data(it)
 		}
 
 		TimeslotsTable.update({
-			TimeslotsTable.id eq timeslotId and
-				(TimeslotsTable.status eq TimeslotStatus.RESERVED.value)
+			TimeslotsTable.id eq timeslotId
 		}) {
 			it[status] = TimeslotStatus.DONE.value
 		}

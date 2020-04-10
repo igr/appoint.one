@@ -30,7 +30,7 @@ fun Route.timeslots() {
 
 		put("{id}/reserve") {
 			val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-			call.respond(TimeslotStatusUpdater(id).reserveIfNew())
+			call.respond(TimeslotByIdStatus(id).reserveIfNew())
 		}
 
 		authenticate {
@@ -45,7 +45,7 @@ fun Route.timeslots() {
 
 			put("{id}/cancel") {
 				val id = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-				call.respond(HttpStatusCode.NoContent, TimeslotStatusUpdater(id).cancelIfReserved())
+				call.respond(HttpStatusCode.NoContent, TimeslotByIdStatus(id).cancelIfReserved())
 			}
 
 			delete("/{id}") {

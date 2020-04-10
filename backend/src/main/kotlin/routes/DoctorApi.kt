@@ -1,14 +1,19 @@
 package routes
 
-import domain.doctor.*
+import domain.doctor.DoctorById
+import domain.doctor.DoctorTimeslots
+import domain.doctor.DoctorsLists
+import domain.doctor.toDoctorId
 import domain.user.NewDoctorUser
 import domain.user.Users
 import io.ktor.application.call
-import io.ktor.auth.authenticate
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
-import io.ktor.routing.*
+import io.ktor.routing.Route
+import io.ktor.routing.get
+import io.ktor.routing.post
+import io.ktor.routing.route
 
 fun Route.doctors() {
 
@@ -34,20 +39,6 @@ fun Route.doctors() {
 			val newDoctorAndUser = call.receive<NewDoctorUser>()
 			val doctor = Users.addAndGetDoctor(newDoctorAndUser)
 			call.respond(HttpStatusCode.Created, doctor)
-		}
-
-		authenticate {
-			put("/{id}/enable") {
-				val doctorId = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-				DoctorEnabler(doctorId).confirmDoctor()
-				call.respond(HttpStatusCode.NoContent)
-			}
-
-			put("/{id}/disable") {
-				val doctorId = call.parameters["id"]?.toInt() ?: throw IllegalStateException("ID missing")
-				DoctorEnabler(doctorId).unconfirmDoctor()
-				call.respond(HttpStatusCode.NoContent)
-			}
 		}
 	}
 

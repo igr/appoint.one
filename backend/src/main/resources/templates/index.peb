@@ -3,6 +3,5 @@
 {% block title %} Home {% endblock %}
 
 {% block content %}
-	<h1> Home </h1>
-	<p> Welcome to my home page. My name is {{ name }}.</p>
+  <h1>Oblac</h1>
 {% endblock %}

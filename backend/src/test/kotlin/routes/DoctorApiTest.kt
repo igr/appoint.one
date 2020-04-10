@@ -17,8 +17,7 @@ class DoctorApiTest : ServerTest() {
 		val retrieved = getDoctor(created.id)
 
 		// then
-		assertThat(created.data.lockUpdateDate()).isEqualTo(retrieved.data.lockUpdateDate())
+		assertThat(created.data).isEqualTo(retrieved.data)
 		assertThat(created.id).isEqualTo(retrieved.id)
 	}
-
 }

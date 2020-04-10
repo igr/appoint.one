@@ -21,7 +21,7 @@ class DoctorTest : ServerTest() {
 
 		// then
 		val savedDoctor = DoctorByUserId(userId.value).existing()
-		assertThat(savedDoctor.data.lockUpdateDate()).isEqualTo(newDoctor.doctor.lockUpdateDate())
+		assertThat(savedDoctor.data).isEqualTo(newDoctor.doctor)
 
 		Unit
 	}

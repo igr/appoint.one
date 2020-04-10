@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.mitchellbosecke.pebble.loader.ClasspathLoader
+import domain.user.toUserId
 import io.ktor.application.*
 import io.ktor.auth.Authentication
 import io.ktor.auth.jwt.jwt
@@ -78,8 +79,8 @@ fun Application.module(testing: Boolean = false) {
 			verifier(JwtConfig.verifier)
 			realm = JwtConfig.realm
 			validate {
-				val name = it.payload.getClaim("name")?.asString() ?: return@validate null
-				domain.user.UserByUsername(name).get()?.let { user ->
+				val id = it.payload.getClaim("id")?.asInt()?.toUserId() ?: return@validate null
+				domain.user.UserById(id).get()?.let { user ->
 					val token = JwtConfig.makeToken(user)
 					user.copy(token = token)
 				}
