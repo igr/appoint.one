@@ -66,10 +66,10 @@
       >
         <v-card>
           <v-card-title>
-            Izabrani termin je zauzet.
+            Izabrani termin je<br>već zauzet
           </v-card-title>
           <v-card-text>
-            Učitajte stranicu ponovo kako biste dobili najsvežije podatke.
+            Osvežite stranicu za nove podatke.
           </v-card-text>
 
           <v-card-actions>

@@ -3,11 +3,12 @@ package domain.doctor
 import domain.evaluation.EvaluationData
 import domain.patient.PatientSex
 import domain.user.NewDoctorUser
+import server.Env
 
 private fun newDoctorData(name: String, email: String = "${name}@dot.com"): DoctorData {
 	return DoctorData(
 		name = name,
-		email = "${name}@dot.com",
+		email = email,
 		sex = DoctorSex.MALE,
 		year = 1990,
 		education = 4,
@@ -27,7 +28,7 @@ fun newSimpleDoctorUser(name: String, password: String = "pass", email: String =
 		doctor = newDoctorData(name, email),
 		name = email,
 		password = password,
-		regCode = "A1"
+		regCode = Env.REG_CODE
 	)
 }
 

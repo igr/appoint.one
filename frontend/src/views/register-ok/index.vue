@@ -7,7 +7,7 @@
       cols="12"
       md="8"
     >
-      Uspešno ste registrovani. Sačekajte potvrdu.<br>
+      <h1>Uspešno ste registrovani</h1>
       <router-link to="/home">
         Nazad
       </router-link>

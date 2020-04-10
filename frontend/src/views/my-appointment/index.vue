@@ -64,7 +64,7 @@
         <v-btn
           x-large
           class="ma-4 col-12"
-          color="blue"
+          color="orange"
           @click.stop="cancelTimeslot0()"
         >
           <v-icon class="mr-4">

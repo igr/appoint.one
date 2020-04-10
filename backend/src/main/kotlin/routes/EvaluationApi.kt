@@ -5,6 +5,7 @@ import domain.evaluation.NewEvaluation
 import domain.timeslot.TimeslotById
 import io.ktor.application.call
 import io.ktor.auth.authenticate
+import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.Route
@@ -18,11 +19,11 @@ fun Route.evaluations() {
 			post {
 				val newEvaluation = call.receive<NewEvaluation>()
 
-				val evaluation = TimeslotById(newEvaluation.timeslotId)
+				val evaluationId = TimeslotById(newEvaluation.timeslotId)
 					.assertOwnership(call.user?.id)
 					.markDone(newEvaluation.data)
 
-				call.respond(evaluation)
+				call.respond(HttpStatusCode.Created, evaluationId)
 			}
 		}
 	}

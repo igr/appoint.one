@@ -22,9 +22,9 @@
         color="red"
         style="color: white;"
         class="ma-2"
-        to="/logout"
+        disabled
       >
-        Logout
+        Evaluacije
       </v-btn>
     </v-col>
   </v-row>

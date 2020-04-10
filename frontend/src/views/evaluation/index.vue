@@ -52,7 +52,7 @@
             :rules="rules.help"
             required
           />
-          <v-combobox
+          <v-select
             v-model="form.success"
             :items="[{ text:'DA', value: 1 }, { text:'NE', value: 0 }]"
             label="Da li je intervencija bila dovoljna?"
@@ -60,7 +60,7 @@
             :rules="rules.success"
             required
           />
-          <v-combobox
+          <v-select
             v-model="form.forward"
             :items="[{ text:'DA', value: 1 }, { text:'NE', value: 0 }]"
             label="Da li je korisnik upućen dalje?"
@@ -86,7 +86,7 @@
             color="primary"
             x-large
             :disabled="!valid"
-            @click.stop="save"
+            @click.prevent="save"
           >
             SNIMI
           </v-btn>
@@ -109,8 +109,8 @@ export default class extends Vue {
     sex: 2,
   } as NewEvaluation;
 
-  @Prop({ default: -1 })
-  readonly id!: number;
+  @Prop({ default: '-1' })
+  readonly id!: string;
 
   private valid = false;
 
@@ -126,10 +126,10 @@ export default class extends Vue {
       (v: string) => !!v || 'Pruzena intervencija je obavezna',
     ],
     success: [
-      (v: string) => !!v || 'Polje je obavezno',
+      (v: string) => (v !== undefined) || 'Polje je obavezno',
     ],
     forward: [
-      (v: string) => !!v || 'Polje je obavezno',
+      (v: string) => (v !== undefined) || 'Polje je obavezno',
     ],
     comment: [
       (v: string) => !!v || 'Komentar je obavezan',
@@ -137,9 +137,8 @@ export default class extends Vue {
 
   };
 
-
   async save() {
-    await EvaluationApi.postNewEvaluation(this.id, this.form);
+    await EvaluationApi.postNewEvaluation(+this.id, this.form);
     await this.$router.push('/my');
   }
 }
