@@ -28,7 +28,7 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.status >= 500) {
+    if (error.response && error.response.status >= 400) {
       AppModule.setAlertMessage(error.message);
     }
     return Promise.reject(error);
