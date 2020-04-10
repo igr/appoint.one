@@ -59,7 +59,8 @@ class TimeslotById(private val timeslotId: TimeslotId) {
 		// todo convert userid to doctorid, even its dummy
 		val count = TimeslotsTable
 			.slice(TimeslotsTable.id)
-			.select { TimeslotsTable.doctorIdRef eq userId.value }
+			.select { TimeslotsTable.id eq timeslotId.value }
+			.andWhere { TimeslotsTable.doctorIdRef eq userId.value }
 			.count()
 
 		if (count != 1L) {
