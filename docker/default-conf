@@ -3,10 +3,13 @@ server {
 
   root /usr/share/nginx/html;
 
-  location /api {
-    proxy_pass        http://localhost:8080;
+  location = /api {
+    return 302 /api/;
   }
-#  location / {
-#    try_files $uri $uri/ /index.html;
-#  }
+  location /api/ {
+    proxy_pass  http://localhost:8080/;
+  }
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
 }
