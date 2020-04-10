@@ -1,10 +1,7 @@
 package domain.doctor
 
 import DateTime
-import domain.timeslot.NewTimeslot
-import domain.timeslot.TimeslotsTable
-import domain.timeslot.data
-import domain.timeslot.toTimeslot
+import domain.timeslot.*
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.select
 import server.DatabaseFactory.dbtx
@@ -35,12 +32,12 @@ class DoctorTimeslots(private val doctorId: DoctorId) {
 			.map { newTimeslot ->
 				TimeslotsTable.insertAndGetId {
 					newTimeslot.data(it)
-				}.value
+				}.toTimeslotId()
 			}
 	}
 
 	suspend fun bindAndReturnTimeslots(dateTimeList: List<DateTime>) = dbtx {
-		val timeslots = bindTimeslots(dateTimeList);
+		val timeslots = bindTimeslots(dateTimeList).map { it.value }
 
 		TimeslotsTable.select { TimeslotsTable.id inList timeslots }.map { it.toTimeslot() }
 	}

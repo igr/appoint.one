@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonValue
 import domain.Id
 import domain.patient.PatientSex
+import domain.timeslot.TimeslotId
 import org.jetbrains.exposed.dao.id.EntityID
 
 data class EvaluationId @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(
@@ -34,11 +35,11 @@ data class EvaluationData(
 
 data class NewEvaluation(
 	val data: EvaluationData,
-	val timeslotId: Int
+	val timeslotId: TimeslotId
 )
 
 data class Evaluation(
 	val id: EvaluationId,
 	val data: EvaluationData,
-	val timeslotId: Int
+	val timeslotId: TimeslotId
 )

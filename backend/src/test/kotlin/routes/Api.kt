@@ -4,6 +4,7 @@ import domain.doctor.Doctor
 import domain.doctor.DoctorId
 import domain.timeslot.NewTimeslot
 import domain.timeslot.Timeslot
+import domain.timeslot.TimeslotId
 import domain.user.NewDoctorUser
 import domain.user.User
 import io.ktor.auth.UserPasswordCredential
@@ -58,11 +59,11 @@ fun postTimeslot(token: String, newDoctorTimeslot: NewTimeslot): List<Timeslot> 
 	}
 }
 
-fun getTimeslot(timeslotId: Int): Timeslot {
+fun getTimeslot(timeslotId: TimeslotId): Timeslot {
 	return Given {
 		contentType(ContentType.JSON)
 	} When {
-		get("/timeslots/${timeslotId}")
+		get("/timeslots/${timeslotId.value}")
 	} Then {
 		statusCode(200)
 	} Extract {
