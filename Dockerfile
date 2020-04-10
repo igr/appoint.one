@@ -21,5 +21,5 @@ COPY --from=builder /app/backend/build/libs ./server
 COPY --from=build-stage /dist /usr/share/nginx/html
 COPY ./docker/default-conf /etc/nginx/conf.d/default-conf
 EXPOSE 80
-ADD /docker/start.sh /
+ADD ./docker/start.sh /
 CMD ["./start.sh"]
