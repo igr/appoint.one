@@ -18,10 +18,23 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
+
+    <!--  Essential META Tags -->
+    <meta property="og:title" content="<%= htmlWebpackPlugin.options.title %>">
+    <meta property="og:description" content="<%= htmlWebpackPlugin.options.description %>">
+    <meta property="og:image" content="https://podrskapsihoterapeuta.com/thumbnail.jpg">
+    <meta property="og:url" content="https://podrskapsihoterapeuta.com/index.htm">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!--  Non-Essential, But Recommended -->
+    <meta property="og:site_name" content="<%= htmlWebpackPlugin.options.title %>">
+    <meta name="twitter:image:alt" content="podrskapsihoterapeuta.com">
+
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <meta name="description" content="<%= htmlWebpackPlugin.options.description %>">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
     <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet">
