@@ -23,15 +23,14 @@
           >
             <v-list-item
               v-for="item in timeslotAndDoctorsList"
-              :key="item.title"
-              :set="doc = item.doctor"
+              :key="item.timeslot.id"
             >
               <v-list-item-content>
                 <v-list-item-title>
                   {{ toDateString(item.timeslot.datetime) }}
                 </v-list-item-title>
                 <v-list-item-subtitle>
-                  <div>{{ doc.data.name }}, {{ occupationText(doc) }}</div>
+                  <div>{{ item.doctor.data.name }}, {{ occupationText(item.doctor) }}</div>
                 </v-list-item-subtitle>
               </v-list-item-content>
               <v-list-item-icon>
@@ -59,37 +58,12 @@
           </h5>
         </v-btn>
       </v-row>
-
-      <v-dialog
-        v-model="showDialog"
-        max-width="290"
-      >
-        <v-card>
-          <v-card-title>
-            Izabrani termin je<br>već zauzet
-          </v-card-title>
-          <v-card-text>
-            Osvežite stranicu za nove podatke.
-          </v-card-text>
-
-          <v-card-actions>
-            <v-spacer />
-            <v-btn
-              color="green darken-1"
-              text
-              @click="showDialog = false"
-            >
-              OK
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
     </v-col>
   </v-row>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 import TimeslotApi from '@/api/TimeslotApi';
 import { TimeslotAndDoctor } from '@/model/Timeslot';
 import { DateTime } from '@/model/DateTime';
@@ -98,14 +72,13 @@ import { AppModule } from '@/store';
 import { toDateTimeHumanString } from '@/utils/time';
 import { occupationOf } from '@/utils/data';
 import { Doctor } from '@/model/Doctor';
+import App from '@/App.vue';
 
 @Component
-export default class AvailableTimeslots extends Vue {
+export default class AvailableTimeslots extends App {
   private timeslotAndDoctorsList: Array<TimeslotAndDoctor> = [];
 
   private selected = -1;
-
-  private showDialog = false;
 
   get isSelected() {
     return this.selected !== undefined && this.selected > -1;
@@ -132,18 +105,23 @@ export default class AvailableTimeslots extends Vue {
     if (!this.isSelected) {
       return;
     }
-    const timeslotId = this.timeslotAndDoctorsList[this.selected].timeslot.id;
-
-    try {
-      const res = await TimeslotApi.reserveTimeslot(timeslotId);
-      if (res.data === 0) {
-        this.showDialog = true;
-      } else {
-        await this.$router.push(`/appointment/${timeslotId}`);
-      }
-    } catch (err) {
-      if (isStatus(err.response, 409)) {
-        AppModule.setInfo({ message: 'Rezervacija nije uspela.', type: 'error' });
+    const confirm = await this.$root.$confirm('Potvrdi termin', 'Ovom akcijom potvrđujete izabrani termin za razgovor sa izabranim terapeutom. Da li ste sigurni?');
+    if (confirm) {
+      const timeslotId = this.timeslotAndDoctorsList[this.selected].timeslot.id;
+      try {
+        const res = await TimeslotApi.reserveTimeslot(timeslotId);
+        if (res.data === 0) {
+          const refresh = await this.$root.$confirm('Izabrani termin je već zauzet', 'Osvežite stranicu za nove podatke.', { confirmText: 'Osveži' });
+          if (refresh) {
+            this.fetchData();
+          }
+        } else {
+          await this.$router.push(`/appointment/${timeslotId}`);
+        }
+      } catch (err) {
+        if (isStatus(err.response, 409)) {
+          AppModule.setInfo({ message: 'Rezervacija nije uspela.', type: 'error' });
+        }
       }
     }
   }
