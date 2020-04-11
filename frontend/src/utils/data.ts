@@ -1,3 +1,5 @@
+import { Doctor } from '@/model/Doctor';
+
 export interface DataPair {
   value: number;
   text: string;
@@ -78,18 +80,20 @@ export const occupations: DataPair[] = [
   },
 ];
 
-export function occupationOf(value: number): string {
+export function occupationOf(doc: Doctor, forPublic = true): string {
+  if (forPublic) {
+    if (doc.data.certificate === 0) {
+      return 'Psihoterapeut pod supervizijom';
+    }
+    return 'Psihoterapeut';
+  }
+  const value = doc.data.occupation;
   const lookup = occupations.find((it) => it.value === value);
   if (lookup === undefined) {
     throw new TypeError(`Invalid occupation ID ${value}`);
   }
   return lookup.text;
 }
-
-export function publicOccupationOf(): string {
-  return 'Psihoterapeut';
-}
-
 
 export const modalitets = [
   {

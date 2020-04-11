@@ -11,7 +11,7 @@
           <p class="display-2 text--primary">
             {{ doc.data.name }}
           </p>
-          <p>{{ occupationText(doc.data.occupation) }}</p>
+          <p>{{ occupationText(doc) }}</p>
           <div
             class="mb-2"
             style="font-size: 1.5em;"
@@ -119,7 +119,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { Doctor } from '@/model/Doctor';
-import { occupationOf, publicOccupationOf } from '@/utils/data';
+import { occupationOf } from '@/utils/data';
 
 @Component
 export default class DoctorProfile extends Vue {
@@ -137,8 +137,8 @@ export default class DoctorProfile extends Vue {
 
   private zoomTooltip = 'Zoom';
 
-  public occupationText(value: number): string {
-    return this.shortOccupation ? publicOccupationOf() : occupationOf(value);
+  public occupationText(doc: Doctor): string {
+    return occupationOf(doc, this.shortOccupation);
   }
 }
 </script>

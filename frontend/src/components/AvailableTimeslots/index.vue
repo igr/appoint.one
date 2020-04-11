@@ -31,7 +31,7 @@
                   {{ toDateString(item.timeslot.datetime) }}
                 </v-list-item-title>
                 <v-list-item-subtitle>
-                  <div>{{ doc.data.name }}, {{ occupationText() }}</div>
+                  <div>{{ doc.data.name }}, {{ occupationText(doc) }}</div>
                 </v-list-item-subtitle>
               </v-list-item-content>
               <v-list-item-icon>
@@ -96,7 +96,8 @@ import { DateTime } from '@/model/DateTime';
 import { isStatus } from '@/utils/http';
 import { AppModule } from '@/store';
 import { toDateTimeHumanString } from '@/utils/time';
-import { publicOccupationOf } from '@/utils/data';
+import { occupationOf } from '@/utils/data';
+import { Doctor } from '@/model/Doctor';
 
 @Component
 export default class AvailableTimeslots extends Vue {
@@ -114,8 +115,8 @@ export default class AvailableTimeslots extends Vue {
     return toDateTimeHumanString(datetime);
   }
 
-  occupationText() {
-    return publicOccupationOf();
+  occupationText(doc: Doctor) {
+    return occupationOf(doc, true);
   }
 
   created() {

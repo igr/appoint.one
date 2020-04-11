@@ -68,7 +68,7 @@ import DoctorProfile from '@/components/DoctorProfile/index.vue';
 import DayBig from '@/components/DayBig/index.vue';
 import AppoitmentApi from '@/api/AppoitmentApi';
 import { DateTime } from '@/model/DateTime';
-import { publicOccupationOf } from '@/utils/data';
+import { occupationOf } from '@/utils/data';
 
 @Component({
   name: 'Appointment',
@@ -91,7 +91,7 @@ export default class extends Vue {
     if (!this.doctor || !this.timeslot) return null;
     const data = {
       title: this.encode('Termin kod psihoterapeuta'),
-      details: this.encode(`${this.doctor.data.name} - ${publicOccupationOf()} e-mail: ${this.doctor.data.email} Tel. +381${this.doctor.data.phone}`),
+      details: this.encode(`${this.doctor.data.name} - ${occupationOf(this.doctor, true)} e-mail: ${this.doctor.data.email} Tel. +381${this.doctor.data.phone}`),
       location: this.encode(`https://podrskapsihoterapeuta.com/appointment/${this.id}`),
       dates: this.formatDateTime(this.timeslot.datetime),
     };
