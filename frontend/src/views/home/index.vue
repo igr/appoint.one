@@ -23,28 +23,40 @@
       </v-btn>
     </div>
     -->
-    <div class="col-12 text-center align-center">
+    <div class="col-12 text-center">
       <h3>
         Korisni tekstovi
       </h3>
       <v-sheet
-        class="col-12 md-6"
+        class="text-left mx-auto"
+        style="max-width:432px"
       >
-        <v-btn
-          text
-          color="blue"
-          to="/doc/1"
-        >
-          Kako sačuvati mentalno zdravlje?
-        </v-btn>
-        <br>
-        <v-btn
-          text
-          color="blue"
-          to="/doc/2"
-        >
-          Pshihoterapeuti su vam na raspolaganju!
-        </v-btn>
+        <v-list-item to="/doc/1">
+          <v-list-item-avatar>
+            <v-img src="@/assets/images/mental-health.jpg" />
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title color="blue">
+              Kako sačuvati mentalno zdravlje?
+            </v-list-item-title>
+            <v-list-item-subtitle>
+              Život preplavljen strahom može da se preživi
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/doc/2">
+          <v-list-item-avatar>
+            <v-img src="@/assets/images/call-center.jpg" />
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title color="blue">
+              Psihoterapeuti su vam na raspolaganju!
+            </v-list-item-title>
+            <v-list-item-subtitle>
+              Besplatna pomoć za sve građane! Pshihoterapeuti su vam na raspolaganju
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
       </v-sheet>
     </div>
     <v-col
