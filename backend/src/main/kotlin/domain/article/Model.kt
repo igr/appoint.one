@@ -16,4 +16,8 @@ fun String.toArticleId(): ArticleId {
 	return ArticleId(this.toInt())
 }
 
-data class Article(val articleId: ArticleId, val content: String)
+data class Article(
+	val id: ArticleId,
+	val content: String,
+	val title: String
+)
