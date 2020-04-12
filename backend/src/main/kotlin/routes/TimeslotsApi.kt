@@ -53,6 +53,15 @@ fun Route.timeslots() {
 				call.respond(HttpStatusCode.NoContent, count)
 			}
 
+			put("{id}/activate") {
+				val id = call.parameters["id"]?.toTimeslotId() ?: throw IllegalStateException("ID missing")
+				val count = TimeslotById(id)
+					.assertOwnership(call.user?.id)
+					.activateIfReserved()
+
+				call.respond(HttpStatusCode.NoContent, count)
+			}
+
 			delete("/{id}") {
 				val id = call.parameters["id"]?.toTimeslotId() ?: throw IllegalStateException("ID missing")
 				TimeslotById(id)

@@ -28,6 +28,15 @@ class TimeslotById(private val timeslotId: TimeslotId) {
 		}
 	}
 
+	suspend fun activateIfReserved() = dbtx {
+		TimeslotsTable.update({
+			TimeslotsTable.id eq timeslotId.value and
+				(TimeslotsTable.status eq TimeslotStatus.RESERVED.value)
+		}) {
+			it[status] = TimeslotStatus.NEW.value
+		}
+	}
+
 	suspend fun cancelIfReserved() = dbtx {
 		TimeslotsTable.update({
 			TimeslotsTable.id eq timeslotId.value and
