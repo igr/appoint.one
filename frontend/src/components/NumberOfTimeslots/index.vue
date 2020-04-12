@@ -1,10 +1,15 @@
 <template>
-  <v-sheet
-    color="green"
-    class="col-4 offset-4 white--text font-weight-black text-center"
+  <v-row
+    justify="center"
+    align="center"
   >
-    Ukupno slobodnih termina: {{ count }}
-  </v-sheet>
+    <v-sheet
+      color="green"
+      class="white--text font-weight-black text-center pa-6 col-md-6"
+    >
+      Ukupno slobodnih termina: <span id="count">{{ count }}</span>
+    </v-sheet>
+  </v-row>
 </template>
 
 <script lang="ts">
@@ -30,5 +35,10 @@ export default class NumberOfTimeslots extends Vue {
 }
 </script>
 
-<style>
+<style lang="scss">
+#count {
+  font-size: 1.2em;
+  position: relative;
+  top: 2px;
+}
 </style>

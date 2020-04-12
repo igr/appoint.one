@@ -24,9 +24,6 @@
     </div>
     -->
     <div class="col-12 text-center align-center">
-      <h3>
-        Korisni tekstovi
-      </h3>
       <v-sheet
         class="col-12 md-6"
       >
@@ -35,15 +32,7 @@
           color="blue"
           to="/doc/1"
         >
-          Kako sačuvati mentalno zdravlje?
-        </v-btn>
-        <br>
-        <v-btn
-          text
-          color="blue"
-          to="/doc/2"
-        >
-          Pshihoterapeuti su vam na raspolaganju!
+          BESPLATNA PSIHOTERAPIJSKA PODRŠKA U KRIZI COVID-19
         </v-btn>
       </v-sheet>
     </div>

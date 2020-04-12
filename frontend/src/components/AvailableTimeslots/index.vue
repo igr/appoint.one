@@ -1,7 +1,11 @@
 <template>
-  <v-row justify="center">
+  <v-row
+    justify="center"
+    align="center"
+  >
     <v-col
-      cols="8"
+      cols="12"
+      md="8"
     >
       <v-card
         class="mx-auto"

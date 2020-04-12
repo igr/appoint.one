@@ -1,9 +1,9 @@
 <template>
-  <v-row justify="center">
-    <v-col
-      cols="12"
-      md="8"
-    >
+  <v-row
+    justify="center"
+    align="center"
+  >
+    <v-col>
       <h1 class="heading text-center">
         IZBOR TERMINA
       </h1>

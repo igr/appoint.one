@@ -1,13 +1,15 @@
 <template>
   <v-row
-    id="doc"
     justify="center"
   >
     <v-col
       cols="12"
       md="8"
     >
-      <vue-markdown :source="data" />
+      <vue-markdown
+        id="article"
+        :source="data"
+      />
     </v-col>
   </v-row>
 </template>
@@ -37,8 +39,11 @@ export default class extends Vue {
 }
 </script>
 
-<style scoped>
-#doc {
+<style scoped lang="scss">
+#article {
   font-size: 1.3em;
+  ul {
+    margin-bottom: 1em;
+  }
 }
 </style>
