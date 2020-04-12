@@ -22,6 +22,11 @@ class TimeslotApi {
     method: 'put',
   });
 
+  activateTimeslot = (timeslotId: number) => http({
+    url: `/timeslots/${timeslotId}/activate`,
+    method: 'put',
+  });
+
   get = (timeslotId: number) => http({
     url: `/timeslots/${timeslotId}`,
     method: 'get',

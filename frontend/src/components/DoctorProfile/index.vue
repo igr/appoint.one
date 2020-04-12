@@ -28,7 +28,10 @@
             {{ doc.data.phone }}
           </div>
         </v-card-text>
-        <v-card-actions class="justify-center">
+        <v-card-actions
+          v-if="publicView"
+          class="justify-center"
+        >
           <v-tooltip top>
             <template v-slot:activator="{ on }">
               <v-btn
@@ -125,7 +128,7 @@ import { occupationOf } from '@/utils/data';
 export default class DoctorProfile extends Vue {
   @Prop() private doc!: Doctor;
 
-  @Prop({ type: Boolean, default: true }) private shortOccupation!: boolean;
+  @Prop({ type: Boolean, default: true }) private publicView!: boolean;
 
   private emailTooltip = 'Pošalji mail';
 
@@ -138,7 +141,7 @@ export default class DoctorProfile extends Vue {
   private zoomTooltip = 'Zoom';
 
   public occupationText(doc: Doctor): string {
-    return occupationOf(doc, this.shortOccupation);
+    return occupationOf(doc, this.publicView);
   }
 }
 </script>

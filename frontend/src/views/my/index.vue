@@ -6,7 +6,7 @@
     >
       <doctor-profile
         :doc="doctor"
-        :short-occupation="false"
+        :public-view="false"
       />
 
       <v-row justify="center">

@@ -9,7 +9,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import Alert from '@/components/Alert/index.vue';
-import Confirm from '@/components/Confirm.vue';
+import Confirm from '@/components/Confirm/index.vue';
 
 @Component({
   components: {

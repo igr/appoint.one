@@ -47,7 +47,7 @@
       </h1>
       <div v-if="!isLoading">
         <day-big :datetime="timeslot && timeslot.datetime" />
-        <h2 style="text-align: center">
+        <h2 class="text-center">
           status: <span class="yellow">{{ status }}</span>
         </h2>
         <v-btn
@@ -61,6 +61,20 @@
           </v-icon>
           Obriši termin
         </v-btn>
+
+        <v-btn
+          x-large
+          class="ma-4 col-12"
+          color="purple"
+          style="color: white"
+          @click.stop="activateTimeslot0()"
+        >
+          <v-icon class="mr-4">
+            mdi-plus
+          </v-icon>
+          Aktiviraj termin
+        </v-btn>
+
         <v-btn
           x-large
           class="ma-4 col-12"
@@ -81,8 +95,9 @@
           <v-icon class="mr-4">
             mdi-check
           </v-icon>
-          Završeno
+          Završeno: Evaluacija
         </v-btn>
+
         <v-btn
           x-large
           class="ma-4 col-12"
@@ -138,8 +153,8 @@ export default class extends Vue {
     this.isLoading = false;
   }
 
-  async removeTimeslot0() {
-    this.dialog2.text = 'Da li želite da obrište termin?';
+  removeTimeslot0() {
+    this.dialog2.text = 'Da li želite da OBRIŠETE termin?';
     this.dialog2.action = 1;
     this.dialog2.show = true;
   }
@@ -149,7 +164,18 @@ export default class extends Vue {
     await this.$router.push('/my');
   }
 
-  async cancelTimeslot0() {
+  activateTimeslot0() {
+    this.dialog2.text = 'Da li želite da AKTIVIRATE termin?';
+    this.dialog2.action = 3;
+    this.dialog2.show = true;
+  }
+
+  async activateTimeslot() {
+    await TimeslotApi.activateTimeslot(this.id);
+    await this.$router.push('/my');
+  }
+
+  cancelTimeslot0() {
     this.dialog2.text = 'Da li želite da označite termin kao OTKAZAN?';
     this.dialog2.action = 2;
     this.dialog2.show = true;
@@ -166,6 +192,7 @@ export default class extends Vue {
     switch (action) {
       case 1: this.removeTimeslot(); break;
       case 2: this.cancelTimeslot(); break;
+      case 3: this.activateTimeslot(); break;
       default: throw Error('BAD action');
     }
   }
