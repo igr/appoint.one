@@ -206,8 +206,9 @@ export default class extends Vue {
     });
   }
 
+  // eslint-disable-next-line no-unused-vars
   private getDisplayMediaError(error: any) {
-    console.log(`Media error: ${JSON.stringify(error)}`);
+    // console.log(`Media error: ${JSON.stringify(error)}`);
   }
 }
 

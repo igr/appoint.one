@@ -62,7 +62,7 @@ export const routes: RouteConfig[] = [
       {
         path: '/room/:id',
         props: true,
-        component: () => import('@/views/room.vue'),
+        component: () => import('@/views/room/index.vue'),
       },
       {
         path: '/my',

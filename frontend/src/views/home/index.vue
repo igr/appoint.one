@@ -23,16 +23,17 @@
       </v-btn>
     </div>
     -->
-    <div class="col-12 text-center align-center">
+    <div class="col-12 text-center">
       <v-sheet
-        class="col-12 md-6"
+        class="text-left mx-auto"
+        style="max-width:432px"
       >
         <v-btn
           text
           color="blue"
           to="/doc/1"
         >
-          BESPLATNA PSIHOTERAPIJSKA PODRŠKA U KRIZI COVID-19
+          BESPLATNA PSIHOTERAPIJSKA PODRŠKA<br>U KRIZI COVID-19
         </v-btn>
       </v-sheet>
     </div>

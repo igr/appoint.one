@@ -87,7 +87,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { AppModule } from '@/store';
-import VueWebrtc from '@/components/WebRTC.vue';
+import VueWebrtc from '@/components/WebRTC/index.vue';
 
 @Component({
   name: 'room',
@@ -156,8 +156,9 @@ export default class extends Vue {
     }
   }
 
+  // eslint-disable-next-line no-unused-vars
   logEvent(event: string) {
-    console.log('Event : ', event);
+    // console.log('Event : ', event);
   }
 }
 </script>
