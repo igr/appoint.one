@@ -60,6 +60,11 @@ export const routes: RouteConfig[] = [
         component: () => import('@/views/appointment/index.vue'),
       },
       {
+        path: '/room/:id',
+        props: true,
+        component: () => import('@/views/room.vue'),
+      },
+      {
         path: '/my',
         component: () => import('@/views/my/index.vue'),
         meta: {

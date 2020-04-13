@@ -12,6 +12,7 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "js-cookie": "^2.2.1",
+    "rtcmulticonnection": "^3.7.0",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-i18n": "^8.16.0",
