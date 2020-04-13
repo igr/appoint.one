@@ -43,7 +43,24 @@
             >
               mdi-google
             </v-icon>
-            GUGL kalendar
+            Google kalendar
+          </v-btn>
+        </v-row>
+        <v-row justify="center">
+          <v-btn
+            dark
+            x-large
+            color="primary"
+            :to="{ path: `/room/${id}` }"
+            class="ma-2 col-10 col-md-4"
+          >
+            <v-icon
+              dark
+              class="mr-2"
+            >
+              mdi-headset
+            </v-icon>
+            Uđi u sobu za razgovor
           </v-btn>
         </v-row>
 

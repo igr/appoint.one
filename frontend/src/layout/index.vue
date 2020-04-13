@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="fill-height">
     <v-app-bar
       app
       color="primary"
@@ -56,7 +56,7 @@
         </v-list>
       </v-menu>
     </v-app-bar>
-    <v-content>
+    <v-content class="fill-height">
       <info />
       <v-container
         fluid
