@@ -164,7 +164,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { UserModule } from '@/store';
 import { Doctor } from '@/model/Doctor';
 import DoctorApi from '@/api/DoctorApi';
-import { Timeslot, TimeslotStatus } from '@/model/Timeslot';
+import { Timeslot, TimeslotStatus, timeslotStatusName } from '@/model/Timeslot';
 import {
   isInFuture, toDateTimeHumanString, toDateTimeString, toTimeString,
 } from '@/utils/time';
@@ -246,7 +246,7 @@ export default class extends Vue {
 
   get events() {
     return this.timeslots.map((ts) => ({
-      name: TimeslotStatus[ts.status],
+      name: timeslotStatusName(ts.status),
       start: toDateTimeString(ts.datetime),
       end: this.formatDatePlus30(ts.datetime),
       color: this.timeslotStatusColor[TimeslotStatus.RESERVED],
