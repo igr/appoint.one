@@ -1,6 +1,8 @@
 package domain.timeslot
 
+import org.jetbrains.exposed.sql.alias
 import org.jetbrains.exposed.sql.andWhere
+import org.jetbrains.exposed.sql.count
 import org.jetbrains.exposed.sql.selectAll
 import server.DatabaseFactory.dbtx
 import toDateTime
@@ -15,6 +17,21 @@ object TimeslotsCount {
 			.andWhere { TimeslotsTable.datetime greaterEq dateTime.value }
 			.andWhere { TimeslotsTable.status eq TimeslotStatus.NEW.value }
 			.count()
+	}
+
+	suspend fun stats() = dbtx {
+		val count = TimeslotsTable.status.count().alias("count")
+
+		TimeslotsTable
+			.slice(TimeslotsTable.status, count)
+			.selectAll()
+			.groupBy(TimeslotsTable.status)
+			.map {
+				TimeslotStatusCount(
+					TimeslotStatus.of(it[TimeslotsTable.status]),
+					it[count]
+				)
+			}
 	}
 
 }

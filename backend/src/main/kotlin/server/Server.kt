@@ -105,6 +105,7 @@ fun Application.module(testing: Boolean = false) {
 		appointment()
 		evaluations()
 		docs()
+		stats()
 	}
 
 	with(environment.monitor) {

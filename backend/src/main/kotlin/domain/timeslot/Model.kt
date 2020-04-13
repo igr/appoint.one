@@ -52,3 +52,8 @@ data class NewTimeslot(
 	val datetime: DateTime,
 	val doctorId: DoctorId
 )
+
+data class TimeslotStatusCount(
+	val status: TimeslotStatus,
+	val count: Long
+)
