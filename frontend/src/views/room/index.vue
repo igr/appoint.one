@@ -140,7 +140,7 @@ export default class extends Vue {
   }
 
   onError(error: any) {
-    AppModule.setAlertMessage(error);
+    AppModule.setAlert({ message: error, type: 'error' });
     this.isLoading = false;
   }
 

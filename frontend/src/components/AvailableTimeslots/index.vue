@@ -124,7 +124,7 @@ export default class AvailableTimeslots extends App {
         }
       } catch (err) {
         if (isStatus(err.response, 409)) {
-          AppModule.setInfo({ message: 'Rezervacija nije uspela.', type: 'error' });
+          AppModule.setAlert('Rezervacija nije uspela.', 'error');
         }
       }
     }

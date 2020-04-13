@@ -57,7 +57,6 @@
       </v-menu>
     </v-app-bar>
     <v-content class="fill-height">
-      <info />
       <v-container
         fluid
         class="fill-height"
@@ -70,13 +69,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Info from '@/components/Info/index.vue';
 import { UserModule } from '@/store';
 
 @Component({
   name: 'Layout',
   components: {
-    Info,
   },
 })
 export default class extends Vue {

@@ -31,10 +31,10 @@ http.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status >= 400) {
       if (error.response.status === 401) {
-        AppModule.setInfo({ message: 'Ulogujte se ponovo.', type: 'error' });
+        AppModule.setAlert({ message: 'Ulogujte se ponovo.', type: 'error' });
         UserModule.LogOut().then(() => router.push('/login'));
       }
-      AppModule.setAlertMessage(error.message);
+      AppModule.setAlert({ message: error.message, type: 'error' });
     }
     return Promise.reject(error);
   },

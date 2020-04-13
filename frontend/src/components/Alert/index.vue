@@ -2,16 +2,18 @@
   <v-snackbar
     v-model="showMessage"
     top="top"
-    color="red"
+    :color="color"
     :timeout="5000"
   >
-    {{ message }}
+    <span id="alert">{{ alert.message }}</span>
     <v-btn
-      text
+      icon
       dark
       @click.native="close"
     >
-      close
+      <v-icon>
+        mdi-close
+      </v-icon>
     </v-btn>
   </v-snackbar>
 </template>
@@ -23,11 +25,11 @@ import { AppModule } from '@/store';
 @Component
 export default class Alert extends Vue {
   public close() {
-    AppModule.clearAlertMessage();
+    AppModule.clearAlert();
   }
 
   get showMessage() {
-    return this.message !== '';
+    return this.alert.message !== '';
   }
 
   set showMessage(val: boolean) {
@@ -36,8 +38,23 @@ export default class Alert extends Vue {
     }
   }
 
-  get message() {
-    return AppModule.alertMessage;
+  get alert() {
+    return AppModule.alert;
+  }
+
+  get color() {
+    switch (this.alert.type) {
+      case 'info': return 'info';
+      case 'success': return 'success';
+      default: return 'red';
+    }
   }
 }
 </script>
+
+<style lang="scss">
+span#alert {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+</style>

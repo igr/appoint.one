@@ -69,9 +69,9 @@ export default class extends Vue {
     try {
       await TimeslotApi.post(this.doctor.id, dt);
       await this.$router.push('/my');
-      AppModule.setInfo({ message: 'Termin je sačuvan', type: 'info' });
+      AppModule.setAlert({ message: 'Termin je sačuvan.', type: 'success' });
     } catch (err) {
-      AppModule.setInfo({ message: 'Greška', type: 'error' });
+      AppModule.setAlert({ message: 'Greška', type: 'error' });
     }
   }
 }

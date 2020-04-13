@@ -117,7 +117,11 @@ export default class extends Vue {
     (this.$refs.form as Vue & { reset: () => void }).reset();
 
     if (success !== 200) {
-      AppModule.setInfo({ message: `Logovanje nije uspelo: ${success}`, type: 'error' });
+      if (success === 401) {
+        AppModule.setAlert({ message: 'Neuspešno logovanje.', type: 'error' });
+      } else {
+        AppModule.setAlert({ message: `Logovanje nije uspelo: ${success}`, type: 'error' });
+      }
       this.loading = false;
       return;
     }
