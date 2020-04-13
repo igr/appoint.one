@@ -8,7 +8,16 @@
         :doc="doctor"
         :public-view="false"
       />
-
+      <v-row justify="center">
+        <v-btn
+          dark
+          large
+          class="col-12 mt-6 col-md-6"
+          to="/my/edit"
+        >
+          <v-icon>mdi-edit</v-icon> Izmena profila
+        </v-btn>
+      </v-row>
       <v-row justify="center">
         <v-btn
           dark

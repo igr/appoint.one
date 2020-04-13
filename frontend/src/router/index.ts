@@ -70,6 +70,16 @@ export const routes: RouteConfig[] = [
         },
       },
       {
+        path: '/my/edit',
+        component: () => import('@/views/my-edit/index.vue'),
+        meta: {
+          permission: {
+            role: ['DOC'],
+            access: true,
+          },
+        },
+      },
+      {
         path: '/my/newtime',
         component: () => import('@/views/my-newtime/index.vue'),
         meta: {

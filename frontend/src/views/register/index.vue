@@ -52,7 +52,7 @@
                 v-model="form.regCode"
                 prepend-icon="mdi-key"
                 label="Sigurnosni kod (dobijen iz udruženja)"
-                :rules="rules.securityCode"
+                :rules="rules.required"
                 required
               />
               <v-row
@@ -82,7 +82,7 @@
                 ref="nameRef"
                 v-model="form.doctor.name"
                 label="Ime i prezime"
-                :rules="rules.nameAndSurname"
+                :rules="rules.required"
                 prepend-icon="mdi-human"
                 required
               />
@@ -163,7 +163,7 @@
                 :items="occupationItems"
                 hide-no-data
                 hide-selected
-                :rules="rules.profession"
+                :rules="rules.required"
                 label="Zanimanje"
               />
               <v-text-field
@@ -171,7 +171,7 @@
                 ref="professionDrugoRef"
                 v-model="form.doctor.occupation2"
                 label="Zanimanje (uneti ručno)"
-                :rules="rules.professionDrugo"
+                :rules="rules.required"
                 required
               />
               <v-text-field
@@ -179,7 +179,7 @@
                 ref="professionSpecialRef"
                 v-model="form.doctor.occupationSpec"
                 label="Vrsta specializacije"
-                :rules="rules.professionSpecial"
+                :rules="rules.required"
                 required
               />
 
@@ -218,7 +218,7 @@
                 :items="modalitetItems"
                 hide-no-data
                 hide-selected
-                :rules="rules.modalitet"
+                :rules="rules.required"
                 label="Modalitet"
               />
               <v-text-field
@@ -226,7 +226,7 @@
                 ref="modalitetDrugoRef"
                 v-model="form.doctor.modalitet2"
                 label="Modalitet (uneti ručno)"
-                :rules="rules.modalitetDrugo"
+                :rules="rules.required"
                 required
               />
 
@@ -264,7 +264,7 @@
               <v-text-field
                 ref="phoneRef"
                 v-model="form.doctor.phone"
-                label="Telefon"
+                label="Telefon (u međunarodnom formatu, na pr.: +3816411111)"
                 prepend-icon="mdi-phone"
                 :rules="rules.phoneNumber"
                 required
@@ -294,7 +294,7 @@
                   :disabled="!($refs.phoneRef.valid)"
                   @click.prevent="handleLogin"
                 >
-                  SUBMIT
+                  POŠALJI
                 </v-btn>
               </v-row>
             </v-stepper-content>
@@ -311,7 +311,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { NewDoctor } from '@/model/NewDoctor';
 import DoctorApi from '@/api/DoctorApi';
 import { modalitets, occupations } from '@/utils/data';
-import { isValidEmail, isValidPhoneNumber } from '@/utils/validate';
+import { validationRules } from '@/utils/validate';
 import { DoctorData } from '@/model/DoctorData';
 
 @Component({
@@ -357,32 +357,10 @@ export default class extends Vue {
   }
 
   private rules = {
-    securityCode: [
-      (v: string) => !!v || 'Sigurnosni kod je obavezan',
-    ],
-    nameAndSurname: [
-      (v: string) => !!v || 'Ime i prezime su obavezni',
-    ],
-    email: [
-      (v: string) => !!v || 'E-mail je obavezan',
-      (v: string) => isValidEmail(v) || 'E-mail mora biti validan',
-    ],
-    password: [
-      (v: string) => !!v || 'Lozinka je obavezna',
-      (v: string) => (v && v.length >= 5) || 'Lozinka mora imati najmanje 5 karaktera',
-    ],
+    ...validationRules,
     year: [
-      (v: number) => !!v || 'Godina rodjena je obavezna',
-      (v: number) => (v <= 2002 && v >= 1900) || 'Godina rodjena mora biti validna (1900 - 2002)',
-    ],
-    profession: [
-      (v: number) => !!v || 'Zanimanje je obavezno',
-    ],
-    professionDrugo: [
-      (v: number) => !!v || 'Drugo zanimanje je obavezno',
-    ],
-    professionSpecial: [
-      (v: number) => !!v || 'Vrsta specijalizacije je obavezna',
+      (v: number) => !!v || 'Godina rođena je obavezna',
+      (v: number) => (v <= 2002 && v >= 1900) || 'Godina rođena mora biti validna (1900 - 2002)',
     ],
     certificate: [
       (v: number) => (v >= 0 && v <= 3) || 'Polje je obavezno',
@@ -390,16 +368,6 @@ export default class extends Vue {
     educationYear: [
       (v: number) => !!v || 'Godine edukacije su obavezne',
       (v: number) => (v <= 20 && v >= 0) || 'Godine edukacije moraju biti validne (0 - 20)',
-    ],
-    modalitet: [
-      (v: number) => !!v || 'Modalitet je obavezan',
-    ],
-    modalitetDrugo: [
-      (v: number) => !!v || 'Drugi modalitet je obavezan',
-    ],
-    phoneNumber: [
-      (v: string) => !!v || 'Broj telefona je obavezan',
-      (v: string) => isValidPhoneNumber(v) || 'Broj telefona mora biti validan: sadrži cifre i znakove: /, ,-',
     ],
   };
 

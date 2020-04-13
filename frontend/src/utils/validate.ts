@@ -65,3 +65,23 @@ export const isValidZoomID = (zoom: number) => {
   }
   return true;
 };
+
+
+export const validationRules = {
+  required: [
+    (v: string) => !!v || 'Vrednost je obavezna',
+  ],
+  email: [
+    (v: string) => !!v || 'E-mail je obavezan',
+    (v: string) => isValidEmail(v) || 'E-mail mora biti u ispravnom formatu.',
+  ],
+  password: [
+    (v: string) => !!v || 'Lozinka je obavezna',
+    (v: string) => (v && v.length >= 5) || 'Lozinka mora imati najmanje 5 karaktera',
+  ],
+  phoneNumber: [
+    (v: string) => !!v || 'Broj telefona je obavezan',
+    (v: string) => isValidPhoneNumber(v) || 'Broj telefona mora biti validan.',
+  ],
+
+};

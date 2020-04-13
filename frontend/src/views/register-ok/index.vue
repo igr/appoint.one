@@ -7,7 +7,10 @@
       cols="12"
       md="8"
     >
-      <h1>Uspešno ste registrovani</h1>
+      <h1>Uspešno ste registrovani.</h1>
+      <p>
+        Sačuvajte vašu lozinku na sigurnom mestu.
+      </p>
       <router-link to="/home">
         Nazad
       </router-link>

@@ -1,5 +1,6 @@
 import http from '@/utils/http';
 import { NewDoctor } from '@/model/NewDoctor';
+import { DoctorData } from '@/model/DoctorData';
 
 class DoctorApi {
   getAll = () => http({
@@ -23,6 +24,12 @@ class DoctorApi {
         sex: newDoctor.doctor.sex ? 'MALE' : 'FEMALE',
       },
     },
+  });
+
+  updateDoctorData = (docId: number, doc: DoctorData) => http({
+    url: `doctors/${docId}`,
+    method: 'put',
+    data: doc,
   });
 
   getDoctorTimeslots = (docId: number) => http({
