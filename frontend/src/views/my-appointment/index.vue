@@ -62,6 +62,7 @@
           Obriši termin
         </v-btn>
 
+
         <v-btn
           x-large
           class="ma-4 col-12"
@@ -72,7 +73,7 @@
           <v-icon class="mr-4">
             mdi-plus
           </v-icon>
-          Aktiviraj termin
+          Oslobodi zauzeti termin
         </v-btn>
 
         <v-btn
@@ -84,7 +85,7 @@
           <v-icon class="mr-4">
             mdi-cancel
           </v-icon>
-          Otkaži termin
+          Označi termin kao otkazan
         </v-btn>
         <v-btn
           x-large
@@ -95,7 +96,7 @@
           <v-icon class="mr-4">
             mdi-check
           </v-icon>
-          Završeno: Evaluacija
+          Završen: Evaluacija
         </v-btn>
 
         <v-btn
@@ -213,5 +214,5 @@ export default class extends Vue {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 </style>
