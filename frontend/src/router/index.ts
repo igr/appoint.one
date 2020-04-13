@@ -115,6 +115,10 @@ export const routes: RouteConfig[] = [
     ],
   },
   {
+    path: '/stats',
+    component: () => import('@/views/stats/index.vue'),
+  },
+  {
     path: '/admin',
     component: Layout,
     redirect: '/admin/home',
