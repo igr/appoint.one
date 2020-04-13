@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { AppModule, UserModule } from '@/store';
+import router from '@/router';
 
 const http = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
@@ -29,6 +30,10 @@ http.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status >= 400) {
+      if (error.response.status === 401) {
+        AppModule.setInfo({ message: 'Ulogujte se ponovo.', type: 'error' });
+        UserModule.LogOut().then(() => router.push('/login'));
+      }
       AppModule.setAlertMessage(error.message);
     }
     return Promise.reject(error);
