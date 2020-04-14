@@ -7,8 +7,11 @@ class TimeslotApi {
     method: 'get',
   });
 
-  listNextTimeslots = () => http({
+  listNextTimeslots = (date: string) => http({
     url: '/timeslots/available',
+    params: {
+      date,
+    },
     method: 'get',
   });
 
