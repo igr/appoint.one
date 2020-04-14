@@ -116,8 +116,7 @@ export default class AvailableTimeslots extends App {
   private date = new Date().toISOString().substr(0, 10);
 
   @Watch('date')
-  async onPropertyChanged(value: string, oldValue: string) {
-    console.log(`value changed ${value} ${oldValue}`);
+  async onPropertyChanged(value: string) {
     this.selected = -1;
     const { data } = await TimeslotApi.listNextTimeslots(value);
     this.timeslotAndDoctorsList = data;
