@@ -15,7 +15,34 @@
           color="accent-4"
           dark
         >
-          <v-toolbar-title>Sledeći termini:</v-toolbar-title>
+          <v-toolbar-title>
+            Sledeći termini ({{ dateAsString }})
+          </v-toolbar-title>
+          <v-spacer />
+          <v-menu
+            v-model="calmenu"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            min-width="290px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-btn
+                icon
+                @click="calmenu = true"
+                v-on="on"
+              >
+                <v-icon>
+                  mdi-calendar
+                </v-icon>
+              </v-btn>
+            </template>
+            <v-date-picker
+              v-model="date"
+              no-title
+              scrollable
+              @input="calmenu = false"
+            />
+          </v-menu>
         </v-toolbar>
         <v-list
           nav
@@ -31,7 +58,7 @@
             >
               <v-list-item-content>
                 <v-list-item-title>
-                  {{ toDateString(item.timeslot.datetime) }}
+                  {{ toDateHumanString(item.timeslot.datetime) }}
                 </v-list-item-title>
                 <v-list-item-subtitle>
                   <div>{{ item.doctor.data.name }}, {{ occupationText(item.doctor) }}</div>
@@ -67,13 +94,13 @@
 </template>
 
 <script lang="ts">
-import { Component } from 'vue-property-decorator';
+import { Component, Watch } from 'vue-property-decorator';
 import TimeslotApi from '@/api/TimeslotApi';
 import { TimeslotAndDoctor } from '@/model/Timeslot';
 import { DateTime } from '@/model/DateTime';
 import { isStatus } from '@/utils/http';
 import { AppModule } from '@/store';
-import { toDateTimeHumanString } from '@/utils/time';
+import { toDateString, toDateTime, toDateTimeHumanString } from '@/utils/time';
 import { occupationOf } from '@/utils/data';
 import { Doctor } from '@/model/Doctor';
 import App from '@/App.vue';
@@ -84,12 +111,29 @@ export default class AvailableTimeslots extends App {
 
   private selected = -1;
 
+  private calmenu = false;
+
+  private date = new Date().toISOString().substr(0, 10);
+
+  @Watch('date')
+  async onPropertyChanged(value: string, oldValue: string) {
+    console.log(`value changed ${value} ${oldValue}`);
+    this.selected = -1;
+    const { data } = await TimeslotApi.listNextTimeslots(value);
+    this.timeslotAndDoctorsList = data;
+  }
+
   get isSelected() {
     return this.selected !== undefined && this.selected > -1;
   }
 
-  toDateString(datetime: DateTime) {
+  toDateHumanString(datetime: DateTime) {
     return toDateTimeHumanString(datetime);
+  }
+
+  get dateAsString() {
+    const dt = toDateTime(this.date, '00:00');
+    return toDateString(dt);
   }
 
   occupationText(doc: Doctor) {
@@ -101,7 +145,7 @@ export default class AvailableTimeslots extends App {
   }
 
   private async fetchData() {
-    const { data } = await TimeslotApi.listNextTimeslots();
+    const { data } = await TimeslotApi.listNextTimeslots(this.date);
     this.timeslotAndDoctorsList = data;
   }
 

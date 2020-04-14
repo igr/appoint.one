@@ -24,10 +24,9 @@ object DatabaseFactory {
 				EvaluationsTable
 			)
 
-			// todo TEMPORARY DISABLED!
-			//if (isDev) {
-			createDevData()
-			//}
+			if (isDev) {
+				createDevData()
+			}
 		}
     }
 

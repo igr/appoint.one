@@ -19,6 +19,10 @@ data class DateTime(val year: Int, val month: Int, val day: Int, val hour: Int, 
 		fun ofEpochMilliseconds(epochMillis: Long): LocalDateTime {
 			return Instant.ofEpochMilli(epochMillis).atZone(ZoneId.systemDefault()).toLocalDateTime()
 		}
+
+		fun ofDate(date: String): DateTime {
+			return DateTime((date.replace("-", "") + "0000").toLong())
+		}
 	}
 
 	fun toLocalDateTime(): LocalDateTime {

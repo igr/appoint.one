@@ -1,5 +1,6 @@
 package routes
 
+import DateTime
 import auth.user
 import domain.doctor.DoctorTimeslots
 import domain.timeslot.*
@@ -19,7 +20,12 @@ fun Route.timeslots() {
 		}
 
 		get("/available") {
-			call.respond(TimeslotsNextSet(5).get())
+			val date = call.parameters["date"]
+
+			val ts = TimeslotsNextSet();
+			val list = if (date == null) ts.get() else ts.from(DateTime.ofDate(date))
+
+			call.respond(list)
 		}
 
 		get("/{id}") {
