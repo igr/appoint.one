@@ -46,7 +46,7 @@
             Google kalendar
           </v-btn>
         </v-row>
-        <v-row justify="center">
+        <!--v-row justify="center">
           <v-btn
             dark
             x-large
@@ -62,7 +62,7 @@
             </v-icon>
             Uđi u sobu za razgovor
           </v-btn>
-        </v-row>
+        </v-row-->
 
         <doctor-profile :doc="doctor" />
         <p class="text-center text-uppercase mt-6">

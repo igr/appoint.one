@@ -17,12 +17,13 @@ class TimeslotsNextSet(private val minItems: Int = 10) {
 	}
 
 	suspend fun from(from: DateTime): List<TimeslotAndDoctor> = dbtx {
-		val dateTimeInt = from.value
+		val dateTimeNow = DateTime.now()
 		val dateTimeEndInt = from.copy(day = from.day + 1).value
 
 		val thisDayTimeSlots = (TimeslotsTable innerJoin DoctorsTable)
 			.select { TimeslotsTable.status eq TimeslotStatus.NEW.value }
-			.andWhere { TimeslotsTable.datetime greaterEq dateTimeInt }
+			.andWhere { TimeslotsTable.datetime greaterEq dateTimeNow.value }
+			.andWhere { TimeslotsTable.datetime greaterEq from.value }
 			.andWhere { TimeslotsTable.datetime less dateTimeEndInt }
 			.orderBy(TimeslotsTable.datetime)
 			.map {
@@ -35,6 +36,7 @@ class TimeslotsNextSet(private val minItems: Int = 10) {
 
 			val nextTimeslots = (TimeslotsTable innerJoin DoctorsTable)
 				.select { TimeslotsTable.status eq TimeslotStatus.NEW.value }
+				.andWhere { TimeslotsTable.datetime greaterEq dateTimeNow.value }
 				.andWhere { TimeslotsTable.datetime greaterEq dateTimeEndInt }
 				.orderBy(TimeslotsTable.datetime)
 				.limit(remainingCount)
