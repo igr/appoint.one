@@ -47,15 +47,13 @@
         <v-list
           nav
           two-line
-          style="max-height: 400px"
-          class="overflow-y-auto"
         >
           <v-list-item-group
             v-model="selected"
             active-class="pink--text"
           >
             <v-list-item
-              v-for="item in timeslotAndDoctorsList"
+              v-for="(item, index) in timeslotAndDoctorsList"
               :key="item.timeslot.id"
             >
               <v-list-item-content>
@@ -70,10 +68,19 @@
                   </span>
                 </v-list-item-title>
                 <v-list-item-subtitle>
-                  <div>{{ item.doctor.data.name }}, {{ occupationText(item.doctor) }}</div>
+                  {{ item.doctor.data.name }}, {{ occupationText(item.doctor) }}
                 </v-list-item-subtitle>
               </v-list-item-content>
               <v-list-item-icon>
+                <v-btn
+                  v-if="index === selected"
+                  color="primary"
+                  class="mr-2 z-50"
+                  :disabled="!isSelected"
+                  @click.stop="submit"
+                >
+                  Potvrdi
+                </v-btn>
                 <v-icon>chat_bubble</v-icon>
               </v-list-item-icon>
             </v-list-item>
