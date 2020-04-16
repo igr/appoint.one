@@ -52,7 +52,7 @@
         >
           <v-list-item-group
             v-model="selected"
-            active-class="green--text"
+            active-class="pink--text"
           >
             <v-list-item
               v-for="item in timeslotAndDoctorsList"
