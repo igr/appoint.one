@@ -47,18 +47,27 @@
         <v-list
           nav
           two-line
+          style="max-height: 400px"
+          class="overflow-y-auto"
         >
           <v-list-item-group
             v-model="selected"
-            active-class="pink--text"
+            active-class="green--text"
           >
             <v-list-item
               v-for="item in timeslotAndDoctorsList"
               :key="item.timeslot.id"
             >
               <v-list-item-content>
-                <v-list-item-title>
-                  {{ toDateHumanString(item.timeslot.datetime) }}
+                <v-list-item-title
+                  class="pt-4 pb-4"
+                >
+                  <span
+                    class="font-weight-bold green white--text pa-2"
+                  >
+                    {{ toDateOnlyHumanString(item.timeslot.datetime) }}
+                    {{ toTimeOnlyHumanString(item.timeslot.datetime) }}
+                  </span>
                 </v-list-item-title>
                 <v-list-item-subtitle>
                   <div>{{ item.doctor.data.name }}, {{ occupationText(item.doctor) }}</div>
@@ -78,6 +87,7 @@
         <v-btn
           color="primary"
           class="ma-auto"
+          x-large
           :disabled="!isSelected"
           @click="submit"
         >
@@ -100,7 +110,9 @@ import { TimeslotAndDoctor } from '@/model/Timeslot';
 import { DateTime } from '@/model/DateTime';
 import { isStatus } from '@/utils/http';
 import { AppModule } from '@/store';
-import { toDateString, toDateTime, toDateTimeHumanString } from '@/utils/time';
+import {
+  toDateString, toDateTime, toTimeString,
+} from '@/utils/time';
 import { occupationOf } from '@/utils/data';
 import { Doctor } from '@/model/Doctor';
 import App from '@/App.vue';
@@ -126,8 +138,12 @@ export default class AvailableTimeslots extends App {
     return this.selected !== undefined && this.selected > -1;
   }
 
-  toDateHumanString(datetime: DateTime) {
-    return toDateTimeHumanString(datetime);
+  toDateOnlyHumanString(datetime: DateTime) {
+    return toDateString(datetime);
+  }
+
+  toTimeOnlyHumanString(datetime: DateTime) {
+    return toTimeString(datetime);
   }
 
   get dateAsString() {
@@ -175,5 +191,11 @@ export default class AvailableTimeslots extends App {
 }
 </script>
 
-<style>
+<style lang="scss">
+span.date {
+  font-weight: bold;
+}
+span.time {
+  font-size: 2em;
+}
 </style>
