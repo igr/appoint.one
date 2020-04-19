@@ -79,7 +79,7 @@ fun userLogin(credentials: UserPasswordCredential): User {
 		body(credentials)
 		contentType(ContentType.JSON)
 	} When {
-		post("/users/login")
+		post("/login")
 	} Then {
 		statusCode(200)
 	} Extract {
@@ -92,7 +92,7 @@ fun userGet(token: String): User {
 		header("Authorization", "Bearer $token")
 		contentType(ContentType.JSON)
 	} When {
-		get("/users")
+		get("/user")
 	} Then {
 		statusCode(200)
 	} Extract {

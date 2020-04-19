@@ -6,6 +6,7 @@ import domain.doctor.DoctorsTable
 import domain.evaluation.EvaluationsTable
 import domain.timeslot.TimeslotsTable
 import domain.user.UsersTable
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -25,7 +26,9 @@ object DatabaseFactory {
 			)
 
 			if (isDev) {
-				createDevData()
+				runBlocking {
+					createDevData()
+				}
 			}
 		}
     }

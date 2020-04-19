@@ -1,39 +1,53 @@
 package routes
 
 import auth.user
-import domain.doctor.*
+import domain.doctor.DoctorData
+import domain.doctor.toDoctorId
+import domain.doctor.verbs.*
 import domain.user.NewDoctorUser
-import domain.user.Users
+import domain.user.verbs.AddDoctor
 import io.ktor.application.call
 import io.ktor.auth.authenticate
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.*
+import server.DatabaseFactory.dbtx
 
 fun Route.doctors() {
 
 	route("/doctors") {
 
 		get {
-			call.respond(DoctorsLists.allDoctorsOrdered())
+			dbtx {
+				call.respond(ListDoctorsOrdered())
+			}
 		}
 
 		get("/{id}") {
 			val doctorId = call.parameters["id"]?.toDoctorId() ?: throw IllegalStateException("ID missing")
-			val doctor = DoctorById(doctorId).get()
-			doctor?.let { call.respond(it) } ?: call.respond(HttpStatusCode.NotFound)
+			dbtx {
+				val doctor = FindDoctorById(doctorId)
+				doctor?.let { call.respond(it) } ?: call.respond(HttpStatusCode.NotFound)
+			}
 		}
 
 		get("/{id}/timeslots") {
 			val doctorId = call.parameters["id"]?.toDoctorId() ?: throw IllegalStateException("ID missing")
-			val timeslots = DoctorTimeslots(doctorId).listTimeslots()
-			call.respond(timeslots)
+			dbtx {
+				val timeslots = ListDoctorsTimeslots(doctorId)
+				call.respond(timeslots)
+			}
 		}
 
 		post {
 			val newDoctorAndUser = call.receive<NewDoctorUser>()
-			val doctor = Users.addAndGetDoctor(newDoctorAndUser)
+
+			val doctor = dbtx {
+				// todo make fluent w/o local variable
+				val doctorId = AddDoctor(newDoctorAndUser)
+				FindExistingDoctorById(doctorId)
+			}
 			call.respond(HttpStatusCode.Created, doctor)
 		}
 
@@ -42,9 +56,10 @@ fun Route.doctors() {
 				val doctorId = call.parameters["id"]?.toDoctorId() ?: throw IllegalStateException("ID missing")
 				val doctorData = call.receive<DoctorData>()
 
-				DoctorById(doctorId)
-					.assertUser(call.user?.id)
-					.update(doctorData);
+				dbtx {
+					AssertDoctorIsUser(doctorId, call.user?.id)
+					UpdateDoctorData(doctorId, doctorData)
+				}
 
 				call.respond(HttpStatusCode.Accepted)
 			}

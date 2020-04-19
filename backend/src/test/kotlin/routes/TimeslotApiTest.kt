@@ -1,14 +1,15 @@
 package routes
 
 import DateTime
-import domain.doctor.DoctorTimeslots
 import domain.doctor.newSimpleDoctorUser
+import domain.doctor.verbs.BindTimeslotsToDoctor
 import domain.timeslot.NewTimeslot
-import domain.user.Users
+import domain.user.verbs.AddUser
 import io.ktor.auth.UserPasswordCredential
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import server.DatabaseFactory.dbtx
 import server.ServerTest
 
 class TimeslotApiTest : ServerTest() {
@@ -16,7 +17,7 @@ class TimeslotApiTest : ServerTest() {
 	@Test
 	fun `POST timeslot`() = runBlocking {
 		// given
-		Users.addUser(testUser)
+		AddUser(testUser)
 		val credentials = UserPasswordCredential("foo@test.com", "pass123")
 		val user = userLogin(credentials)
 
@@ -38,8 +39,7 @@ class TimeslotApiTest : ServerTest() {
 	fun `GET timeslot`() = runBlocking {
 		// given
 		val doc1 = postDoctor(newSimpleDoctorUser("Pera"))
-		val timeslots = DoctorTimeslots(doc1.id).bindTimeslots(
-			listOf(DateTime(20200101, 800)));
+		val timeslots = dbtx { BindTimeslotsToDoctor(doc1.id, listOf(DateTime(20200101, 800))) }
 
 		// when
 		val timeslot = getTimeslot(timeslots[0])

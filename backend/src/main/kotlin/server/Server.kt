@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.mitchellbosecke.pebble.loader.ClasspathLoader
 import domain.user.toUserId
+import domain.user.verbs.FindUserById
 import io.ktor.application.*
 import io.ktor.auth.Authentication
 import io.ktor.auth.jwt.jwt
@@ -27,6 +28,7 @@ import org.slf4j.LoggerFactory
 import org.slf4j.event.Level
 import routes.*
 import scheduler.Scheduler
+import server.DatabaseFactory.dbtx
 
 private val scheduler = Scheduler(1000)
 
@@ -79,10 +81,12 @@ fun Application.module(testing: Boolean = false) {
 			verifier(JwtConfig.verifier)
 			realm = JwtConfig.realm
 			validate {
-				val id = it.payload.getClaim("id")?.asInt()?.toUserId() ?: return@validate null
-				domain.user.UserById(id).get()?.let { user ->
-					val token = JwtConfig.makeToken(user)
-					user.copy(token = token)
+				val userId = it.payload.getClaim("id")?.asInt()?.toUserId() ?: return@validate null
+				dbtx {
+					FindUserById(userId)?.let { user ->
+						val token = JwtConfig.makeToken(user)
+						user.copy(token = token)
+					}
 				}
 			}
 		}

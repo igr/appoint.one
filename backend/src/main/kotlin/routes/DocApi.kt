@@ -1,19 +1,25 @@
 package routes
 
-import domain.article.ArticleById
 import domain.article.toArticleId
+import domain.article.verbs.FindExistingArticleById
 import io.ktor.application.call
 import io.ktor.response.respond
 import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.route
+import server.DatabaseFactory.dbtx
 
 fun Route.docs() {
 
 	route("/docs") {
 		get("/{id}") {
-			val id = call.parameters["id"]?.toArticleId() ?: throw IllegalStateException("ID missing")
-			call.respond(ArticleById(id).get())
+			val articleId = call.parameters["id"]?.toArticleId() ?: throw IllegalStateException("ID missing")
+
+			val article = dbtx {
+				FindExistingArticleById(articleId);
+			}
+
+			call.respond(article)
 		}
 	}
 }

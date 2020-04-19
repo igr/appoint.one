@@ -1,22 +1,14 @@
-package domain.timeslot
+package domain.timeslot.verbs
 
 import DateTime
 import domain.doctor.DoctorsTable
 import domain.doctor.toDoctor
+import domain.timeslot.*
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.select
-import server.DatabaseFactory.dbtx
 
-/**
- * Finds next available timeslots.
- */
-class TimeslotsNextSet(private val minItems: Int = 10) {
-
-	suspend fun get(): List<TimeslotAndDoctor> = dbtx {
-		from(DateTime.now())
-	}
-
-	suspend fun from(from: DateTime): List<TimeslotAndDoctor> = dbtx {
+object DetermineNextAvailableTimeslots : _DetermineNextAvailableTimeslots {
+	override fun invoke(minItemsCount: Int, from: DateTime): List<TimeslotAndDoctor> {
 		val dateTimeNow = DateTime.now()
 		val dateTimeEndInt = from.copy(day = from.day + 1).value
 
@@ -31,8 +23,8 @@ class TimeslotsNextSet(private val minItems: Int = 10) {
 			}
 			.toMutableList()
 
-		if (thisDayTimeSlots.size < minItems) {
-			val remainingCount = minItems - thisDayTimeSlots.size
+		if (thisDayTimeSlots.size < minItemsCount) {
+			val remainingCount = minItemsCount - thisDayTimeSlots.size
 
 			val nextTimeslots = (TimeslotsTable innerJoin DoctorsTable)
 				.select { TimeslotsTable.status eq TimeslotStatus.NEW.value }
@@ -48,6 +40,8 @@ class TimeslotsNextSet(private val minItems: Int = 10) {
 			thisDayTimeSlots.addAll(nextTimeslots)
 		}
 
-		thisDayTimeSlots
+		return thisDayTimeSlots
 	}
+
+	val ten = { dateTime: DateTime -> DetermineNextAvailableTimeslots(10, dateTime) }
 }

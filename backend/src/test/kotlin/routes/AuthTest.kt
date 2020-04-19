@@ -1,6 +1,6 @@
 package routes
 
-import domain.user.Users
+import domain.user.verbs.AddUser
 import io.ktor.auth.UserPasswordCredential
 import io.restassured.http.ContentType
 import io.restassured.module.kotlin.extensions.Given
@@ -9,6 +9,7 @@ import io.restassured.module.kotlin.extensions.When
 import kotlinx.coroutines.runBlocking
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import server.DatabaseFactory.dbtx
 import server.ServerTest
 
 class AuthTest : ServerTest() {
@@ -16,7 +17,7 @@ class AuthTest : ServerTest() {
 	@Test
 	fun `login user successfully`() = runBlocking {
 		// given
-		Users.addUser(testUser)
+		dbtx { AddUser(testUser) }
 		val credentials = UserPasswordCredential("foo@test.com", "pass123")
 
 		// when
@@ -33,14 +34,14 @@ class AuthTest : ServerTest() {
 	@Test
 	fun `can not login with wrong password`() = runBlocking {
 		// given
-		Users.addUser(testUser)
+		dbtx { AddUser(testUser) }
 		val credentials = UserPasswordCredential("foo@test.com", "wrongPass")
 
 		Given {
 			body(credentials)
 			contentType(ContentType.JSON)
 		} When {
-			post("/users/login")
+			post("/login")
 		} Then {
 			statusCode(401)
 		}
@@ -53,7 +54,7 @@ class AuthTest : ServerTest() {
 		Given {
 			contentType(ContentType.JSON)
 		} When {
-			get("/users")
+			get("/user")
 		} Then {
 			statusCode(401)
 		}
@@ -63,7 +64,7 @@ class AuthTest : ServerTest() {
 	@Test
 	fun `get user info when logged in`() = runBlocking {
 		// given
-		Users.addUser(testUser)
+		dbtx { AddUser(testUser) }
 
 		// when
 		val loggedUser = userLogin(testUserCredentials)
