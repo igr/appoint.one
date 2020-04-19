@@ -10,6 +10,7 @@ import i18n from '@/lang';
 import * as directives from '@/directives';
 import * as filters from '@/filters';
 import vuetify from '@/plugins/vuetify';
+import '@/registerServiceWorker';
 
 Vue.config.productionTip = false;
 
