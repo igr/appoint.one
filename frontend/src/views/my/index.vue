@@ -33,14 +33,14 @@
       <v-row
         :v-if="isLoading"
         class="mt-12"
-        align="center"
+        align="top"
         justify="center"
       >
         <v-col
           cols="12"
           md="6"
         >
-          <h3>Prvi sledeći termini:</h3>
+          <h2>Prvi sledeći termini:</h2>
           <v-timeline dense>
             <v-slide-x-reverse-transition
               group
@@ -56,10 +56,51 @@
                 <div class="next">
                   {{ dateStr(item.datetime) }}
                   <v-btn
-                    icon
+                    fab
+                    small
                     @click="showEvent({event: item})"
                   >
                     <v-icon>mdi-pencil</v-icon>
+                  </v-btn>
+                </div>
+              </v-timeline-item>
+            </v-slide-x-reverse-transition>
+          </v-timeline>
+        </v-col>
+        <!-- PAST -->
+        <v-col
+          cols="12"
+          md="6"
+        >
+          <h2>Prethodni rezervisani:</h2>
+          <v-timeline dense>
+            <v-slide-x-reverse-transition
+              group
+              hide-on-leave
+            >
+              <v-timeline-item
+                v-for="item in past"
+                :key="item.id"
+                :color="colorOf(item)"
+                small
+                fill-dot
+              >
+                <div class="next">
+                  {{ dateStr(item.datetime) }}
+                  <v-btn
+                    class="mr-4 ml-4"
+                    fab
+                    small
+                    @click="cancelEvent({event: item})"
+                  >
+                    <v-icon>mdi-cancel</v-icon>
+                  </v-btn>
+                  <v-btn
+                    fab
+                    small
+                    @click="doneEvent({event: item})"
+                  >
+                    <v-icon>mdi-check</v-icon>
                   </v-btn>
                 </div>
               </v-timeline-item>
@@ -164,13 +205,17 @@ import { Component, Vue } from 'vue-property-decorator';
 import { UserModule } from '@/store';
 import { Doctor } from '@/model/Doctor';
 import DoctorApi from '@/api/DoctorApi';
-import { Timeslot, TimeslotStatus, timeslotStatusName } from '@/model/Timeslot';
+import {
+  isTimeslotReserved, Timeslot, TimeslotStatus, timeslotStatusName,
+} from '@/model/Timeslot';
 import {
   isInFuture, toDateTimeHumanString, toDateTimeString, toTimeString,
 } from '@/utils/time';
 import DoctorProfile from '@/components/DoctorProfile/index.vue';
 import { DateTime } from '@/model/DateTime';
-import { CalendarEventParsed, CalendarEvent } from 'vuetify';
+import { CalendarEvent, CalendarEventParsed } from 'vuetify';
+import TimeslotApi from '@/api/TimeslotApi';
+import App from '@/App.vue';
 
 @Component({
   name: 'My',
@@ -178,11 +223,14 @@ import { CalendarEventParsed, CalendarEvent } from 'vuetify';
     DoctorProfile,
   },
 })
-export default class extends Vue {
+export default class My extends App {
   $refs!: {
     calendar: Vue & {
       prev: () => void;
       next: () => void;
+    };
+    confirm: Vue & {
+      open: (title: string, message: string, options?: any) => Promise<any>;
     };
   }
 
@@ -198,6 +246,13 @@ export default class extends Vue {
     return this.timeslots
       .filter((it) => isInFuture(it.datetime))
       .slice(0, 4)
+      .reverse();
+  }
+
+  get past(): Timeslot[] {
+    return this.timeslots
+      .filter((it) => !isInFuture(it.datetime))
+      .filter((it) => isTimeslotReserved(it))
       .reverse();
   }
 
@@ -281,6 +336,19 @@ export default class extends Vue {
 
   showEvent({ event }: { event: CalendarEvent}) {
     this.$router.push(`/my/appointment/${event.id}`);
+  }
+
+  doneEvent({ event }: { event: CalendarEvent}) {
+    this.$router.push(`/evaluation/${event.id}`);
+  }
+
+  async cancelEvent({ event }: { event: CalendarEvent}) {
+    const confirm = await this.$root.$confirm('Potvrdi otkaz', 'Da li želite da označite termin kao OTKAZAN?');
+    if (confirm) {
+      await TimeslotApi.cancelTimeslot(event.id);
+      // eslint-disable-next-line no-param-reassign
+      await this.fetchData();
+    }
   }
 }
 </script>

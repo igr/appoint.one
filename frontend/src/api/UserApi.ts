@@ -2,7 +2,7 @@ import http from '@/utils/http';
 
 class UserApi {
   login = (data: { name: string; password: string }) => http({
-    url: '/users/login',
+    url: '/login',
     method: 'post',
     data,
   });
