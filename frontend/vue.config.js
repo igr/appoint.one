@@ -10,6 +10,7 @@ module.exports = {
     port: 3000,
     open: true,
     progress: false,
+    https: true,
     proxy: {
       // change /api/login => /api/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
@@ -26,6 +27,13 @@ module.exports = {
   transpileDependencies: [
     'vuetify',
   ],
+  pwa: {
+    name: 'Podrška psihoterapeuta',
+    themeColor: '#111111',
+    msTileColor: '#000000',
+    appleMobileWebAppCapable: 'yes',
+    appleMobileWebAppStatusBarStyle: 'black',
+  },
   chainWebpack: (config) => {
     config
       .plugin('html')

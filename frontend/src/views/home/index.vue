@@ -69,12 +69,37 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { AppModule } from '@/store';
 
 @Component({
   name: 'Home',
 })
 export default class extends Vue {
   private hover = false;
+
+  mounted() {
+    window.addEventListener('beforeinstallprompt', this.addToHomescreen);
+  }
+
+  beforeDestroy() {
+    window.removeEventListener('beforeinstallprompt', this.addToHomescreen);
+  }
+
+  addToHomescreen(e: any) {
+    // Prevent Chrome 67 and earlier from automatically showing the prompt
+    e.preventDefault();
+    // Show Add to Home Screen prompt if it is not called already
+    if (!AppModule.hasA2HSTriggered) {
+      e.userChoice.then((choiceResult: any) => {
+        if (choiceResult.outcome === 'accepted') {
+          AppModule.setA2HS({ triggered: true, accepted: true });
+        } else {
+          AppModule.setA2HS({ triggered: true, accepted: false });
+        }
+      });
+      e.prompt();
+    }
+  }
 }
 </script>
 
