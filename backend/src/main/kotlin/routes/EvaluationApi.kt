@@ -1,8 +1,8 @@
 package routes
 
 import auth.user
-import domain.evaluation.EvaluationsLists
 import domain.evaluation.NewEvaluation
+import domain.evaluation.verbs.ListAllEvaluations
 import domain.timeslot.verbs.AssertTimeslotIsOwnedByUser
 import domain.timeslot.verbs.MarkTimeslotAsDone
 import io.ktor.application.call
@@ -21,7 +21,11 @@ fun Route.evaluations() {
 	route("/evaluations") {
 		authenticate {
 			get {
-				call.respond(EvaluationsLists.allEvaluationsOrdered())
+				val evaluations = dbtx {
+					ListAllEvaluations()
+				}
+
+				call.respond(evaluations)
 			}
 
 			post {
