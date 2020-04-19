@@ -2,11 +2,10 @@ package domain.doctor.verbs
 
 import domain.doctor.Doctor
 import domain.doctor.DoctorsTable
-import domain.doctor._ListDoctorsOrdered
 import domain.doctor.toDoctor
 import org.jetbrains.exposed.sql.selectAll
 
-object ListDoctorsOrdered : _ListDoctorsOrdered {
+object ListDoctorsOrdered : () -> List<Doctor> {
 	override fun invoke(): List<Doctor> {
 		return DoctorsTable
 			.selectAll()

@@ -2,13 +2,12 @@ package domain.timeslot.verbs
 
 import domain.timeslot.TimeslotId
 import domain.timeslot.TimeslotsTable
-import domain.timeslot._AssertTimeslotIsOwnedByUser
 import domain.user.AccessDenied
 import domain.user.UserId
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.select
 
-object AssertTimeslotIsOwnedByUser : _AssertTimeslotIsOwnedByUser {
+object AssertTimeslotIsOwnedByUser : (TimeslotId, UserId?) -> Unit {
 	override fun invoke(timeslotId: TimeslotId, userId: UserId?) {
 		if (userId == null) {
 			throw AccessDenied()

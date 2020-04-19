@@ -2,11 +2,10 @@ package domain.doctor.verbs
 
 import DateTime
 import domain.doctor.DoctorId
-import domain.doctor._BindTimeslotsToDoctor
 import domain.timeslot.*
 import org.jetbrains.exposed.sql.insertAndGetId
 
-object BindTimeslotsToDoctor : _BindTimeslotsToDoctor {
+object BindTimeslotsToDoctor : (DoctorId, List<DateTime>) -> List<TimeslotId> {
 	override fun invoke(doctorId: DoctorId, dateTimeList: List<DateTime>): List<TimeslotId> {
 		val existingTimeslots = ListDoctorsTimeslots(doctorId)
 

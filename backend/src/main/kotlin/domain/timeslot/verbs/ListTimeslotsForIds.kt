@@ -1,9 +1,12 @@
 package domain.timeslot.verbs
 
-import domain.timeslot.*
+import domain.timeslot.Timeslot
+import domain.timeslot.TimeslotId
+import domain.timeslot.TimeslotsTable
+import domain.timeslot.toTimeslot
 import org.jetbrains.exposed.sql.select
 
-object ListTimeslotsForIds : _ListTimeslotsForIds {
+object ListTimeslotsForIds : (List<TimeslotId>) -> List<Timeslot> {
 	override fun invoke(timeslots: List<TimeslotId>): List<Timeslot> {
 		return TimeslotsTable
 			.select { TimeslotsTable.id inList timeslots.map { it.value } }

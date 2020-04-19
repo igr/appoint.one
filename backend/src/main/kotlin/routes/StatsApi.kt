@@ -1,5 +1,6 @@
 package routes
 
+import domain.Ctx
 import domain.timeslot.verbs.CalculateTimeslotUsageStats
 import io.ktor.application.call
 import io.ktor.response.respond
@@ -12,10 +13,13 @@ fun Route.stats() {
 
 	route("/stats") {
 		get {
-			val result = dbtx {
-				CalculateTimeslotUsageStats()
+			dbtx {
+				Ctx.of(Unit)
+					.set(CalculateTimeslotUsageStats)
+			}.useS {
+				call.respond(it)
 			}
-			call.respond(result)
+
 		}
 	}
 }

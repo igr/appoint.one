@@ -1,6 +1,7 @@
 package routes
 
 import auth.user
+import domain.Ctx
 import domain.evaluation.NewEvaluation
 import domain.evaluation.verbs.ListAllEvaluations
 import domain.timeslot.verbs.AssertTimeslotIsOwnedByUser
@@ -31,12 +32,13 @@ fun Route.evaluations() {
 			post {
 				val newEvaluation = call.receive<NewEvaluation>()
 
-				val evaluationId = dbtx {
-					AssertTimeslotIsOwnedByUser(newEvaluation.timeslotId, call.user?.id)
-					MarkTimeslotAsDone(newEvaluation.timeslotId, newEvaluation.data)
+				dbtx {
+					Ctx.of(newEvaluation.timeslotId)
+						.run(AssertTimeslotIsOwnedByUser) { call.user?.id }
+						.map(MarkTimeslotAsDone) { newEvaluation.data }
+				}.useS {
+					call.respond(HttpStatusCode.Created, it)
 				}
-
-				call.respond(HttpStatusCode.Created, evaluationId)
 			}
 		}
 	}

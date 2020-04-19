@@ -3,11 +3,15 @@ package domain.timeslot.verbs
 import DateTime
 import domain.doctor.DoctorsTable
 import domain.doctor.toDoctor
-import domain.timeslot.*
+import domain.timeslot.TimeslotAndDoctor
+import domain.timeslot.TimeslotStatus
+import domain.timeslot.TimeslotsTable
+import domain.timeslot.toTimeslot
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.select
 
-object DetermineNextAvailableTimeslots : _DetermineNextAvailableTimeslots {
+object DetermineNextAvailableTimeslots : (Int, DateTime) -> List<TimeslotAndDoctor> {
+
 	override fun invoke(minItemsCount: Int, from: DateTime): List<TimeslotAndDoctor> {
 		val dateTimeNow = DateTime.now()
 		val dateTimeEndInt = from.copy(day = from.day + 1).value
@@ -43,5 +47,5 @@ object DetermineNextAvailableTimeslots : _DetermineNextAvailableTimeslots {
 		return thisDayTimeSlots
 	}
 
-	val ten = { dateTime: DateTime -> DetermineNextAvailableTimeslots(10, dateTime) }
+	val uptTo10 = { dateTime: DateTime -> DetermineNextAvailableTimeslots(10, dateTime) }
 }

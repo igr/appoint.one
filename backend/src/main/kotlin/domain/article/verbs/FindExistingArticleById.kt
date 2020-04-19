@@ -2,11 +2,10 @@ package domain.article.verbs
 
 import domain.article.Article
 import domain.article.ArticleId
-import domain.article._FindExistingArticleById
 import io.ktor.http.HttpStatusCode
 import server.StatusException
 
-object FindExistingArticleById : _FindExistingArticleById {
+object FindExistingArticleById : (ArticleId) -> Article {
 	override fun invoke(articleId: ArticleId): Article {
 		val content = Article::class.java.getResource("/docs/${articleId.value}.md").readText()
 

@@ -2,13 +2,12 @@ package domain.timeslot.verbs
 
 import domain.timeslot.TimeslotStatus
 import domain.timeslot.TimeslotsTable
-import domain.timeslot._CountAvailableTimeslots
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.selectAll
 import toDateTime
 import java.time.LocalDateTime
 
-object CountAvailableTimeslots : _CountAvailableTimeslots {
+object CountAvailableTimeslots : () -> Long {
 	override fun invoke(): Long {
 		val dateTime = LocalDateTime.now().toDateTime()
 

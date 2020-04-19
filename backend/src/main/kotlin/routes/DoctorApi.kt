@@ -1,6 +1,7 @@
 package routes
 
 import auth.user
+import domain.Ctx
 import domain.doctor.DoctorData
 import domain.doctor.toDoctorId
 import domain.doctor.verbs.*
@@ -26,29 +27,30 @@ fun Route.doctors() {
 
 		get("/{id}") {
 			val doctorId = call.parameters["id"]?.toDoctorId() ?: throw IllegalStateException("ID missing")
-			dbtx {
-				val doctor = FindDoctorById(doctorId)
-				doctor?.let { call.respond(it) } ?: call.respond(HttpStatusCode.NotFound)
+			val doctor = dbtx {
+				FindDoctorById(doctorId)
 			}
+			doctor?.let { call.respond(it) } ?: call.respond(HttpStatusCode.NotFound)
 		}
 
 		get("/{id}/timeslots") {
 			val doctorId = call.parameters["id"]?.toDoctorId() ?: throw IllegalStateException("ID missing")
-			dbtx {
-				val timeslots = ListDoctorsTimeslots(doctorId)
-				call.respond(timeslots)
+			val timeslots = dbtx {
+				ListDoctorsTimeslots(doctorId)
 			}
+			call.respond(timeslots)
 		}
 
 		post {
 			val newDoctorAndUser = call.receive<NewDoctorUser>()
 
-			val doctor = dbtx {
-				// todo make fluent w/o local variable
-				val doctorId = AddDoctor(newDoctorAndUser)
-				FindExistingDoctorById(doctorId)
+			dbtx {
+				Ctx.of(newDoctorAndUser)
+					.map(AddDoctor)
+					.map(FindExistingDoctorById)
+			}.useS {
+				call.respond(HttpStatusCode.Created, it)
 			}
-			call.respond(HttpStatusCode.Created, doctor)
 		}
 
 		authenticate {
@@ -57,11 +59,12 @@ fun Route.doctors() {
 				val doctorData = call.receive<DoctorData>()
 
 				dbtx {
-					AssertDoctorIsUser(doctorId, call.user?.id)
-					UpdateDoctorData(doctorId, doctorData)
+					Ctx.of(doctorId)
+						.run(AssertDoctorIsUser) { call.user?.id }
+						.map(UpdateDoctorData) { doctorData }
+				}.useS {
+					call.respond(HttpStatusCode.Accepted)
 				}
-
-				call.respond(HttpStatusCode.Accepted)
 			}
 		}
 	}

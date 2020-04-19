@@ -4,11 +4,10 @@ import domain.evaluation.*
 import domain.timeslot.TimeslotId
 import domain.timeslot.TimeslotStatus
 import domain.timeslot.TimeslotsTable
-import domain.timeslot._MarkTimeslotAsDone
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.update
 
-object MarkTimeslotAsDone : _MarkTimeslotAsDone {
+object MarkTimeslotAsDone : (TimeslotId, EvaluationData) -> EvaluationId {
 	override fun invoke(timeslotId: TimeslotId, evaluationData: EvaluationData): EvaluationId {
 		val evolutionId = EvaluationsTable.insertAndGetId {
 			it[timeslotIdRef] = timeslotId.value

@@ -14,6 +14,7 @@ import io.ktor.response.respond
 import io.ktor.routing.*
 import server.DatabaseFactory.dbtx
 
+// todo old-school here
 fun Route.timeslots() {
 
 	route("/timeslots") {
@@ -30,7 +31,7 @@ fun Route.timeslots() {
 			val from = if (date != null) DateTime.ofDate(date) else DateTime.now()
 
 			val list = dbtx {
-				DetermineNextAvailableTimeslots.ten(from)
+				DetermineNextAvailableTimeslots.uptTo10(from)
 			}
 
 			call.respond(list)
@@ -47,7 +48,7 @@ fun Route.timeslots() {
 		put("{id}/reserve") {
 			val id = call.parameters["id"]?.toTimeslotId() ?: throw IllegalStateException("ID missing")
 
-			ReserveTimeslotIfNew(id)
+			dbtx { ReserveTimeslotIfNew(id) }
 
 			call.respond(HttpStatusCode.Accepted)
 		}

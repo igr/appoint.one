@@ -1,5 +1,6 @@
 package routes
 
+import domain.Ctx
 import domain.user.Password
 import domain.user.toUserId
 import domain.user.verbs.ChangeUserPassword
@@ -29,15 +30,17 @@ fun Route.users() {
 
 		authenticate {
 			put("/{id}/password") {
-				val id = call.parameters["id"]?.toUserId() ?: throw IllegalStateException("ID missing")
+				val userId = call.parameters["id"]?.toUserId() ?: throw IllegalStateException("ID missing")
 				val payload = call.receive<Password>()
 
-				val updated = dbtx {
-					val user = FindExistingUserById(id)
-					ChangeUserPassword(user.id, payload.password)
+				dbtx {
+					Ctx.of(userId)
+						.map(FindExistingUserById)
+						.map { it.id }
+						.map(ChangeUserPassword) { payload.password }
+				}.useS {
+					if (it) call.respond(HttpStatusCode.Accepted) else call.respond(HttpStatusCode.NotFound)
 				}
-
-				if (updated) call.respond(HttpStatusCode.Accepted) else call.respond(HttpStatusCode.NotFound)
 			}
 		}
 	}
