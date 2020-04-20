@@ -3,7 +3,7 @@ package domain
 /**
  * Generic context.
  */
-class Ctx<T>(private val value: T) {
+class Ctx<T>(val value: T) {
 
 	companion object {
 		fun <A> of(value: A): Ctx<A> {
@@ -34,11 +34,8 @@ class Ctx<T>(private val value: T) {
 
 	// consumers
 
-	fun use(consumer: (T) -> Unit) {
+	inline fun use(consumer: (T) -> Unit) {
 		consumer(this.value)
 	}
 
-	suspend fun useS(consumer: suspend (T) -> Unit) {
-		consumer(this.value)
-	}
 }

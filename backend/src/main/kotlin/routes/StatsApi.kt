@@ -16,7 +16,7 @@ fun Route.stats() {
 			dbtx {
 				Ctx.of(Unit)
 					.set(CalculateTimeslotUsageStats)
-			}.useS {
+			}.use {
 				call.respond(it)
 			}
 

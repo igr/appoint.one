@@ -36,7 +36,7 @@ fun Route.evaluations() {
 					Ctx.of(newEvaluation.timeslotId)
 						.run(AssertTimeslotIsOwnedByUser) { call.user?.id }
 						.map(MarkTimeslotAsDone) { newEvaluation.data }
-				}.useS {
+				}.use {
 					call.respond(HttpStatusCode.Created, it)
 				}
 			}

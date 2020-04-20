@@ -38,7 +38,7 @@ fun Route.users() {
 						.map(FindExistingUserById)
 						.map { it.id }
 						.map(ChangeUserPassword) { payload.password }
-				}.useS {
+				}.use {
 					if (it) call.respond(HttpStatusCode.Accepted) else call.respond(HttpStatusCode.NotFound)
 				}
 			}

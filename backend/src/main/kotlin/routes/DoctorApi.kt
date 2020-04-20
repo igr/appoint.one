@@ -48,7 +48,7 @@ fun Route.doctors() {
 				Ctx.of(newDoctorAndUser)
 					.map(AddDoctor)
 					.map(FindExistingDoctorById)
-			}.useS {
+			}.use {
 				call.respond(HttpStatusCode.Created, it)
 			}
 		}
@@ -62,7 +62,7 @@ fun Route.doctors() {
 					Ctx.of(doctorId)
 						.run(AssertDoctorIsUser) { call.user?.id }
 						.map(UpdateDoctorData) { doctorData }
-				}.useS {
+				}.use {
 					call.respond(HttpStatusCode.Accepted)
 				}
 			}
