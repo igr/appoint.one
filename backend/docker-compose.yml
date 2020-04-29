@@ -6,11 +6,21 @@ services:
     container_name: app1db
     restart: "always"
     ports:
-      - 5432:5432
+      - "5432:5432"
     env_file:
       - docker/.env
     volumes:
       - db_data:/var/lib/postgresql/data
+
+  app1smtp:
+    image: namshi/smtp
+    container_name: app1smtp
+    restart: "always"
+    ports:
+      - "25:25"
+    environment:
+      - DISABLE_IPV6=true
+
   app1:
     build: .
     container_name: app1
@@ -18,7 +28,7 @@ services:
       - app1db
     restart: "always"
     ports:
-      - 8080:8080
+      - "8080:8080"
     environment:
       - DATABASE_DB=app1db:5432/phdb
 

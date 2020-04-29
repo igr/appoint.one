@@ -49,6 +49,7 @@ fun Route.timeslots() {
 			val id = call.parameters["id"]?.toTimeslotId() ?: throw IllegalStateException("ID missing")
 
 			dbtx { ReserveTimeslotIfNew(id) }
+//			Scheduler.registerTask { SendNotificationForReservedTimeslot(id) }
 
 			call.respond(HttpStatusCode.Accepted)
 		}

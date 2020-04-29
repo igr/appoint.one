@@ -28,8 +28,6 @@ import routes.*
 import scheduler.Scheduler
 import server.DatabaseFactory.dbtx
 
-private val scheduler = Scheduler(1000)
-
 fun startServer(args: Array<String>) {
 	val server = embeddedServer(Netty, commandLineEnvironment(args))
 	server.start(wait = true)
@@ -112,10 +110,10 @@ fun Application.module(testing: Boolean = false) {
 	with(environment.monitor) {
 		subscribe(ApplicationStarted) {
 			DatabaseFactory.init(isDev)
-			scheduler.start()
+			Scheduler.start(1000)
 		}
 		subscribe(ApplicationStopped) {
-			scheduler.stop()
+			Scheduler.stop()
 			println("Bye!")
 		}
 	}

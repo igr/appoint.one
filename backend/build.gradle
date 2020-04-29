@@ -48,6 +48,7 @@ dependencies {
     implementation "io.ktor:ktor-pebble:${ktorVersion}"
 
     implementation "org.mindrot:jbcrypt:0.4"
+    implementation "org.jodd:jodd-mail:5.1.4"
 
     implementation "org.jetbrains.exposed:exposed-core:${exposedVersion}"
     implementation "org.jetbrains.exposed:exposed-jdbc:${exposedVersion}"

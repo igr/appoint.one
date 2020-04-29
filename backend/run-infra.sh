@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker-compose -f docker-compose.yml up -d app1db
+docker-compose -f docker-compose.yml up -d app1db app1smtp
