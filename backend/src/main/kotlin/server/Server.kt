@@ -1,28 +1,26 @@
 package server
 
 import auth.JwtConfig
-import com.fasterxml.jackson.core.util.DefaultIndenter
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.mitchellbosecke.pebble.loader.ClasspathLoader
-import domain.user.toUserId
 import domain.user.verbs.FindUserById
+import id.toUserId
 import io.ktor.application.*
 import io.ktor.auth.Authentication
 import io.ktor.auth.jwt.jwt
 import io.ktor.features.*
+import io.ktor.http.ContentType
 import io.ktor.http.content.resources
 import io.ktor.http.content.static
-import io.ktor.jackson.jackson
 import io.ktor.pebble.Pebble
 import io.ktor.routing.HttpMethodRouteSelector
 import io.ktor.routing.Route
 import io.ktor.routing.Routing
+import io.ktor.serialization.DefaultJsonConfiguration
+import io.ktor.serialization.json
 import io.ktor.server.engine.commandLineEnvironment
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import kotlinx.serialization.json.Json
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.slf4j.event.Level
@@ -65,15 +63,14 @@ fun Application.module(testing: Boolean = false) {
 	}
 
 	install(ContentNegotiation) {
-		jackson {
-			registerModule(JavaTimeModule())
-			setDefaultPrettyPrinter(DefaultPrettyPrinter().apply {
-				indentArraysWith(DefaultPrettyPrinter.FixedSpaceIndenter.instance)
-				indentObjectsWith(DefaultIndenter("  ", "\n"))
-			})
-			disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-			registerKotlinModule()
-		}
+		json(
+			contentType = ContentType.Application.Json,
+			json = Json(
+				DefaultJsonConfiguration.copy(
+					prettyPrint = true
+				)
+			)
+		)
 	}
 
 	install(Authentication) {

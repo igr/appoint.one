@@ -3,9 +3,9 @@ package domain.appointment.verbs
 import domain.appointment.Appointment
 import domain.doctor.DoctorsTable
 import domain.doctor.toDoctor
-import domain.timeslot.TimeslotId
 import domain.timeslot.TimeslotsTable
 import domain.timeslot.toTimeslot
+import id.TimeslotId
 import org.jetbrains.exposed.sql.select
 
 object FindAppointmentForTimeslot : (TimeslotId) -> Appointment? {

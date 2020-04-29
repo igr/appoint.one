@@ -1,8 +1,8 @@
 package domain.user.verbs
 
 import auth.BCryptHasher
-import domain.user.UserId
 import domain.user.UsersTable
+import id.UserId
 import org.jetbrains.exposed.sql.update
 
 object ChangeUserPassword : (UserId, String) -> Boolean {

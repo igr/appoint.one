@@ -1,7 +1,7 @@
 package domain.article.verbs
 
 import domain.article.Article
-import domain.article.ArticleId
+import id.ArticleId
 import io.ktor.http.HttpStatusCode
 import server.StatusException
 

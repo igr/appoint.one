@@ -3,10 +3,10 @@ package routes
 import auth.user
 import domain.Ctx
 import domain.doctor.DoctorData
-import domain.doctor.toDoctorId
 import domain.doctor.verbs.*
 import domain.user.NewDoctorUser
 import domain.user.verbs.AddDoctor
+import id.toDoctorId
 import io.ktor.application.call
 import io.ktor.auth.authenticate
 import io.ktor.http.HttpStatusCode

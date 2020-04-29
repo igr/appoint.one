@@ -1,6 +1,5 @@
 package domain
 
-import DateTime
 import domain.doctor.newSimpleDoctorUser
 import domain.doctor.verbs.BindTimeslotsToDoctor
 import domain.timeslot.verbs.DetermineNextAvailableTimeslots
@@ -10,7 +9,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import server.DatabaseFactory.dbtx
 import server.ServerTest
-import toDateTime
 import java.time.LocalDateTime
 
 class TimeslotsNextSetTest : ServerTest() {

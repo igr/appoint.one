@@ -1,7 +1,11 @@
+package domain
+
+import kotlinx.serialization.Serializable
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 
+@Serializable
 data class DateTime(val year: Int, val month: Int, val day: Int, val hour: Int, val minute: Int) {
 	constructor(date: Int, time: Int) : this(date / 10_000, (date % 10_000) / 100, (date % 100), time / 100, time % 100)
 

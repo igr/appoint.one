@@ -1,10 +1,10 @@
 package domain.doctor.verbs
 
 import domain.doctor.DoctorData
-import domain.doctor.DoctorId
 import domain.doctor.DoctorsTable
 import domain.doctor.data
 import domain.user.UsersTable
+import id.DoctorId
 import org.jetbrains.exposed.sql.update
 
 object UpdateDoctorData : (DoctorId, DoctorData) -> Unit {

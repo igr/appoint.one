@@ -1,101 +1,102 @@
 package routes
 
+import auth.LoginCredential
+import domain.appointment.Appointment
 import domain.doctor.Doctor
-import domain.doctor.DoctorId
 import domain.timeslot.NewTimeslot
 import domain.timeslot.Timeslot
-import domain.timeslot.TimeslotId
 import domain.user.NewDoctorUser
 import domain.user.User
-import io.ktor.auth.UserPasswordCredential
-import io.restassured.http.ContentType
-import io.restassured.module.kotlin.extensions.Extract
-import io.restassured.module.kotlin.extensions.Given
-import io.restassured.module.kotlin.extensions.Then
-import io.restassured.module.kotlin.extensions.When
+import id.DoctorId
+import id.TimeslotId
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.request.get
+import io.ktor.client.request.header
+import io.ktor.client.request.post
+import io.ktor.client.request.url
+import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.readText
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
+import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.builtins.list
+import server.json
 
-
-// doctor
-
-fun getDoctor(id: DoctorId): Doctor {
-	return Given {
-		pathParam("id", id.value)
-	} When {
-		get("/doctors/{id}")
-	} Then {
-		statusCode(200)
-	} Extract {
-		`as`(Doctor::class.java)
+val httpClient = HttpClient(CIO) {
+	install(JsonFeature) {
+		serializer = KotlinxSerializer()
 	}
 }
+val baseUrl = "http://localhost:8080"
 
-fun postDoctor(newDoctor: NewDoctorUser): Doctor {
-	return Given {
-		body(newDoctor)
-		contentType(ContentType.JSON)
-	} When {
-		post("/doctors")
-	} Then {
-		statusCode(201)
-	} Extract {
-		`as`(Doctor::class.java)
-	}
+
+fun getAppointment(timeslotId: TimeslotId) = runBlocking {
+	val response = httpClient.get<HttpResponse>("${baseUrl}/appointments/${timeslotId}")
+	Pair(response, json.parse(Appointment.serializer(), response.readText()))
 }
 
 
-// timeslot
-
-fun postTimeslot(token: String, newDoctorTimeslot: NewTimeslot): List<Timeslot> {
-	return Given {
-		body(newDoctorTimeslot)
-		header("Authorization:", "Bearer: $token")
-		contentType(ContentType.JSON)
-	} When {
-		post("/timeslots")
-	} Then {
-		statusCode(201)
-	} Extract {
-		`as`(Timeslot::class.java.genericSuperclass)
-	}
+fun getDoctor(id: DoctorId) = runBlocking {
+	val response = httpClient.get<HttpResponse>("${baseUrl}/doctors/${id}")
+	Pair(response, json.parse(Doctor.serializer(), response.readText()))
 }
 
-fun getTimeslot(timeslotId: TimeslotId): Timeslot {
-	return Given {
-		contentType(ContentType.JSON)
-	} When {
-		get("/timeslots/${timeslotId.value}")
-	} Then {
-		statusCode(200)
-	} Extract {
-		`as`(Timeslot::class.java)
+fun postDoctor(newDoctor: NewDoctorUser) = runBlocking {
+	val response = httpClient.post<HttpResponse> {
+		url("${baseUrl}/doctors")
+		contentType(ContentType.Application.Json)
+		body = newDoctor
 	}
+
+	Pair(response, json.parse(Doctor.serializer(), response.readText()))
 }
 
-
-// auth
-
-fun userLogin(credentials: UserPasswordCredential): User {
-	return Given {
-		body(credentials)
-		contentType(ContentType.JSON)
-	} When {
-		post("/login")
-	} Then {
-		statusCode(200)
-	} Extract {
-		`as`(User::class.java)
-	}
-}
-
-fun userGet(token: String): User {
-	return Given {
+fun postTimeslot(token: String, newDoctorTimeslot: NewTimeslot) = runBlocking {
+	val response = httpClient.post<HttpResponse> {
+		url("${baseUrl}/timeslots")
 		header("Authorization", "Bearer $token")
-		contentType(ContentType.JSON)
-	} When {
-		get("/user")
-	} Then {
-		statusCode(200)
-	} Extract {
-		`as`(User::class.java)
+		contentType(ContentType.Application.Json)
+		body = newDoctorTimeslot
 	}
+
+	Pair(response, json.parse(TimeslotId.serializer().list, response.readText()))
+}
+
+fun getTimeslot(timeslotId: TimeslotId) = runBlocking {
+	val response = httpClient.get<HttpResponse>("${baseUrl}/timeslots/${timeslotId}")
+	Pair(response, json.parse(Timeslot.serializer(), response.readText()))
+}
+
+fun userLogin(credentials: LoginCredential) = runBlocking {
+	val response = httpClient.post<HttpResponse> {
+		url("${baseUrl}/login")
+		contentType(ContentType.Application.Json)
+		body = credentials
+	}
+	Pair(response, json.parse(User.serializer(), response.readText()))
+}
+
+fun userLoginResponse(credentials: LoginCredential) = runBlocking {
+	httpClient.post<HttpResponse> {
+		url("${baseUrl}/login")
+		contentType(ContentType.Application.Json)
+		body = credentials
+	}
+}
+
+
+fun userGet(token: String) = runBlocking {
+	val response = httpClient.get<HttpResponse> {
+		url("${baseUrl}/user")
+		header("Authorization", "Bearer $token")
+	}
+	Pair(response, json.parse(User.serializer(), response.readText()))
+}
+
+fun userGet() = runBlocking {
+	val response = httpClient.get<HttpResponse>("${baseUrl}/user")
+	Pair(response, Unit)
 }

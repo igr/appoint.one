@@ -1,30 +1,18 @@
 package domain.user
 
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonValue
+import appoint1.annotations.GENERATED
+import appoint1.annotations.IdGen
 import domain.Id
 import domain.doctor.DoctorData
+import id.UserId
 import io.ktor.auth.Principal
-import org.jetbrains.exposed.dao.id.EntityID
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
-data class UserId @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(
-	@JsonValue override val value: Int
-) : Id()
+@IdGen
+val _UserId: Id = GENERATED()
 
-fun Int.toUserId(): UserId {
-	return UserId(this)
-}
-
-fun String.toUserId(): UserId {
-	return UserId(this.toInt())
-}
-
-fun EntityID<Int>.toUserId(): UserId {
-	return UserId(this.value);
-}
-
-
+@Serializable
 enum class UserRole(val value: Int) {
 	GUEST(0),
 	DOC(10),
@@ -35,25 +23,29 @@ enum class UserRole(val value: Int) {
 	}
 }
 
+@Serializable
 data class User(
 	val id: UserId,
 	val name: String,
-	@JsonIgnore
+	@Transient
 	val password: String = "",
 	val role: UserRole,
 	val token: String = ""
 ) : Principal
 
+@Serializable
 data class NewUser(
 	val name: String,
 	val password: String,
 	val role: UserRole = UserRole.GUEST
 )
 
+@Serializable
 data class Password(
 	val password: String
 )
 
+@Serializable
 data class NewDoctorUser(
 	val name: String,
 	val password: String,

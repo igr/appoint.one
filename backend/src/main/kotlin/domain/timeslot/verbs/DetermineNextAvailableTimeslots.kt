@@ -1,6 +1,6 @@
 package domain.timeslot.verbs
 
-import DateTime
+import domain.DateTime
 import domain.doctor.DoctorsTable
 import domain.doctor.toDoctor
 import domain.timeslot.TimeslotAndDoctor

@@ -2,9 +2,9 @@ package domain.user.verbs
 
 import auth.BCryptHasher
 import domain.user.NewUser
-import domain.user.UserId
 import domain.user.UsersTable
-import domain.user.toUserId
+import id.UserId
+import id.toUserId
 import org.jetbrains.exposed.sql.insertAndGetId
 
 object AddUser : (NewUser) -> UserId {

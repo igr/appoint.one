@@ -1,8 +1,8 @@
 package domain.timeslot.verbs
 
-import domain.timeslot.TimeslotId
 import domain.timeslot.TimeslotStatus
 import domain.timeslot.TimeslotsTable
+import id.TimeslotId
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.update
 

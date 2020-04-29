@@ -2,7 +2,8 @@ package domain.evaluation
 
 import domain.patient.PatientSex
 import domain.timeslot.TimeslotsTable
-import domain.timeslot.toTimeslotId
+import id.toEvaluationId
+import id.toTimeslotId
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.`java-time`.datetime

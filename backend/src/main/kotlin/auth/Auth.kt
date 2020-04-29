@@ -3,15 +3,19 @@ package auth
 import domain.user.User
 import domain.user.verbs.FindUserByUsername
 import io.ktor.application.ApplicationCall
-import io.ktor.auth.UserPasswordCredential
+import io.ktor.auth.Credential
 import io.ktor.auth.authentication
+import kotlinx.serialization.Serializable
 import server.DatabaseFactory.dbtx
+
+@Serializable
+data class LoginCredential(val name: String, val password: String) : Credential
 
 val ApplicationCall.user: User? get() = authentication.principal()
 
 object Auth {
 
-	suspend fun login(credentials: UserPasswordCredential): User = credentials.let { (name, password) ->
+	suspend fun login(credentials: LoginCredential): User = credentials.let { (name, password) ->
 		val user = dbtx {
 			FindUserByUsername(name) ?: throw UserNotFound
 		}

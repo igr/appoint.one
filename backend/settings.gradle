@@ -1,2 +1,4 @@
+includeBuild '../annotations'
+includeBuild '../annotations-processor'
 rootProject.name = 'appoint1'
 

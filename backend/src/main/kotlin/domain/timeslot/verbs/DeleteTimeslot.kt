@@ -1,7 +1,7 @@
 package domain.timeslot.verbs
 
-import domain.timeslot.TimeslotId
 import domain.timeslot.TimeslotsTable
+import id.TimeslotId
 import org.jetbrains.exposed.sql.deleteWhere
 
 object DeleteTimeslot : (TimeslotId) -> Unit {

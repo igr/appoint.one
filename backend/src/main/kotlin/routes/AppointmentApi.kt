@@ -2,7 +2,7 @@ package routes
 
 import cal.ICS
 import domain.appointment.verbs.FindAppointmentForTimeslot
-import domain.timeslot.toTimeslotId
+import id.toTimeslotId
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.response.header

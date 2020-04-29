@@ -1,6 +1,7 @@
 package domain.user
 
 import auth.BCryptHasher
+import id.toUserId
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.ResultRow

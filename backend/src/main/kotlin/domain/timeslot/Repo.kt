@@ -1,8 +1,9 @@
 package domain.timeslot
 
-import DateTime
+import domain.DateTime
 import domain.doctor.DoctorsTable
-import domain.doctor.toDoctorId
+import id.toDoctorId
+import id.toTimeslotId
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.`java-time`.datetime

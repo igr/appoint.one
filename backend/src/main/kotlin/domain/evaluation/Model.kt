@@ -1,28 +1,17 @@
 package domain.evaluation
 
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonValue
+import appoint1.annotations.GENERATED
+import appoint1.annotations.IdGen
 import domain.Id
 import domain.patient.PatientSex
-import domain.timeslot.TimeslotId
-import org.jetbrains.exposed.dao.id.EntityID
+import id.EvaluationId
+import id.TimeslotId
+import kotlinx.serialization.Serializable
 
-data class EvaluationId @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(
-	@JsonValue override val value: Int
-) : Id()
+@IdGen
+val _EvaluationId: Id = GENERATED()
 
-fun Int.toEvaluationId(): EvaluationId {
-	return EvaluationId(this)
-}
-
-fun String.toEvaluationId(): EvaluationId {
-	return EvaluationId(this.toInt())
-}
-
-fun EntityID<Int>.toEvaluationId(): EvaluationId {
-	return EvaluationId(this.value);
-}
-
+@Serializable
 data class EvaluationData(
 	val sex: PatientSex,
 	val age: Int,
@@ -33,11 +22,13 @@ data class EvaluationData(
 	val comment: String
 )
 
+@Serializable
 data class NewEvaluation(
 	val data: EvaluationData,
 	val timeslotId: TimeslotId
 )
 
+@Serializable
 data class Evaluation(
 	val id: EvaluationId,
 	val data: EvaluationData,

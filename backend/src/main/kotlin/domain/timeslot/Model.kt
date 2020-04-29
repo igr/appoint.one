@@ -1,31 +1,19 @@
 package domain.timeslot
 
-import DateTime
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonValue
+import appoint1.annotations.GENERATED
+import appoint1.annotations.IdGen
+import domain.DateTime
 import domain.Id
 import domain.doctor.Doctor
-import domain.doctor.DoctorId
-import org.jetbrains.exposed.dao.id.EntityID
-import com.fasterxml.jackson.annotation.JsonCreator.Mode.DELEGATING as m
+import id.DoctorId
+import id.TimeslotId
+import kotlinx.serialization.Serializable
 
-data class TimeslotId @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(
-	@JsonValue override val value: Int
-) : Id()
+@IdGen
+val _TimeslotId: Id = GENERATED()
 
-fun Int.toTimeslotId(): TimeslotId {
-	return TimeslotId(this)
-}
-
-fun String.toTimeslotId(): TimeslotId {
-	return TimeslotId(this.toInt())
-}
-
-fun EntityID<Int>.toTimeslotId(): TimeslotId {
-	return TimeslotId(this.value);
-}
-
-enum class TimeslotStatus @JsonCreator(mode = m) constructor(@JsonValue val value: Int) {
+@Serializable(with = TimeslotStatusSerializer::class)
+enum class TimeslotStatus(val value: Int) {
 	NEW(0),
 	RESERVED(10),
 	CANCELED(20),
@@ -36,6 +24,7 @@ enum class TimeslotStatus @JsonCreator(mode = m) constructor(@JsonValue val valu
 	}
 }
 
+@Serializable
 data class Timeslot(
 	val id: TimeslotId,
 	val status: TimeslotStatus,
@@ -43,16 +32,19 @@ data class Timeslot(
 	val doctorId: DoctorId
 )
 
+@Serializable
 data class TimeslotAndDoctor(
 	val timeslot: Timeslot,
 	val doctor: Doctor
 )
 
+@Serializable
 data class NewTimeslot(
 	val datetime: DateTime,
 	val doctorId: DoctorId
 )
 
+@Serializable
 data class TimeslotStatusCount(
 	val status: TimeslotStatus,
 	val count: Long

@@ -1,7 +1,7 @@
 package routes
 
-import domain.article.toArticleId
 import domain.article.verbs.FindExistingArticleById
+import id.toArticleId
 import io.ktor.application.call
 import io.ktor.response.respond
 import io.ktor.routing.Route

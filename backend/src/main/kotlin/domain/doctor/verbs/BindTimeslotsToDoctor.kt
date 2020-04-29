@@ -1,8 +1,12 @@
 package domain.doctor.verbs
 
-import DateTime
-import domain.doctor.DoctorId
-import domain.timeslot.*
+import domain.DateTime
+import domain.timeslot.NewTimeslot
+import domain.timeslot.TimeslotsTable
+import domain.timeslot.data
+import id.DoctorId
+import id.TimeslotId
+import id.toTimeslotId
 import org.jetbrains.exposed.sql.insertAndGetId
 
 object BindTimeslotsToDoctor : (DoctorId, List<DateTime>) -> List<TimeslotId> {

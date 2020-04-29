@@ -1,9 +1,9 @@
 package domain.timeslot.verbs
 
-import domain.timeslot.TimeslotId
 import domain.timeslot.TimeslotsTable
 import domain.user.AccessDenied
-import domain.user.UserId
+import id.TimeslotId
+import id.UserId
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.select
 

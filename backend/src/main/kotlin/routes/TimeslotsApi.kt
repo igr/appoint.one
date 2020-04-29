@@ -1,11 +1,11 @@
 package routes
 
-import DateTime
 import auth.user
+import domain.DateTime
 import domain.doctor.verbs.BindTimeslotsToDoctor
 import domain.timeslot.NewTimeslot
-import domain.timeslot.toTimeslotId
 import domain.timeslot.verbs.*
+import id.toTimeslotId
 import io.ktor.application.call
 import io.ktor.auth.authenticate
 import io.ktor.http.HttpStatusCode

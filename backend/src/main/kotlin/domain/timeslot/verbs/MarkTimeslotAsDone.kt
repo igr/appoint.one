@@ -1,9 +1,13 @@
 package domain.timeslot.verbs
 
-import domain.evaluation.*
-import domain.timeslot.TimeslotId
+import domain.evaluation.EvaluationData
+import domain.evaluation.EvaluationsTable
+import domain.evaluation.data
 import domain.timeslot.TimeslotStatus
 import domain.timeslot.TimeslotsTable
+import id.EvaluationId
+import id.TimeslotId
+import id.toEvaluationId
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.update
 

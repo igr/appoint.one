@@ -1,7 +1,11 @@
 package domain.user.verbs
 
-import domain.doctor.*
+import domain.doctor.DoctorsTable
+import domain.doctor.assertValidDoctorRegCode
+import domain.doctor.data
 import domain.user.*
+import id.DoctorId
+import id.toDoctorId
 import org.jetbrains.exposed.sql.insertAndGetId
 
 object AddDoctor : (NewDoctorUser) -> DoctorId {

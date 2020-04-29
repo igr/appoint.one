@@ -1,21 +1,15 @@
 package domain.article
 
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonValue
+import appoint1.annotations.GENERATED
+import appoint1.annotations.IdGen
 import domain.Id
+import id.ArticleId
+import kotlinx.serialization.Serializable
 
-data class ArticleId @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(
-	@JsonValue override val value: Int
-) : Id()
+@IdGen
+val _ArticleId: Id = GENERATED()
 
-fun Int.toArticleId(): ArticleId {
-	return ArticleId(this)
-}
-
-fun String.toArticleId(): ArticleId {
-	return ArticleId(this.toInt())
-}
-
+@Serializable
 data class Article(
 	val id: ArticleId,
 	val content: String,

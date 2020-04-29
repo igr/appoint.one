@@ -1,9 +1,9 @@
 package domain.patient
 
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonValue
+import kotlinx.serialization.Serializable
 
-enum class PatientSex @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(@JsonValue val value: Int) {
+@Serializable(with = PatientSexSerializer::class)
+enum class PatientSex(val value: Int) {
 	FEMALE(0), MALE(1), OTHER(2);
 
 	companion object {

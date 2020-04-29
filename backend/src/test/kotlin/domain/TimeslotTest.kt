@@ -1,6 +1,5 @@
 package domain
 
-import DateTime
 import domain.doctor.newSimpleDoctorUser
 import domain.doctor.newSimpleEvaluationData
 import domain.doctor.verbs.BindTimeslotsToDoctor

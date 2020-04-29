@@ -8,16 +8,19 @@ import server.ServerTest
 class DoctorApiTest : ServerTest() {
 
 	@Test
-	fun `POST doctor`() {
+	fun `GET appointment`() {
 		//given
 		val newDoctor = newSimpleDoctorUser("doc1")
 
+
 		// when
-		val created = postDoctor(newDoctor)
-		val retrieved = getDoctor(created.id)
+		val (_, created) = postDoctor(newDoctor)
+		val (_, retrieved) = getDoctor(created.id)
 
 		// then
 		assertThat(created.data).isEqualTo(retrieved.data)
 		assertThat(created.id).isEqualTo(retrieved.id)
+
+		Unit
 	}
 }

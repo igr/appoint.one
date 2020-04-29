@@ -2,9 +2,9 @@ package domain.timeslot.verbs
 
 import domain.timeslot.TimeslotStatus
 import domain.timeslot.TimeslotsTable
+import domain.toDateTime
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.selectAll
-import toDateTime
 import java.time.LocalDateTime
 
 object CountAvailableTimeslots : () -> Long {

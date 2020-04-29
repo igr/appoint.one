@@ -1,31 +1,15 @@
 package domain.doctor
 
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonValue
+import appoint1.annotations.GENERATED
+import appoint1.annotations.IdGen
 import domain.Id
-import domain.user.UserId
-import org.jetbrains.exposed.dao.id.EntityID
+import id.DoctorId
+import kotlinx.serialization.Serializable
 
-data class DoctorId @JsonCreator(mode = JsonCreator.Mode.DELEGATING) constructor(
-	@JsonValue override val value: Int
-) : Id()
+@IdGen
+val _DoctorId: Id = GENERATED()
 
-fun Int.toDoctorId(): DoctorId {
-	return DoctorId(this)
-}
-
-fun String.toDoctorId(): DoctorId {
-	return DoctorId(this.toInt())
-}
-
-fun EntityID<Int>.toDoctorId(): DoctorId {
-	return DoctorId(this.value);
-}
-
-fun UserId.toDoctorId(): DoctorId {
-	return this.value.toDoctorId()
-}
-
+@Serializable
 enum class DoctorSex(val value: Boolean) {
 	MALE(true), FEMALE(false);
 
@@ -34,6 +18,7 @@ enum class DoctorSex(val value: Boolean) {
 	}
 }
 
+@Serializable(with = DoctorCertificateSerializer::class)
 enum class DoctorCertificate(val value: Int) {
 	NONE(0), NATIONAL(1), INTERNATIONAL(2);
 
@@ -47,6 +32,7 @@ enum class DoctorCertificate(val value: Int) {
 	}
 }
 
+@Serializable
 data class DoctorData(
 	val name: String,
 	val email: String,
@@ -63,6 +49,7 @@ data class DoctorData(
 	val zoom: String
 )
 
+@Serializable
 data class Doctor(
 	val id: DoctorId,
 	val data: DoctorData,

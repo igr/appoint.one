@@ -1,6 +1,7 @@
 package domain.doctor
 
 import domain.user.UsersTable
+import id.toDoctorId
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IdTable
 import org.jetbrains.exposed.sql.Column

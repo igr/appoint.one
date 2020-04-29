@@ -2,10 +2,10 @@ package routes
 
 import domain.Ctx
 import domain.user.Password
-import domain.user.toUserId
 import domain.user.verbs.ChangeUserPassword
 import domain.user.verbs.FindExistingUserById
 import domain.user.verbs.FindUserById
+import id.toUserId
 import io.ktor.application.call
 import io.ktor.auth.authenticate
 import io.ktor.http.HttpStatusCode

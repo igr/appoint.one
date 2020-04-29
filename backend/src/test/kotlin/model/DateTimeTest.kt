@@ -1,9 +1,9 @@
 package model
 
-import DateTime
+import domain.DateTime
+import domain.toDateTime
 import org.junit.Assert.assertEquals
 import org.junit.jupiter.api.Test
-import toDateTime
 import java.time.LocalDateTime
 
 class DateTimeTest {
