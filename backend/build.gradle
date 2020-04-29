@@ -65,8 +65,8 @@ dependencies {
 //    testImplementation "io.rest-assured:kotlin-extensions:${restAssuredVersion}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
 
-    implementation 'appoint1:annotations'
-    kapt 'appoint1:annotations-processor'
+    implementation 'appoint1:annotations:0.1.0'
+    kapt 'appoint1:annotations-processor:0.1.0'
 }
 
 mainClassName = "MainKt"
