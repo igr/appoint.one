@@ -1,0 +1,21 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.3.72'
+}
+
+group = 'appoint1'
+version = '0.1.0'
+archivesBaseName = 'annotations-processor'
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    implementation 'appoint1:annotations'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.72"
+    implementation 'com.squareup:kotlinpoet:1.5.0'
+
+    api 'org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0'
+    api 'org.jetbrains.exposed:exposed-core:0.23.1'
+}
