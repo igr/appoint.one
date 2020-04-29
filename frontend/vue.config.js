@@ -10,7 +10,7 @@ module.exports = {
     port: 3000,
     open: true,
     progress: false,
-    https: true,
+    https: false,
     proxy: {
       // change /api/login => /api/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
