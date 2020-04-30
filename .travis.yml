@@ -4,12 +4,6 @@ services:
   - docker
 
 before_install:
-  - cd annotations
-  - ./gradlew install
-  - cd ..
-  - cd annotations-processor
-  - ./gradlew install
-  - cd ..
   - cd backend
   - ./run-infra.sh
 
