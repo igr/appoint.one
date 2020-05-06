@@ -105,6 +105,7 @@ fun Application.module(testing: Boolean = false) {
 		evaluations()
 		docs()
 		stats()
+		mails()
 	}
 
 	with(environment.monitor) {
