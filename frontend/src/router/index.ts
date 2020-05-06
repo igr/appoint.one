@@ -144,6 +144,10 @@ export const routes: RouteConfig[] = [
         component: () => import('@/views/admin-doctors/index.vue'),
       },
       {
+        path: 'evals',
+        component: () => import('@/views/admin-evals/index.vue'),
+      },
+      {
         path: 'user/:id',
         props: true,
         component: () => import('@/views/admin-user/index.vue'),

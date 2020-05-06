@@ -58,7 +58,7 @@
             :doctor="doctor"
           />
         </v-row>
-        <v-divider class="ma-6"/>
+        <v-divider class="ma-6" />
         <h2 class="text-center">
           status: <span class="yellow">{{ status }}</span>
         </h2>
