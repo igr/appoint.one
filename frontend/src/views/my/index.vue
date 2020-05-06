@@ -60,7 +60,7 @@
                     small
                     @click="showEvent({event: item})"
                   >
-                    <v-icon>mdi-pencil</v-icon>
+                    <v-icon>mdi-information-outline</v-icon>
                   </v-btn>
                 </div>
               </v-timeline-item>

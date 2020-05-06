@@ -47,57 +47,70 @@
       </h1>
       <div v-if="!isLoading">
         <day-big :datetime="timeslot && timeslot.datetime" />
+        <v-row justify="center">
+          <CalendarIcsButton
+            :timeslot="timeslot"
+          />
+        </v-row>
+        <v-row justify="center">
+          <CalendarGoogleButton
+            :timeslot="timeslot"
+            :doctor="doctor"
+          />
+        </v-row>
+        <v-divider class="ma-6"/>
         <h2 class="text-center">
           status: <span class="yellow">{{ status }}</span>
         </h2>
-        <v-btn
-          x-large
-          class="ma-4 col-12"
-          color="primary"
-          @click.stop="removeTimeslot0()"
-        >
-          <v-icon class="mr-4">
-            mdi-minus
-          </v-icon>
-          Obriši termin
-        </v-btn>
-
-
-        <v-btn
-          x-large
-          class="ma-4 col-12"
-          color="purple"
-          style="color: white"
-          @click.stop="activateTimeslot0()"
-        >
-          <v-icon class="mr-4">
-            mdi-plus
-          </v-icon>
-          Oslobodi zauzeti termin
-        </v-btn>
-
-        <v-btn
-          x-large
-          class="ma-4 col-12"
-          color="orange"
-          @click.stop="cancelTimeslot0()"
-        >
-          <v-icon class="mr-4">
-            mdi-cancel
-          </v-icon>
-          Označi termin kao otkazan
-        </v-btn>
-        <v-btn
-          x-large
-          class="ma-4 col-12"
-          color="green"
-          @click.stop="doneTimeslot()"
-        >
-          <v-icon class="mr-4">
-            mdi-check
-          </v-icon>
-          Završen: Evaluacija
-        </v-btn>
+        <v-row justify="center">
+          <v-btn
+            x-large
+            class="ma-4 col-12 col-lg-4"
+            color="primary"
+            @click.stop="removeTimeslot0()"
+          >
+            <v-icon class="mr-4">
+              mdi-minus
+            </v-icon>
+            Obriši termin
+          </v-btn>
+          <v-btn
+            x-large
+            class="ma-4 col-12 col-lg-4"
+            color="purple"
+            style="color: white"
+            @click.stop="activateTimeslot0()"
+          >
+            <v-icon class="mr-4">
+              mdi-plus
+            </v-icon>
+            Oslobodi zauzeti termin
+          </v-btn>
+        </v-row>
+        <v-row justify="center">
+          <v-btn
+            x-large
+            class="ma-4 col-12 col-lg-4"
+            color="orange"
+            @click.stop="cancelTimeslot0()"
+          >
+            <v-icon class="mr-4">
+              mdi-cancel
+            </v-icon>
+            Označi termin kao otkazan
+          </v-btn>
+          <v-btn
+            x-large
+            class="ma-4 col-12 col-lg-4"
+            color="green"
+            @click.stop="doneTimeslot()"
+          >
+            <v-icon class="mr-4">
+              mdi-check
+            </v-icon>
+            Završen: Evaluacija
+          </v-btn>
+        </v-row>
 
         <v-btn
           x-large
@@ -121,12 +134,17 @@ import DoctorProfile from '@/components/DoctorProfile/index.vue';
 import DayBig from '@/components/DayBig/index.vue';
 import AppoitmentApi from '@/api/AppoitmentApi';
 import TimeslotApi from '@/api/TimeslotApi';
+import CalendarIcsButton from '@/components/CalendarIcsButton/index.vue';
+import CalendarGoogleButton from '@/components/CalendarGoogleButton/index.vue';
+import { Doctor } from '@/model/Doctor';
 
 @Component({
   name: 'Appointment',
   components: {
     DoctorProfile,
     DayBig,
+    CalendarIcsButton,
+    CalendarGoogleButton,
   },
 })
 export default class extends Vue {
@@ -141,6 +159,8 @@ export default class extends Vue {
 
   private timeslot: Timeslot | undefined;
 
+  private doctor: Doctor | undefined;
+
   private isLoading = true;
 
   async created() {
@@ -151,6 +171,7 @@ export default class extends Vue {
   private async fetchData() {
     const { data } = await AppoitmentApi.get(this.id);
     this.timeslot = data.timeslot;
+    this.doctor = data.doctor;
     this.isLoading = false;
   }
 

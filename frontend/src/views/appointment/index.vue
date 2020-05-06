@@ -14,37 +14,15 @@
         <day-big :datetime="timeslot && timeslot.datetime" />
 
         <v-row justify="center">
-          <v-btn
-            dark
-            x-large
-            class="ma-2 col-10 col-md-4"
-            @click="downloadIcs"
-          >
-            <v-icon
-              dark
-              class="mr-2"
-            >
-              mdi-calendar-month
-            </v-icon>
-            dodaj u kalendar
-          </v-btn>
+          <CalendarIcsButton
+            :timeslot="timeslot"
+          />
         </v-row>
         <v-row justify="center">
-          <v-btn
-            dark
-            x-large
-            :href="calendarUrl"
-            class="ma-2 col-10 col-md-4"
-            target="_blank"
-          >
-            <v-icon
-              dark
-              class="mr-2"
-            >
-              mdi-google
-            </v-icon>
-            Google kalendar
-          </v-btn>
+          <CalendarGoogleButton
+            :timeslot="timeslot"
+            :doctor="doctor"
+          />
         </v-row>
         <!--v-row justify="center">
           <v-btn
@@ -83,15 +61,17 @@ import { Timeslot } from '@/model/Timeslot';
 import { Doctor } from '@/model/Doctor';
 import DoctorProfile from '@/components/DoctorProfile/index.vue';
 import DayBig from '@/components/DayBig/index.vue';
+import CalendarIcsButton from '@/components/CalendarIcsButton/index.vue';
+import CalendarGoogleButton from '@/components/CalendarGoogleButton/index.vue';
 import AppoitmentApi from '@/api/AppoitmentApi';
-import { DateTime } from '@/model/DateTime';
-import { occupationOf } from '@/utils/data';
 
 @Component({
   name: 'Appointment',
   components: {
     DoctorProfile,
     DayBig,
+    CalendarIcsButton,
+    CalendarGoogleButton,
   },
 })
 export default class extends Vue {
@@ -104,17 +84,6 @@ export default class extends Vue {
 
   private isLoading = true;
 
-  get calendarUrl() {
-    if (!this.doctor || !this.timeslot) return null;
-    const data = {
-      title: this.encode('Termin kod psihoterapeuta'),
-      details: this.encode(`${this.doctor.data.name} - ${occupationOf(this.doctor, true)} e-mail: ${this.doctor.data.email} Tel. +381${this.doctor.data.phone}`),
-      location: this.encode(`https://podrskapsihoterapeuta.com/appointment/${this.id}`),
-      dates: this.formatDateTime(this.timeslot.datetime),
-    };
-    return `https://www.google.com/calendar/render?action=TEMPLATE&text=${data.title}&details=${data.details}&location=${data.location}&dates=${data.dates}`;
-  }
-
   async created() {
     this.isLoading = true;
     await this.fetchData();
@@ -125,23 +94,6 @@ export default class extends Vue {
     this.doctor = data.doctor;
     this.timeslot = data.timeslot;
     this.isLoading = false;
-  }
-
-  async downloadIcs() {
-    await AppoitmentApi.downloadIcal(this.id);
-  }
-
-  private formatDateTime(d: DateTime) {
-    const start = new Date(d.year, d.month - 1, d.day, d.hour, d.minute);
-    const end = new Date(start);
-    end.setMinutes(start.getMinutes() + 30);
-    const startFmt = start.toISOString().replace(/-|:|\.\d\d\d/g, '');
-    const endFmt = end.toISOString().replace(/-|:|\.\d\d\d/g, '');
-    return `${startFmt}/${endFmt}`;
-  }
-
-  private encode(txt: string): string {
-    return encodeURIComponent(txt).replace(/%20/g, '+');
   }
 }
 </script>
