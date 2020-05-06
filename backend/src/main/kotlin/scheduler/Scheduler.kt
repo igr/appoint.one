@@ -18,6 +18,7 @@ object Scheduler : CoroutineScope {
 	private var tasks = mutableListOf<() -> Unit>()
 
 	fun registerTask(task: () -> Unit) {
+		log.debug("Task scheduled")
 		tasks.add(task);
 	}
 
