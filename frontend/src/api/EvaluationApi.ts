@@ -7,6 +7,11 @@ class EvaluationApi {
     method: 'get',
   });
 
+  getAllAsCsv = () => http({
+    url: 'evaluations/csv',
+    method: 'get',
+  });
+
   postNewEvaluation = (timeslotId: number, data: NewEvaluation) => http({
     url: 'evaluations',
     method: 'post',

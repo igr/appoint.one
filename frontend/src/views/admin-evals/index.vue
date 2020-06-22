@@ -23,13 +23,29 @@
           class="elevation-1"
         >
           <template v-slot:item.data.success="{ item }">
-            <v-simple-checkbox v-model="item.data.success" disabled></v-simple-checkbox>
+            <v-simple-checkbox
+              v-model="item.data.success"
+              disabled
+            />
           </template>
           <template v-slot:item.data.forward="{ item }">
-            <v-simple-checkbox v-model="item.data.forward" disabled></v-simple-checkbox>
+            <v-simple-checkbox
+              v-model="item.data.forward"
+              disabled
+            />
           </template>
         </v-data-table>
       </v-card>
+    </v-col>
+    <v-col
+      cols="2"
+    >
+      <v-btn
+        dark
+        @click="downloadCsv()"
+      >
+        Preuzmi CSV
+      </v-btn>
     </v-col>
   </v-row>
 </template>
@@ -76,6 +92,18 @@ export default class extends Vue {
     const { data } = await EvaluationApi.getAll();
     const d: Evaluation[] = data;
     d.forEach((it) => this.evaluations.push(it));
+  }
+
+  async downloadCsv() {
+    const { data } = await EvaluationApi.getAllAsCsv();
+
+    const fileURL = window.URL.createObjectURL(new Blob([data]));
+    const fileLink = document.createElement('a');
+
+    fileLink.href = fileURL;
+    fileLink.setAttribute('download', 'evaluations.csv');
+    document.body.appendChild(fileLink);
+    fileLink.click();
   }
 }
 </script>

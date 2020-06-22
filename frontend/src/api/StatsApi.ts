@@ -5,6 +5,11 @@ class StatsApi {
     url: 'stats',
     method: 'get',
   });
+
+  getDoctors = () => http({
+    url: 'stats/doctors',
+    method: 'get',
+  });
 }
 
 export default new StatsApi();

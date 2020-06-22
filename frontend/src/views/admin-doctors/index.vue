@@ -25,6 +25,17 @@
         />
       </v-card>
     </v-col>
+    <v-col
+      cols="8"
+      md="8"
+    >
+      <v-btn
+        dark
+        @click="downloadCsv()"
+      >
+        Preuzmi CSV
+      </v-btn>
+    </v-col>
   </v-row>
 </template>
 
@@ -32,6 +43,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { Doctor } from '@/model/Doctor';
 import DoctorApi from '@/api/DoctorApi';
+import StatsApi from '@/api/StatsApi';
 
 @Component({
   name: 'AdminDoctors',
@@ -65,6 +77,18 @@ export default class extends Vue {
     const { data } = await DoctorApi.getAll();
     const d: Doctor[] = data;
     d.forEach((it) => this.doctors.push(it));
+  }
+
+  async downloadCsv() {
+    const { data } = await StatsApi.getDoctors();
+
+    const fileURL = window.URL.createObjectURL(new Blob([data]));
+    const fileLink = document.createElement('a');
+
+    fileLink.href = fileURL;
+    fileLink.setAttribute('download', 'doctors.csv');
+    document.body.appendChild(fileLink);
+    fileLink.click();
   }
 }
 </script>
