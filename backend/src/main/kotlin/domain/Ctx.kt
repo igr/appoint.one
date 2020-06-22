@@ -1,7 +1,13 @@
 package domain
 
 /**
- * Generic context.
+ * Generic context that executes verbs.
+ * This context supports functions with 1 or 2 arguments.
+ * The first argument is always the context value.
+ * There is no particular reason for this except to somewhat
+ * speed up the development time, due to urgency of this project.
+ * Next, exceptions are not handled here. Since all verbs are executed
+ * in the web actions, they will be handled there.
  */
 class Ctx<T>(val value: T) {
 

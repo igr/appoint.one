@@ -57,6 +57,7 @@ dependencies {
     implementation "com.zaxxer:HikariCP:3.4.5"
     runtimeOnly "org.postgresql:postgresql:42.2.12"
 
+    implementation "org.jodd:jodd-core:5.1.4"
     implementation "ch.qos.logback:logback-classic:1.2.3"
 
     testImplementation "io.ktor:ktor-server-tests:${ktorVersion}"
