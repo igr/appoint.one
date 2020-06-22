@@ -55,3 +55,12 @@ data class Doctor(
 	val data: DoctorData,
 	val userId: Int
 )
+
+
+data class DoctorWithStats(
+	val doctor: Doctor,
+	val newStatusCount: Int,
+	val canceledStatusCount: Int,
+	val doneStatusCount: Int,
+	val reservedStatusCount: Int
+)
