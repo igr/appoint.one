@@ -14,11 +14,14 @@
 </template>
 
 <script lang="ts">
+import * as io from 'socket.io-client';
 import RTCMultiConnection from 'rtcmulticonnection';
 
 import {
   Component, Vue, Prop,
 } from 'vue-property-decorator';
+
+(window as any).io = io;
 
 export interface Video {
   id?: string;
@@ -41,7 +44,7 @@ export default class extends Vue {
   @Prop({ default: 'private-room' })
   readonly roomId!: string;
 
-  @Prop({ default: 'https://rtcmulticonnection.herokuapp.com:443/' })
+  @Prop({ default: 'https://podrskapsihoterapeuta.com/' })
   readonly socketURL!: string;
 
   @Prop({ default: 160 })
